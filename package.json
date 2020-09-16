@@ -1,0 +1,26 @@
+{
+  "name": "mern-workout-log",
+  "version": "1.0.0",
+  "description": "Workout logger using MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server/server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Daniel Cho",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.28.0",
+    "mongoose": "^5.10.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
