@@ -5,10 +5,30 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
+import userReducer from './redux/reducers/userReducer';
+
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null || compose;
+
+const rootReducer = combineReducers({
+  user: userReducer
+});
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(promiseMiddleware, thunk))
+);
+
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

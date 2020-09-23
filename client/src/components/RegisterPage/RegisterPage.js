@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../redux/actions/userActions';
 import {
   Button,
   Form,
@@ -11,6 +13,8 @@ import {
 import './RegisterPage.css';
 
 const RegisterPage = (props) => {
+  const dispatch = useDispatch();
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +38,21 @@ const RegisterPage = (props) => {
 
   const handleSubmit = () => {
     console.log('submitted!');
+
+    const userInfo = {
+      username,
+      email,
+      password
+    };
+
+    dispatch(registerUser(userInfo));
+
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+
+    props.history.push('/login');
   };
 
   return (
@@ -47,6 +66,7 @@ const RegisterPage = (props) => {
             name='username'
             id='username'
             placeholder='Username'
+            bsSize='lg'
             value={username}
             onChange={usernameChangeHandler}
           />
@@ -58,6 +78,7 @@ const RegisterPage = (props) => {
             name='email'
             id='email'
             placeholder='example@example.com'
+            bsSize='lg'
             value={email}
             onChange={emailChangeHandler}
           />
@@ -69,6 +90,7 @@ const RegisterPage = (props) => {
             name='password'
             id='password'
             placeholder='Password'
+            bsSize='lg'
             value={password}
             valid={password.length >= 6 && true}
             onChange={passwordChangeHandler}
@@ -82,6 +104,7 @@ const RegisterPage = (props) => {
             name='confirmPassword'
             id='confirmPassword'
             placeholder='Confirm password'
+            bsSize='lg'
             value={confirmPassword}
             invalid={
               confirmPassword && password !== confirmPassword ? true : false

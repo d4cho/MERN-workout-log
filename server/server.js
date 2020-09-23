@@ -23,6 +23,10 @@ mongoose
 // Use routes
 app.use('/api/users', require('./routes/users'));
 
+//To show the image in node js server to client (react js)
+//https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
+app.use('/uploads', express.static('uploads'));
+
 // Use port
 const port = process.env.PORT || 5000;
 

@@ -24,13 +24,30 @@ const userSchema = new Schema(
       required: true
     },
     image: {
-      type: String
+      type: String,
+      default: 'uploads/default_profile.jpg'
     },
     token: {
       type: String
     },
     tokenExp: {
       type: Number
+    },
+    weight: {
+      type: Number,
+      default: 0
+    },
+    squat: {
+      type: Number,
+      default: 0
+    },
+    bench: {
+      type: Number,
+      default: 0
+    },
+    deadlift: {
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }

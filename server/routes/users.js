@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const multer = require('multer');
 
 //=================================
 //             Users
@@ -16,7 +17,11 @@ router.get('/auth', auth, (req, res) => {
     isAuth: true,
     email: req.user.email,
     username: req.user.username,
-    image: req.user.image
+    image: req.user.image,
+    weight: req.user.weight,
+    squat: req.user.squat,
+    bench: req.user.bench,
+    deadlift: req.user.deadlift
   });
 });
 
@@ -90,9 +95,87 @@ router.get('/logout', auth, (req, res) => {
     { token: '', tokenExp: '' },
     (err, user) => {
       if (err) return res.json({ success: false, err });
-      return res.status(200).json({ success: true, user: user });
+      return res.status(200).json({ success: true });
     }
   );
+});
+
+// @route   POST users/setStats
+// @desc    set user stats
+// @access  private
+router.post('/setStats', (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.body.userId },
+    {
+      weight: req.body.weight,
+      squat: req.body.squat,
+      bench: req.body.bench,
+      deadlift: req.body.deadlift,
+      image: req.body.image
+    },
+    { new: true },
+    (err, user) => {
+      let stats = {
+        weight: user.weight,
+        squat: user.squat,
+        bench: user.bench,
+        deadlift: user.deadlift,
+        image: user.image
+      };
+
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true, stats });
+    }
+  );
+});
+
+// @route   GET users/getStats
+// @desc    Get user stats from database
+// @access  Public
+router.get('/getStats', (req, res) => {
+  User.findOne({ _id: req.query.userId }, (err, user) => {
+    console.log(user);
+    if (err) return res.status(400).json({ success: false, err });
+    return res.status(200).json({ success: true, user });
+  });
+});
+
+// to upload images:
+let storage = multer.diskStorage({
+  // where files will be saved
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  // how file names will be saved as
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== '.jpg' || ext !== '.png') {
+      return cb(
+        res.status(400).end('Only .jpg or .png files are allowed'),
+        false
+      );
+    }
+    cb(null, true);
+  }
+});
+
+let upload = multer({ storage: storage }).single('file');
+
+// @route   Post users/uploadImage
+// @desc    post an image
+// @access  Public
+router.post('/uploadImage', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) return res.json({ succes: false, err });
+    return res.json({
+      success: true,
+      image: res.req.file.path,
+      filename: res.req.file.filename
+    });
+  });
 });
 
 module.exports = router;
