@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Alert,
+  UncontrolledAlert
+} from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   setExercise,
   saveExercise,
   clearExercise,
-  deleteSet
+  deleteSet,
+  saveWorkout
 } from '../../../redux/actions/workoutActions';
 
 import ExerciseTable from './ExerciseTable';
 
-const InputLogs = () => {
+const InputLogs = (props) => {
   const dispatch = useDispatch();
 
   const workout = useSelector((state) => state.workout);
+  const user = useSelector((state) => state.user);
 
   const [showExerciseNameInput, setShowExerciseNameInput] = useState(true);
   const [exerciseName, setExerciseName] = useState('');
@@ -30,6 +40,8 @@ const InputLogs = () => {
   const [disableNextExerciseButton, setDisableNextExerciseButton] = useState(
     true
   );
+  const [msg, setMsg] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const exerciseNameChangeHandler = (e) => {
     setExerciseName(e.currentTarget.value);
@@ -86,17 +98,44 @@ const InputLogs = () => {
   const onDeleteClicked = (index) => {
     console.log(index);
     dispatch(deleteSet(index));
-    if (index === 0) {
+    if (workout.currentExercise.info.length < 2) {
+      console.log(workout.currentExercise.info.length, 'im in');
       dispatch(clearExercise());
       setShowCurrentExerciseTable(false);
       setShowExerciseNameInput(true);
       setDisableCompleteSetButton(true);
       setDisableNextExerciseButton(true);
+      setExerciseName('');
+      setReps(0);
+      setWeight(0);
+      setNotes('');
     }
   };
 
+  const submitWorkout = () => {
+    let exercises = workout.previousExercises;
+    dispatch(saveWorkout(exercises)).then((response) => {
+      if (response.payload.success) {
+        alert(`${response.payload.msg}`);
+        setMsg(response.payload.msg);
+        setAlertVisible(true);
+        dispatch(clearExercise());
+        setShowCurrentExerciseTable(false);
+        setShowExerciseNameInput(true);
+        setDisableCompleteSetButton(true);
+        setDisableNextExerciseButton(true);
+        window.location.reload(true);
+      }
+    });
+  };
+
+  const onDismiss = () => setAlertVisible(false);
+
   return (
-    <div>
+    <div style={{ position: 'sticky', top: 0 }}>
+      <h1>Log Your Gainz!</h1>
+      <hr />
+      <br />
       {showCurrentExerciseTable ? (
         <ExerciseTable
           exercise={workout.currentExercise}
@@ -155,6 +194,7 @@ const InputLogs = () => {
             />
           </FormGroup>
         </div>
+        <br />
         <div
           style={{
             display: 'flex',
@@ -174,16 +214,27 @@ const InputLogs = () => {
             Next Exercise
           </Button>
         </div>
+        <br />
+        <br />
         <div
           style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around',
-            marginTop: '12px'
+            marginTop: '12px',
+            flexDirection: 'column'
           }}>
-          <Button color='danger' size='lg' block>
+          <Button
+            color='danger'
+            size='lg'
+            block
+            disabled={workout.previousExercises.length > 0 ? false : true}
+            onClick={submitWorkout}>
             Save Workout
           </Button>
+          <Alert color='success' isOpen={alertVisible} toggle={onDismiss}>
+            {msg}
+          </Alert>
         </div>
       </Form>
       <div>{renderPreviousExercises}</div>

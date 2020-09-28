@@ -2,7 +2,8 @@ import {
   SAVE_CURRENT_EXERCISE,
   SET_CURRENT_EXERCISE,
   CLEAR_CURRENT_EXERCISE,
-  DELETE_SET
+  DELETE_SET,
+  SAVE_WORKOUT
 } from '../actions/types';
 
 const initialState = { currentExercise: { info: [] }, previousExercises: [] };
@@ -39,6 +40,12 @@ export default (state = initialState, action) => {
           ...state.currentExercise,
           info
         }
+      };
+
+    case SAVE_WORKOUT:
+      return {
+        ...initialState,
+        msg: action.payload.msg
       };
 
     default:

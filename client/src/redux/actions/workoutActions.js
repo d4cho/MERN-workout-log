@@ -3,11 +3,12 @@ import {
   SET_CURRENT_EXERCISE,
   SAVE_CURRENT_EXERCISE,
   CLEAR_CURRENT_EXERCISE,
-  DELETE_SET
+  DELETE_SET,
+  SAVE_WORKOUT
 } from './types';
 
-//SERVER ROUTE
-// const USER_SERVER = '/api/users';
+// SERVER ROUTE
+const WORKOUT_SERVER = '/api/workouts';
 
 export const setExercise = (exerciseInfo) => {
   const { name, reps, weight, notes } = exerciseInfo;
@@ -38,5 +39,19 @@ export const deleteSet = (index) => {
   return {
     type: DELETE_SET,
     payload: index
+  };
+};
+
+export const saveWorkout = (exercises) => {
+  const request = axios
+    .post(`${WORKOUT_SERVER}/postWorkout`, exercises)
+    .then((response) => {
+      // clearExercise();
+      return response.data;
+    });
+
+  return {
+    type: SAVE_WORKOUT,
+    payload: request
   };
 };

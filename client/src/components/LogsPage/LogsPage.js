@@ -2,17 +2,17 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import InputLogs from './Sections/InputLogs';
-import LogDetails from './Sections/LogDetails';
+import LogDetailsContainer from './Sections/LogDetailsContainer';
 
 const LogsPage = () => {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col xs='auto'>
           <InputLogs />
         </Col>
-        <Col>
-          <LogDetails />
+        <Col xs='auto'>
+          <LogDetailsContainer />
         </Col>
       </Row>
     </Container>
