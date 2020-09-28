@@ -10,6 +10,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 import userReducer from './redux/reducers/userReducer';
+import workoutReducer from './redux/reducers/workoutReducers';
 
 const composeEnhancers =
   process.env.NODE_ENV === 'development'
@@ -17,7 +18,8 @@ const composeEnhancers =
     : null || compose;
 
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  workout: workoutReducer
 });
 
 const store = createStore(
