@@ -10,6 +10,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import LogsPage from './components/LogsPage/LogsPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import PostsPage from './components/PostsPage/PostsPage';
+import CreatePostPage from './components/PostsPage/Sections/CreatePostPage';
 
 // true : for authenticated routes
 // null : for routes that do not require authentication
@@ -26,6 +27,11 @@ function App() {
         <Route exact path='/mylogs' component={Auth(LogsPage, true)} />
         <Route exact path='/myprofile' component={Auth(ProfilePage, true)} />
         <Route exact path='/posts' component={Auth(PostsPage, null)} />
+        <Route
+          exact
+          path='/createpost'
+          component={Auth(CreatePostPage, true)}
+        />
       </Switch>
     </BrowserRouter>
   );

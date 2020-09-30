@@ -152,9 +152,9 @@ let storage = multer.diskStorage({
   },
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    if (ext !== '.jpg' || ext !== '.png') {
+    if (ext !== '.jpg' || ext !== '.png' || ext !== '.mp4') {
       return cb(
-        res.status(400).end('Only .jpg or .png files are allowed'),
+        res.status(400).end('Only .jpg, .png, or .mp4 files are allowed'),
         false
       );
     }
@@ -167,12 +167,12 @@ let upload = multer({ storage: storage }).single('file');
 // @route   Post users/uploadImage
 // @desc    post an image
 // @access  Public
-router.post('/uploadImage', (req, res) => {
+router.post('/uploadFile', (req, res) => {
   upload(req, res, (err) => {
     if (err) return res.json({ succes: false, err });
     return res.json({
       success: true,
-      image: res.req.file.path,
+      file: res.req.file.path,
       filename: res.req.file.filename
     });
   });

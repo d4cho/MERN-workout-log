@@ -13,11 +13,11 @@ const ProfilePicUpload = (props) => {
     };
     formData.append('file', files[0]);
 
-    axios.post('/api/users/uploadImage', formData, config).then((response) => {
+    axios.post('/api/users/uploadFile', formData, config).then((response) => {
       if (response.data.success) {
         console.log(response.data);
-        setImage([response.data.image]);
-        props.refreshFunction(response.data.image);
+        setImage([response.data.file]);
+        props.refreshFunction(response.data.file);
       } else {
         alert('Failed to save the image on the server');
       }
