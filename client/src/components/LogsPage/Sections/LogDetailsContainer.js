@@ -12,7 +12,7 @@ const LogDetailsContainer = (props) => {
         console.log(response.data.workouts);
         setLogs(response.data.workouts);
       } else {
-        alert('failed to get logs from the server');
+        alert('Login to view your logs');
       }
     });
   }, []);

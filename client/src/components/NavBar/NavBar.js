@@ -39,6 +39,11 @@ const NavBar = (props) => {
             <NavItem>
               <NavLink href='/posts'>Posts</NavLink>
             </NavItem>
+            {user.userData && user.userData.isAuth && (
+              <NavItem>
+                <NavLink href='/favoritePosts'>Favorited Posts</NavLink>
+              </NavItem>
+            )}
           </Nav>
           <Nav navbar>
             {user.userData && user.userData.isAuth ? (

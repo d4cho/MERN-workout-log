@@ -78,4 +78,33 @@ router.post('/getPosts', (req, res) => {
   }
 });
 
+// @route   GET posts/post_by_id
+// @desc    get a post from server
+// @access  public
+router.get('/post_by_postId', (req, res) => {
+  let postId = req.query.postId;
+
+  Post.find({ _id: { $in: postId } })
+    .populate('writer')
+    .exec((err, post) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, post });
+    });
+});
+
+// @route   POST posts/increaseView
+// @desc    get a post from server
+// @access  public
+router.post('/increaseView', (req, res) => {
+  Post.findOneAndUpdate(
+    { _id: req.body.postId },
+    { $inc: { views: req.body.incViewByOne } },
+    { new: true },
+    (err, post) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, post });
+    }
+  );
+});
+
 module.exports = router;

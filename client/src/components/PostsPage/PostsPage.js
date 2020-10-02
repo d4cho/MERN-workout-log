@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
   Button,
@@ -10,7 +11,6 @@ import {
   Col,
   Input
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { categories } from './Sections/CategoryData';
 
@@ -147,24 +147,30 @@ const PostsPage = (props) => {
 
     return (
       <Col key={index} sm='12' md='6' lg='3' style={{ marginBottom: '24px' }}>
-        <Card style={{ cursor: 'pointer' }} onClick={() => onPostClicked(post)}>
-          <CardImg
-            top
-            width='100%'
-            height='300px'
-            src={
-              post.images[0]
-                ? `http://localhost:5000/${post.images[0]}`
-                : `http://localhost:5000/uploads/default_post_pic.png`
-            }
-            alt='post image'
-          />
-          <CardBody>
-            <CardTitle>By {post.writer && post.writer.username}</CardTitle>
-            <CardTitle style={{ fontWeight: 'bold' }}>{post.title}</CardTitle>
-            <CardText>{categoryName}</CardText>
-          </CardBody>
-        </Card>
+        <Link
+          to={`/posts/${post._id}`}
+          style={{ textDecoration: 'none', color: 'black' }}>
+          <Card
+            style={{ cursor: 'pointer' }}
+            onClick={() => onPostClicked(post)}>
+            <CardImg
+              top
+              width='100%'
+              height='300px'
+              src={
+                post.images[0]
+                  ? `http://localhost:5000/${post.images[0]}`
+                  : `http://localhost:5000/uploads/default_post_pic.png`
+              }
+              alt='post image'
+            />
+            <CardBody>
+              <CardTitle>By {post.writer && post.writer.username}</CardTitle>
+              <CardTitle style={{ fontWeight: 'bold' }}>{post.title}</CardTitle>
+              <CardText>{categoryName}</CardText>
+            </CardBody>
+          </Card>
+        </Link>
       </Col>
     );
   });

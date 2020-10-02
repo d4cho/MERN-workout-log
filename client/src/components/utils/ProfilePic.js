@@ -21,7 +21,9 @@ const ProfilePic = (props) => {
           height: props.height,
           borderRadius: '50%'
         }}
-        src={`http://localhost:5000/${error ? defaultImage : props.image}`}
+        src={`http://localhost:5000/${
+          error ? defaultImage : props.image ? props.image : defaultImage
+        }`}
         alt={`productImg=${error ? defaultImage : props.image}`}
         onError={imageErrorHandler}
       />
