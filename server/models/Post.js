@@ -35,6 +35,13 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// this part is to enable search by text in .find()
+// need to create text index
+postSchema.index({
+  title: 'text',
+  description: 'text'
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;

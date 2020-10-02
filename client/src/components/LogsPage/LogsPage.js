@@ -8,10 +8,10 @@ const LogsPage = () => {
   return (
     <Container>
       <Row>
-        <Col xs='auto'>
+        <Col>
           <InputLogs />
         </Col>
-        <Col xs='auto'>
+        <Col>
           <LogDetailsContainer />
         </Col>
       </Row>
