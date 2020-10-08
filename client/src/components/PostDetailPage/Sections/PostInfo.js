@@ -5,10 +5,19 @@ import axios from 'axios';
 
 import ProfilePic from '../../utils/ProfilePic';
 
+import Favorite from './Favorite';
+
 const PostInfo = (props) => {
   const [views, setViews] = useState(0);
+  const [postId, setPostId] = useState('');
+  const [userBy, setUserBy] = useState('');
+
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
+    console.log(props.postInfo);
+    setPostId(props.postInfo._id);
+    setUserBy(props.postInfo.userId);
     if (props.postInfo._id) {
       const variables = {
         postId: props.postInfo._id,
@@ -37,7 +46,9 @@ const PostInfo = (props) => {
               <Moment format='MMM DD, YYYY'>{props.postInfo.createdAt}</Moment>
             </div>
             <div>Likes and Dislikes</div>
-            <div>Favorite</div>
+            <div>
+              <Favorite userId={userId} postId={postId} userBy={userBy} />
+            </div>
           </div>
         </div>
         <hr className='my-2' />

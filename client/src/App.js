@@ -12,6 +12,7 @@ import ProfilePage from './components/ProfilePage/ProfilePage';
 import PostsPage from './components/PostsPage/PostsPage';
 import CreatePostPage from './components/PostsPage/Sections/CreatePostPage';
 import PostDetailPage from './components/PostDetailPage/PostDetailPage';
+import FavoritePage from './components/FavoritePage/FavoritePage';
 
 // true : for authenticated routes
 // null : for routes that do not require authentication
@@ -27,6 +28,11 @@ function App() {
         <Route exact path='/login' component={Auth(LoginPage, false)} />
         <Route exact path='/mylogs' component={Auth(LogsPage, true)} />
         <Route exact path='/myprofile' component={Auth(ProfilePage, true)} />
+        <Route
+          exact
+          path='/favoritePosts'
+          component={Auth(FavoritePage, true)}
+        />
         <Route exact path='/posts' component={Auth(PostsPage, null)} />
         <Route
           exact
