@@ -12,14 +12,14 @@ const Favorite = (props) => {
   };
 
   useEffect(() => {
-    console.log(variables);
+    // console.log(variables);
 
     if (variables.userId && variables.postId && variables.userBy) {
       axios
         .post('/api/favorites/checkIfFavorite', variables)
         .then((response) => {
           if (response.data.success) {
-            console.log(response.data.favorited);
+            // console.log(response.data.favorited);
             setIsFavorite(response.data.favorited);
           } else {
             console.log('Failed to get favorited info');

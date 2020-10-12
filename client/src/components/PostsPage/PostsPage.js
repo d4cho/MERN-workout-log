@@ -66,7 +66,7 @@ const PostsPage = (props) => {
           console.log(response.data.posts);
           setPosts([...posts].concat(response.data.posts));
         } else {
-          console.log(response.data.posts);
+          // console.log(response.data.posts);
           setPosts(response.data.posts);
         }
       } else {

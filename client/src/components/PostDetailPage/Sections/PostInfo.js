@@ -6,6 +6,7 @@ import axios from 'axios';
 import ProfilePic from '../../utils/ProfilePic';
 
 import Favorite from './Favorite';
+import LikeDislike from './LikeDislike';
 
 const PostInfo = (props) => {
   const [views, setViews] = useState(0);
@@ -15,24 +16,24 @@ const PostInfo = (props) => {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    console.log(props.postInfo);
-    setPostId(props.postInfo._id);
+    // console.log(props.postInfo);
+    setPostId(props.postId);
     setUserBy(props.postInfo.userId);
-    if (props.postInfo._id) {
+    if (props.postId) {
       const variables = {
-        postId: props.postInfo._id,
+        postId: props.postId,
         incViewByOne: 1
       };
       axios.post('/api/posts/increaseView', variables).then((response) => {
         if (response.data.success) {
-          console.log(response.data.post);
+          // console.log(response.data.post);
           setViews(response.data.post.views);
         } else {
           alert('failed to increase view count');
         }
       });
     }
-  }, [props.postInfo._id]);
+  }, [props.postId]);
 
   return (
     <div>
@@ -45,9 +46,11 @@ const PostInfo = (props) => {
             <div>
               <Moment format='MMM DD, YYYY'>{props.postInfo.createdAt}</Moment>
             </div>
-            <div>Likes and Dislikes</div>
             <div>
-              <Favorite userId={userId} postId={postId} userBy={userBy} />
+              <LikeDislike userId={userId} postId={props.postId} />
+            </div>
+            <div>
+              <Favorite userId={userId} postId={props.postId} userBy={userBy} />
             </div>
           </div>
         </div>
