@@ -14,7 +14,7 @@ const ProfilePic = (props) => {
   };
 
   return (
-    <>
+    <div style={{ padding: '0 12px' }}>
       <img
         style={{
           width: props.width,
@@ -27,7 +27,7 @@ const ProfilePic = (props) => {
         alt={`productImg=${error ? defaultImage : props.image}`}
         onError={imageErrorHandler}
       />
-    </>
+    </div>
   );
 };
 

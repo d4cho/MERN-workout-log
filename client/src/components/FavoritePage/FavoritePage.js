@@ -25,7 +25,7 @@ const FavoritePage = () => {
 
     axios.post('api/favorites/getFavorites', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data);
+        console.log(response.data.favorites);
         setPosts(response.data.favorites);
       } else {
         console.log('failed to get favorites info');

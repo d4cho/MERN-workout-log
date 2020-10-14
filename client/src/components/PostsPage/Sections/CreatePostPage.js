@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import UploadMedia from './UploadMedia';
 
-const CreatePostPage = () => {
+const CreatePostPage = (props) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(1);
@@ -44,6 +44,7 @@ const CreatePostPage = () => {
     axios.post('/api/posts/createPost', dataToSubmit).then((response) => {
       if (response.data.success) {
         console.log(response.data.post);
+        props.history.push('/posts');
       } else {
         alert('failed to upload post');
       }

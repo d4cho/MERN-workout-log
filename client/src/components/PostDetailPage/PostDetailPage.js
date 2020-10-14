@@ -12,7 +12,7 @@ const PostDetailPage = (props) => {
   useEffect(() => {
     axios.get(`/api/posts/post_by_postId?postId=${postId}`).then((response) => {
       if (response.data.success) {
-        // console.log(response.data.post[0]);
+        console.log(response.data.post[0]);
         setPostInfo(response.data.post[0]);
       } else {
         alert('failed to get post from server');
@@ -20,14 +20,18 @@ const PostDetailPage = (props) => {
     });
   }, []);
 
-  return (
-    <div style={{ marginLeft: '15%', marginRight: '15%', marginTop: '48px' }}>
-      <PostMedia images={postInfo.images} video={postInfo.videoFilePath} />
-      <div>
-        <PostInfo postInfo={postInfo} postId={postId} />
+  if (postInfo && postInfo.writer) {
+    return (
+      <div style={{ marginLeft: '15%', marginRight: '15%', marginTop: '48px' }}>
+        <PostMedia images={postInfo.images} video={postInfo.videoFilePath} />
+        <div>
+          <PostInfo postInfo={postInfo} postId={postId} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <div>Loading...</div>;
+  }
 };
 
 export default PostDetailPage;

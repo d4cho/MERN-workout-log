@@ -4,9 +4,10 @@ import Moment from 'react-moment';
 import axios from 'axios';
 
 import ProfilePic from '../../utils/ProfilePic';
-
 import Favorite from './Favorite';
 import LikeDislike from './LikeDislike';
+import SubmitComment from './SubmitComment';
+import Comment from './Comment';
 
 const PostInfo = (props) => {
   const [views, setViews] = useState(0);
@@ -16,7 +17,7 @@ const PostInfo = (props) => {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    // console.log(props.postInfo);
+    console.log(props);
     setPostId(props.postId);
     setUserBy(props.postInfo.userId);
     if (props.postId) {
@@ -64,7 +65,7 @@ const PostInfo = (props) => {
               height={'64px'}
             />
           </div>
-          <h2 style={{ paddingLeft: '24px' }}>
+          <h2 style={{ paddingLeft: '12px' }}>
             {props.postInfo.writer && props.postInfo.writer.username}
           </h2>
         </div>
@@ -73,7 +74,14 @@ const PostInfo = (props) => {
         <br />
         <hr className='my-2' />
         <br />
-        <div>Comments</div>
+        <div>
+          <SubmitComment />
+        </div>
+        <hr className='my-2' />
+        <div>
+          <Comment />
+          <Comment />
+        </div>
       </Jumbotron>
     </div>
   );
