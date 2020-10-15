@@ -1,39 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Moment from 'react-moment';
+import axios from 'axios';
+
+import { Button } from 'reactstrap';
+import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
 
 import ProfilePic from '../../utils/ProfilePic';
 import LikeDislike from './LikeDislike';
 import SubmitComment from './SubmitComment';
+import ReplyComment from './ReplyComment';
 
 const Comment = (props) => {
-  const [showReply, setShowReply] = useState(false);
+  const [showReplySubmit, setShowReplySubmit] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
+  const [replies, setReplies] = useState([]);
+
+  const variables = {
+    replyToCommentId: props.commentId
+  };
+
+  useEffect(() => {
+    getReplies();
+  }, []);
 
   const onReplyClicked = () => {
-    setShowReply(true);
+    setShowReplySubmit(true);
   };
 
   const cancelClicked = () => {
-    setShowReply(false);
+    setShowReplySubmit(false);
   };
+
+  const toggleReplies = () => {
+    setShowReplies(!showReplies);
+  };
+
+  const getReplies = () => {
+    axios.post('/api/comments/getComments', variables).then((response) => {
+      if (response.data.success) {
+        console.log(response.data.comments);
+        setReplies(response.data.comments);
+      } else {
+        alert('failed to get replies');
+      }
+    });
+  };
+
+  const renderReplies = replies.map((reply) => (
+    <ReplyComment key={reply._id} />
+  ));
 
   return (
     <div style={{ display: 'flex', padding: '24px 0' }}>
-      <div>
-        <ProfilePic width={'48px'} height={'48px'} />
-      </div>
-      <div>
+      <ProfilePic image={props.userImage} width={'48px'} height={'48px'} />
+      <div style={{ width: '100%' }}>
         <div style={{ display: 'flex' }}>
-          <div>Username</div>
-          <div>X days ago</div>
+          <div style={{ fontWeight: 'bold', paddingRight: '12px' }}>
+            {props.username}
+          </div>
+          <Moment fromNow>{props.createdAt}</Moment>
         </div>
-        <div>Actual Comment Text</div>
-        <div style={{ display: 'flex' }}>
-          <div>{/* <LikeDislike /> */}</div>
-          <button onClick={onReplyClicked}>REPLY</button>
+        <div style={{ padding: '12px 0', fontSize: '1.2em' }}>
+          {props.content}
         </div>
-        {showReply && <SubmitComment reply cancelClicked={cancelClicked} />}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div>Like and Dislike</div>
+          {/* <div><LikeDislike /></div> */}
+          <Button outline color='secondary' onClick={onReplyClicked}>
+            REPLY
+          </Button>
+        </div>
+        {showReplySubmit && (
+          <SubmitComment
+            reply
+            cancelClicked={cancelClicked}
+            commentId={props.commentId}
+            refreshFunction={getReplies}
+          />
+        )}
         <div>
-          <button>View X replies</button>
+          {replies.length > 0 && (
+            <Button color='link' onClick={toggleReplies}>
+              {showReplies ? (
+                <>
+                  <BsFillCaretUpFill /> Hide {replies.length} replies
+                </>
+              ) : (
+                <>
+                  <BsFillCaretDownFill /> View {replies.length} replies
+                </>
+              )}
+            </Button>
+          )}
         </div>
+        {showReplies && renderReplies}
       </div>
     </div>
   );

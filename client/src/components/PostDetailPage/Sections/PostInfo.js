@@ -13,15 +13,20 @@ const PostInfo = (props) => {
   const [views, setViews] = useState(0);
   const [postId, setPostId] = useState('');
   const [userBy, setUserBy] = useState('');
+  const [comments, setComments] = useState([]);
 
   const userId = localStorage.getItem('userId');
+
+  let variables = {
+    postId: props.postId
+  };
 
   useEffect(() => {
     console.log(props);
     setPostId(props.postId);
     setUserBy(props.postInfo.userId);
     if (props.postId) {
-      const variables = {
+      variables = {
         postId: props.postId,
         incViewByOne: 1
       };
@@ -33,8 +38,33 @@ const PostInfo = (props) => {
           alert('failed to increase view count');
         }
       });
+
+      getComments();
     }
   }, [props.postId]);
+
+  const getComments = () => {
+    axios.post('/api/comments/getComments', variables).then((response) => {
+      if (response.data.success) {
+        console.log(response.data.comments);
+        setComments(response.data.comments);
+      } else {
+        alert('Failed to get comments');
+      }
+    });
+  };
+
+  const renderComments = () =>
+    comments.map((comment) => (
+      <Comment
+        key={comment._id}
+        content={comment.content}
+        createdAt={comment.createdAt}
+        username={comment.writer.username}
+        userImage={comment.writer.image}
+        commentId={comment._id}
+      />
+    ));
 
   return (
     <div>
@@ -75,13 +105,10 @@ const PostInfo = (props) => {
         <hr className='my-2' />
         <br />
         <div>
-          <SubmitComment />
+          <SubmitComment postId={props.postId} refreshFunction={getComments} />
         </div>
         <hr className='my-2' />
-        <div>
-          <Comment />
-          <Comment />
-        </div>
+        <div>{renderComments()}</div>
       </Jumbotron>
     </div>
   );
