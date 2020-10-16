@@ -8,7 +8,6 @@ import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
 import ProfilePic from '../../utils/ProfilePic';
 import LikeDislike from './LikeDislike';
 import SubmitComment from './SubmitComment';
-import ReplyComment from './ReplyComment';
 
 const Comment = (props) => {
   const [showReplySubmit, setShowReplySubmit] = useState(false);
@@ -35,6 +34,10 @@ const Comment = (props) => {
     setShowReplies(!showReplies);
   };
 
+  const onReplySubmitted = () => {
+    setShowReplySubmit(false);
+  };
+
   const getReplies = () => {
     axios.post('/api/comments/getComments', variables).then((response) => {
       if (response.data.success) {
@@ -47,7 +50,14 @@ const Comment = (props) => {
   };
 
   const renderReplies = replies.map((reply) => (
-    <ReplyComment key={reply._id} />
+    <Comment
+      key={reply._id}
+      content={reply.content}
+      createdAt={reply.createdAt}
+      username={reply.writer.username}
+      userImage={reply.writer.image}
+      commentId={reply._id}
+    />
   ));
 
   return (
@@ -76,6 +86,7 @@ const Comment = (props) => {
             cancelClicked={cancelClicked}
             commentId={props.commentId}
             refreshFunction={getReplies}
+            replySubmitted={onReplySubmitted}
           />
         )}
         <div>

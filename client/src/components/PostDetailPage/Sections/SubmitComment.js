@@ -50,6 +50,9 @@ const SubmitComment = (props) => {
         console.log(response.data.comment);
         setShowSubmit(false);
         setCommentToSubmit('');
+        if (props.reply) {
+          props.replySubmitted();
+        }
         props.refreshFunction();
       } else {
         alert('Failed to upload comment');

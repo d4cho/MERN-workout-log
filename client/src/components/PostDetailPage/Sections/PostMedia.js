@@ -19,7 +19,7 @@ const PostMedia = (props) => {
   // console.log(props.video);
   return (
     <div>
-      {props.images && (
+      {props.images.length > 0 && (
         <div style={{ height: '500px', width: '500px' }}>
           <UncontrolledCarousel items={items} />
         </div>
