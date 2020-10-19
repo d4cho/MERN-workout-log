@@ -52,7 +52,12 @@ const HomePage = () => {
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', margin: '24px 48px' }}>
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '80%',
+        margin: '3rem auto'
+      }}>
       <br />
       <a href='/mylogs' style={{ textDecoration: 'none' }}>
         <Button

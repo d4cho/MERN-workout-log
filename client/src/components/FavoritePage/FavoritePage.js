@@ -13,8 +13,11 @@ import {
 import { Link } from 'react-router-dom';
 import { categories } from '../PostsPage/Sections/CategoryData';
 
+import PulseLoader from 'react-spinners/PulseLoader';
+
 const FavoritePage = () => {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const userId = localStorage.getItem('userId');
 
@@ -27,6 +30,7 @@ const FavoritePage = () => {
       if (response.data.success) {
         console.log(response.data.favorites);
         setPosts(response.data.favorites);
+        setIsLoading(false);
       } else {
         console.log('failed to get favorites info');
       }
@@ -76,8 +80,9 @@ const FavoritePage = () => {
       <h1>My Favorited Posts</h1>
       <hr />
       <br />
-      <br />
-      <Row>{renderPosts}</Row>
+      <Row>
+        {isLoading ? <PulseLoader size={25} color={'#0000FF'} /> : renderPosts}
+      </Row>
       <br />
       <br />
     </div>

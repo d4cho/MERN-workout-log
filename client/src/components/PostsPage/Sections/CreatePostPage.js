@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { categories } from './CategoryData';
 import axios from 'axios';
 
+import PulseLoader from 'react-spinners/PulseLoader';
+
 import UploadMedia from './UploadMedia';
 
 const CreatePostPage = (props) => {
@@ -11,6 +13,7 @@ const CreatePostPage = (props) => {
   const [category, setCategory] = useState(1);
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
 
   const onTitleChange = (e) => {
     setTitle(e.currentTarget.value);
@@ -33,6 +36,8 @@ const CreatePostPage = (props) => {
   };
 
   const onSubmit = () => {
+    setIsloading(true);
+
     let dataToSubmit = {
       title,
       description,
@@ -43,6 +48,7 @@ const CreatePostPage = (props) => {
 
     axios.post('/api/posts/createPost', dataToSubmit).then((response) => {
       if (response.data.success) {
+        setIsloading(false);
         console.log(response.data.post);
         props.history.push('/posts');
       } else {
@@ -109,9 +115,23 @@ const CreatePostPage = (props) => {
         </FormGroup>
         <br />
         <br />
-        <Button color='primary' size='lg' block onClick={onSubmit}>
-          Upload Post
-        </Button>
+        {isLoading ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}>
+            <h2>Uploading Post...</h2>
+            <PulseLoader size={25} color={'#0000FF'} />
+          </div>
+        ) : (
+          <Button color='primary' size='lg' block onClick={onSubmit}>
+            Upload Post
+          </Button>
+        )}
+        <br />
+        <br />
       </Form>
     </div>
   );

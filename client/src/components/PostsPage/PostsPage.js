@@ -25,6 +25,7 @@ const PostsPage = (props) => {
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
     const variables = {
@@ -83,13 +84,33 @@ const PostsPage = (props) => {
   const loadMoreClicked = () => {
     let newSkip = skip + limit;
 
-    const variables = {
+    let variables = {
       skip: newSkip,
       limit: limit,
       loadMore: true,
       filter,
       search
     };
+
+    if (sortBy === 'popular') {
+      variables = {
+        skip: newSkip,
+        limit: limit,
+        loadMore: true,
+        filter,
+        search,
+        popular: true
+      };
+    } else if (sortBy === 'oldest') {
+      variables = {
+        skip: newSkip,
+        limit: limit,
+        loadMore: true,
+        filter,
+        search,
+        oldest: true
+      };
+    }
 
     getPosts(variables);
     setSkip(newSkip);
@@ -140,6 +161,32 @@ const PostsPage = (props) => {
 
   const onPostClicked = (post) => {
     console.log(post);
+  };
+
+  const handleSortByChange = (e) => {
+    setSortBy(e.currentTarget.value);
+
+    let variables = {
+      skip: 0,
+      limit
+    };
+
+    if (e.currentTarget.value === 'popular') {
+      variables = {
+        skip: 0,
+        limit,
+        popular: true
+      };
+    } else if (e.currentTarget.value === 'oldest') {
+      variables = {
+        skip: 0,
+        limit,
+        oldest: true
+      };
+    }
+
+    getPosts(variables);
+    setSkip(0);
   };
 
   const renderPosts = posts.map((post, index) => {
@@ -193,7 +240,7 @@ const PostsPage = (props) => {
           display: 'flex',
           justifyContent: 'space-evenly'
         }}>
-        <div style={{ width: '40%' }}>
+        <div style={{ width: '26%' }}>
           <span>Filter by Category</span>
           <Input type='select' value={filter} onChange={handleFilterChange}>
             <option value={0}>All</option>
@@ -204,9 +251,17 @@ const PostsPage = (props) => {
             ))}
           </Input>
         </div>
-        <div style={{ width: '40%' }}>
+        <div style={{ width: '26%' }}>
           <span>Search posts</span>
           <Input type='text' value={search} onChange={handleSearchChange} />
+        </div>
+        <div style={{ width: '26%' }}>
+          <span>View by</span>
+          <Input type='select' value={sortBy} onChange={handleSortByChange}>
+            <option value={'recent'}>Date Added (recent)</option>
+            <option value={'oldest'}>Date Added (oldest)</option>
+            <option value={'popular'}>Most Popular</option>
+          </Input>
         </div>
       </div>
       <hr />

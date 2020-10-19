@@ -132,7 +132,7 @@ const InputLogs = (props) => {
   const onDismiss = () => setAlertVisible(false);
 
   return (
-    <div style={{ position: 'sticky', top: 0 }}>
+    <div style={{ position: 'sticky', top: '24px' }}>
       <h1>Log Your Gainz!</h1>
       <hr />
       <br />

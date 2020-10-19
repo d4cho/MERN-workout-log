@@ -58,6 +58,8 @@ router.post('/getPosts', (req, res) => {
   let sortBy = [['createdAt', -1]];
   if (req.body.popular) {
     sortBy = [['views', -1]];
+  } else if (req.body.oldest) {
+    sortBy = [['createdAt', 1]];
   }
 
   if (searchTerm) {
