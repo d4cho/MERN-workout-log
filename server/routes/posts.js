@@ -54,10 +54,16 @@ router.post('/getPosts', (req, res) => {
     filterResult = { category: req.body.filter };
   }
 
+  // to find by most viewed
+  let sortBy = [['createdAt', -1]];
+  if (req.body.popular) {
+    sortBy = [['views', -1]];
+  }
+
   if (searchTerm) {
     Post.find(filterResult)
       .find({ $text: { $search: searchTerm } })
-      .sort([['createdAt', -1]])
+      .sort(sortBy)
       .skip(skip)
       .limit(limit)
       .populate('writer')
@@ -67,7 +73,7 @@ router.post('/getPosts', (req, res) => {
       });
   } else {
     Post.find(filterResult)
-      .sort([['createdAt', -1]])
+      .sort(sortBy)
       .skip(skip)
       .limit(limit)
       .populate('writer')

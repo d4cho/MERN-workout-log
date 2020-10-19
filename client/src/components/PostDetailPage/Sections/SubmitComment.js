@@ -65,7 +65,7 @@ const SubmitComment = (props) => {
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         {props.reply ? null : (
           <>
-            <div>number of comments</div>
+            <h3>{props.numberOfComments} Comments</h3>
             <br />
           </>
         )}

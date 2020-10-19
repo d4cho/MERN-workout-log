@@ -100,12 +100,16 @@ const PostInfo = (props) => {
           </h2>
         </div>
         <br />
-        <p>{props.postInfo.description}</p>
+        <p style={{ fontSize: '1.5em' }}>{props.postInfo.description}</p>
         <br />
         <hr className='my-2' />
         <br />
         <div>
-          <SubmitComment postId={props.postId} refreshFunction={getComments} />
+          <SubmitComment
+            postId={props.postId}
+            refreshFunction={getComments}
+            numberOfComments={comments.length}
+          />
         </div>
         <hr className='my-2' />
         <div>{renderComments()}</div>

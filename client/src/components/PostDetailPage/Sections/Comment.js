@@ -14,6 +14,8 @@ const Comment = (props) => {
   const [showReplies, setShowReplies] = useState(false);
   const [replies, setReplies] = useState([]);
 
+  const userId = localStorage.getItem('userId');
+
   const variables = {
     replyToCommentId: props.commentId
   };
@@ -70,12 +72,13 @@ const Comment = (props) => {
           </div>
           <Moment fromNow>{props.createdAt}</Moment>
         </div>
-        <div style={{ padding: '12px 0', fontSize: '1.2em' }}>
+        <div style={{ padding: '12px 0', fontSize: '1.3em' }}>
           {props.content}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div>Like and Dislike</div>
-          {/* <div><LikeDislike /></div> */}
+          <div style={{ paddingRight: '12px' }}>
+            <LikeDislike useId={userId} commentId={props.commentId} />
+          </div>
           <Button outline color='secondary' onClick={onReplyClicked}>
             REPLY
           </Button>
@@ -90,7 +93,19 @@ const Comment = (props) => {
           />
         )}
         <div>
-          {replies.length > 0 && (
+          {replies.length === 1 ? (
+            <Button color='link' onClick={toggleReplies}>
+              {showReplies ? (
+                <>
+                  <BsFillCaretUpFill /> Hide reply
+                </>
+              ) : (
+                <>
+                  <BsFillCaretDownFill /> View reply
+                </>
+              )}
+            </Button>
+          ) : replies.length > 0 && replies.length !== 1 ? (
             <Button color='link' onClick={toggleReplies}>
               {showReplies ? (
                 <>
@@ -102,7 +117,7 @@ const Comment = (props) => {
                 </>
               )}
             </Button>
-          )}
+          ) : null}
         </div>
         {showReplies && renderReplies}
       </div>

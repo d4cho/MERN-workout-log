@@ -132,6 +132,25 @@ const LikeDislike = (props) => {
     }
   };
 
+  if (props.commentId) {
+    return (
+      <div style={{ display: 'flex' }}>
+        <div
+          style={{ padding: '0 12px', cursor: 'pointer' }}
+          onClick={likeClicked}>
+          {likeAction === null ? <AiOutlineLike /> : <AiFillLike />}
+          {likes}
+        </div>
+        <div
+          style={{ padding: '0 12px', cursor: 'pointer' }}
+          onClick={dislikeClicked}>
+          {dislikeAction === null ? <AiOutlineDislike /> : <AiFillDislike />}
+          {dislikes}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'flex' }}>
       <div

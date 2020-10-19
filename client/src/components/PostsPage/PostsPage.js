@@ -14,6 +14,8 @@ import {
 import axios from 'axios';
 import { categories } from './Sections/CategoryData';
 
+import PulseLoader from 'react-spinners/PulseLoader';
+
 const PostsPage = (props) => {
   // const buttonRef = useRef(null);
 
@@ -22,6 +24,7 @@ const PostsPage = (props) => {
   const [limit, setLimit] = useState(8);
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const variables = {
@@ -65,9 +68,11 @@ const PostsPage = (props) => {
         if (variables.loadMore) {
           console.log(response.data.posts);
           setPosts([...posts].concat(response.data.posts));
+          setIsLoading(false);
         } else {
           // console.log(response.data.posts);
           setPosts(response.data.posts);
+          setIsLoading(false);
         }
       } else {
         alert('failed to get posts from server');
@@ -207,7 +212,9 @@ const PostsPage = (props) => {
       <hr />
       <br />
       <br />
-      <Row>{renderPosts}</Row>
+      <Row>
+        {isLoading ? <PulseLoader size={25} color={'#0000FF'} /> : renderPosts}
+      </Row>
       <br />
       <br />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
