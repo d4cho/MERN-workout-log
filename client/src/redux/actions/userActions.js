@@ -44,7 +44,6 @@ export const loginUser = (userInfo) => {
 
 export const logoutUser = () => {
   const request = axios.get(`${USER_SERVER}/logout`).then((response) => {
-    localStorage.removeItem('userId');
     document.cookie = 'x_auth=';
     document.cookie = 'x_auth_exp=';
     return response.data;

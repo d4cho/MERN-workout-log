@@ -21,6 +21,7 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   const logoutHandler = () => {
+    localStorage.removeItem('userId');
     dispatch(logoutUser());
   };
 
@@ -47,21 +48,25 @@ const NavBar = (props) => {
           </Nav>
           <Nav navbar>
             {user.userData && user.userData.isAuth ? (
-              <>
-                <ProfilePic
-                  width={'48px'}
-                  height={'48px'}
-                  image={user.userData.image}
-                />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <NavItem>
-                  <NavLink href={`/myprofile`}>My Profile</NavLink>
+                  <NavLink
+                    href={`/myprofile/${user.userData._id}`}
+                    style={{ display: 'flex', alignItems: 'center' }}>
+                    <ProfilePic
+                      width={'48px'}
+                      height={'48px'}
+                      image={user.userData.image}
+                    />
+                    My Profile
+                  </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink onClick={logoutHandler} href={`/`}>
                     Logout
                   </NavLink>
                 </NavItem>
-              </>
+              </div>
             ) : (
               <>
                 <NavItem>

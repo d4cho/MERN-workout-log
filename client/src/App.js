@@ -27,7 +27,11 @@ function App() {
         <Route exact path='/register' component={Auth(RegisterPage, false)} />
         <Route exact path='/login' component={Auth(LoginPage, false)} />
         <Route exact path='/mylogs' component={Auth(LogsPage, true)} />
-        <Route exact path='/myprofile' component={Auth(ProfilePage, true)} />
+        <Route
+          exact
+          path='/myprofile/:userId'
+          component={Auth(ProfilePage, null)}
+        />
         <Route
           exact
           path='/favoritePosts'

@@ -62,8 +62,15 @@ router.post('/getPosts', (req, res) => {
     sortBy = [['createdAt', 1]];
   }
 
+  // to find posts by userId
+  let findById = {};
+  if (req.body.profilePageUserId) {
+    findById = { userId: req.body.profilePageUserId };
+  }
+
   if (searchTerm) {
-    Post.find(filterResult)
+    Post.find(findById)
+      .find(filterResult)
       .find({ $text: { $search: searchTerm } })
       .sort(sortBy)
       .skip(skip)
@@ -74,7 +81,8 @@ router.post('/getPosts', (req, res) => {
         return res.status(200).json({ success: true, posts });
       });
   } else {
-    Post.find(filterResult)
+    Post.find(findById)
+      .find(filterResult)
       .sort(sortBy)
       .skip(skip)
       .limit(limit)

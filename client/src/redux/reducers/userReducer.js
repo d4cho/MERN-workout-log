@@ -29,6 +29,7 @@ export default (state = {}, action) => {
     case AUTH_USER:
       return {
         ...state,
+        isAuth: action.payload.isAuth,
         userData: action.payload
       };
 
@@ -47,7 +48,7 @@ export default (state = {}, action) => {
 
     case GET_USER_STATS:
       return {
-        userData: action.payload.user
+        userData: { ...state.userData, ...action.payload.user }
       };
 
     default:

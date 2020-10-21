@@ -133,11 +133,13 @@ router.post('/setStats', (req, res) => {
 // @desc    Get user stats from database
 // @access  Public
 router.get('/getStats', (req, res) => {
-  User.findOne({ _id: req.query.userId }, (err, user) => {
-    console.log(user);
-    if (err) return res.status(400).json({ success: false, err });
-    return res.status(200).json({ success: true, user });
-  });
+  User.findOne({ _id: req.query.userId })
+    .select('-password -token -tokenExp') // to exclude from response
+    .exec((err, user) => {
+      console.log(user);
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, user });
+    });
 });
 
 // to upload images:

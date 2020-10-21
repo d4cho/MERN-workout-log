@@ -28,10 +28,18 @@ const PostsPage = (props) => {
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
-    const variables = {
+    let variables = {
       skip,
       limit
     };
+
+    if (props.fromMyProfile) {
+      variables = {
+        skip,
+        limit,
+        profilePageUserId: props.profilePageUserId
+      };
+    }
 
     getPosts(variables);
   }, []);
@@ -92,24 +100,14 @@ const PostsPage = (props) => {
       search
     };
 
+    if (props.fromMyProfile) {
+      variables.profilePageUserId = props.profilePageUserId;
+    }
+
     if (sortBy === 'popular') {
-      variables = {
-        skip: newSkip,
-        limit: limit,
-        loadMore: true,
-        filter,
-        search,
-        popular: true
-      };
+      variables.sortBy = sortBy;
     } else if (sortBy === 'oldest') {
-      variables = {
-        skip: newSkip,
-        limit: limit,
-        loadMore: true,
-        filter,
-        search,
-        oldest: true
-      };
+      variables.sortBy = sortBy;
     }
 
     getPosts(variables);
@@ -118,26 +116,36 @@ const PostsPage = (props) => {
 
   const handleFilterChange = (e) => {
     console.log(e.currentTarget.value);
+    let variables = {
+      skip: 0,
+      limit
+    };
+
+    if (props.fromMyProfile) {
+      variables.profilePageUserId = props.profilePageUserId;
+    }
+
+    if (sortBy === 'popular') {
+      variables.sortBy = sortBy;
+    } else if (sortBy === 'oldest') {
+      variables.sortBy = sortBy;
+    }
 
     if (e.currentTarget.value === '0') {
       setFilter('');
-      const variables = {
-        skip: 0,
-        limit
-      };
+      if (props.fromMyProfile) {
+        variables.profilePageUserId = props.profilePageUserId;
+      }
 
-      console.log(variables);
       getPosts(variables);
     } else {
       setFilter(e.currentTarget.value);
 
-      const variables = {
-        skip: 0,
-        limit,
-        filter: e.currentTarget.value
-      };
+      variables.filter = e.currentTarget.value;
+      if (props.fromMyProfile) {
+        variables.profilePageUserId = props.profilePageUserId;
+      }
 
-      console.log(variables);
       getPosts(variables);
     }
 
@@ -148,12 +156,22 @@ const PostsPage = (props) => {
     setSearch(e.currentTarget.value);
     console.log(e.currentTarget.value);
 
-    const variables = {
+    let variables = {
       skip: 0,
       limit,
       filter,
       search: e.currentTarget.value
     };
+
+    if (props.fromMyProfile) {
+      variables.profilePageUserId = props.profilePageUserId;
+    }
+
+    if (sortBy === 'popular') {
+      variables.sortBy = sortBy;
+    } else if (sortBy === 'oldest') {
+      variables.sortBy = sortBy;
+    }
 
     getPosts(variables);
     setSkip(0);
@@ -168,21 +186,18 @@ const PostsPage = (props) => {
 
     let variables = {
       skip: 0,
-      limit
+      limit,
+      filter
     };
 
+    if (props.fromMyProfile) {
+      variables.profilePageUserId = props.profilePageUserId;
+    }
+
     if (e.currentTarget.value === 'popular') {
-      variables = {
-        skip: 0,
-        limit,
-        popular: true
-      };
+      variables.popular = true;
     } else if (e.currentTarget.value === 'oldest') {
-      variables = {
-        skip: 0,
-        limit,
-        oldest: true
-      };
+      variables.oldest = true;
     }
 
     getPosts(variables);
@@ -227,8 +242,13 @@ const PostsPage = (props) => {
     );
   });
 
+  let parentDivStyle = { width: '80%', margin: '3rem auto' };
+  if (props.fromMyProfile) {
+    parentDivStyle = { width: '100%', margin: '3rem auto' };
+  }
+
   return (
-    <div style={{ width: '80%', margin: '3rem auto' }}>
+    <div style={parentDivStyle}>
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <Link to='/createpost'>
           <Button color='primary'>Create New Post</Button>
