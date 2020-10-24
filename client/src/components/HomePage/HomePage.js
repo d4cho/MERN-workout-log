@@ -38,7 +38,7 @@ const HomePage = () => {
       }
     });
 
-    variables.popular = true;
+    variables.sortBy = 'popular';
     axios.post('/api/posts/getPosts', variables).then((response) => {
       if (response.data.success) {
         console.log('popular', response.data.posts);

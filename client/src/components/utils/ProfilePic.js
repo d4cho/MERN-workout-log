@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const ProfilePic = (props) => {
   const [error, setError] = useState(false);
@@ -14,19 +15,21 @@ const ProfilePic = (props) => {
   };
 
   return (
-    <div style={{ padding: '0 12px' }}>
-      <img
-        style={{
-          width: props.width,
-          height: props.height,
-          borderRadius: '50%'
-        }}
-        src={`http://localhost:5000/${
-          error ? defaultImage : props.image ? props.image : defaultImage
-        }`}
-        alt={`productImg=${error ? defaultImage : props.image}`}
-        onError={imageErrorHandler}
-      />
+    <div style={{ paddingRight: '12px' }}>
+      <a href={`/myprofile/${props.userId}`}>
+        <img
+          style={{
+            width: props.width,
+            height: props.height,
+            borderRadius: '50%'
+          }}
+          src={`http://localhost:5000/${
+            error ? defaultImage : props.image ? props.image : defaultImage
+          }`}
+          alt={`productImg=${error ? defaultImage : props.image}`}
+          onError={imageErrorHandler}
+        />
+      </a>
     </div>
   );
 };

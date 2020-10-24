@@ -2,7 +2,7 @@ import React from 'react';
 
 import PostsPage from '../../PostsPage/PostsPage';
 
-const MyPosts = (props) => {
+const MyPostsPage = (props) => {
   return (
     <div>
       <PostsPage
@@ -13,4 +13,4 @@ const MyPosts = (props) => {
   );
 };
 
-export default MyPosts;
+export default MyPostsPage;

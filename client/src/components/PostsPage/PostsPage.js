@@ -14,11 +14,12 @@ import {
 import axios from 'axios';
 import { categories } from './Sections/CategoryData';
 
+import ProfilePic from '../utils/ProfilePic';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 const PostsPage = (props) => {
   // const buttonRef = useRef(null);
-
+  const userId = localStorage.getItem('userId');
   const [posts, setPosts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(8);
@@ -74,6 +75,7 @@ const PostsPage = (props) => {
   const getPosts = (variables) => {
     axios.post('/api/posts/getPosts', variables).then((response) => {
       if (response.data.success) {
+        console.log(response.data.posts);
         if (variables.loadMore) {
           console.log(response.data.posts);
           setPosts([...posts].concat(response.data.posts));
@@ -214,13 +216,12 @@ const PostsPage = (props) => {
 
     return (
       <Col key={index} sm='12' md='6' lg='3' style={{ marginBottom: '24px' }}>
-        <Link
-          to={`/posts/${post._id}`}
-          style={{ textDecoration: 'none', color: 'black' }}>
-          <Card
-            style={{ cursor: 'pointer' }}
-            onClick={() => onPostClicked(post)}>
+        <Card onClick={() => onPostClicked(post)}>
+          <Link
+            to={`/posts/${post._id}`}
+            style={{ textDecoration: 'none', color: 'black' }}>
             <CardImg
+              style={{ cursor: 'pointer' }}
               top
               width='100%'
               height='300px'
@@ -231,13 +232,27 @@ const PostsPage = (props) => {
               }
               alt='post image'
             />
-            <CardBody>
-              <CardTitle>By {post.writer && post.writer.username}</CardTitle>
-              <CardTitle style={{ fontWeight: 'bold' }}>{post.title}</CardTitle>
-              <CardText>{categoryName}</CardText>
-            </CardBody>
-          </Card>
-        </Link>
+          </Link>
+          <CardBody>
+            <CardTitle
+              style={{
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+              <ProfilePic
+                width={'48px'}
+                height={'48px'}
+                image={post.writer.image}
+                userId={post.writer._id}
+              />
+              {post.writer && <h5>{post.writer.username}</h5>}
+            </CardTitle>
+            <CardTitle>
+              <h4>{post.title}</h4>
+            </CardTitle>
+            <CardText>{categoryName}</CardText>
+          </CardBody>
+        </Card>
       </Col>
     );
   });
@@ -250,9 +265,15 @@ const PostsPage = (props) => {
   return (
     <div style={parentDivStyle}>
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <Link to='/createpost'>
-          <Button color='primary'>Create New Post</Button>
-        </Link>
+        {!props.fromMyProfile ? (
+          <Link to='/createpost'>
+            <Button color='primary'>Create New Post</Button>
+          </Link>
+        ) : props.profilePageUserId === userId ? (
+          <Link to='/createpost'>
+            <Button color='primary'>Create New Post</Button>
+          </Link>
+        ) : null}
       </div>
       <br />
       <div

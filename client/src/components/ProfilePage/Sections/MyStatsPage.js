@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import ProfilePicUpload from '../../utils/ProfilePicUpload';
 import ProfilePic from '../../utils/ProfilePic';
 
-const MyStats = (props) => {
+const MyStatsPage = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [weight, setWeight] = useState(props.userData.weight);
   const [squat, setSquat] = useState(props.userData.squat);
@@ -151,4 +151,4 @@ const MyStats = (props) => {
   }
 };
 
-export default MyStats;
+export default MyStatsPage;

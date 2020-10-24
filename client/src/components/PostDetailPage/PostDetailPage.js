@@ -8,6 +8,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 
 const PostDetailPage = (props) => {
   const [postInfo, setPostInfo] = useState({});
+  const [showDeleteOptions, setShowDeleteOptions] = useState(false);
 
   const postId = props.match.params.postId;
   const userId = localStorage.getItem('userId');
@@ -23,6 +24,28 @@ const PostDetailPage = (props) => {
     });
   }, []);
 
+  const deleteClickedToggle = () => {
+    setShowDeleteOptions(!showDeleteOptions);
+  };
+
+  const noDeleteClicked = () => {
+    setShowDeleteOptions(false);
+  };
+
+  const yesDeleteClicked = () => {
+    let variables = {
+      postId
+    };
+    axios.post('/api/posts/deletePost', variables).then((response) => {
+      if (response.data.success) {
+        alert('Post deleted');
+        props.history.push('/posts');
+      } else {
+        alert('Failed to delete post');
+      }
+    });
+  };
+
   if (postInfo && postInfo.writer) {
     return (
       <div
@@ -37,8 +60,29 @@ const PostDetailPage = (props) => {
         {userId === postInfo.userId && (
           <>
             <hr />
+            {showDeleteOptions && (
+              <div>
+                <h2>Are you sure you want to delete this post?</h2>
+                <br />
+                <Button color='danger' size='lg' onClick={yesDeleteClicked}>
+                  &nbsp;&nbsp;&nbsp;YES&nbsp;&nbsp;&nbsp;
+                </Button>
+                &nbsp;&nbsp;
+                <Button color='secondary' size='lg' onClick={noDeleteClicked}>
+                  &nbsp;&nbsp;&nbsp;NO&nbsp;&nbsp;&nbsp;
+                </Button>
+              </div>
+            )}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button color='danger'>DELETE POST</Button>
+              {showDeleteOptions ? (
+                <Button color='secondary' onClick={deleteClickedToggle}>
+                  CANCEL
+                </Button>
+              ) : (
+                <Button color='danger' onClick={deleteClickedToggle}>
+                  DELETE POST
+                </Button>
+              )}
             </div>
           </>
         )}

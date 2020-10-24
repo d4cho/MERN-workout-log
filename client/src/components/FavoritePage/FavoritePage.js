@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import { categories } from '../PostsPage/Sections/CategoryData';
 
+import ProfilePic from '../utils/ProfilePic';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 const FavoritePage = () => {
@@ -46,11 +47,12 @@ const FavoritePage = () => {
     }
     return (
       <Col key={index} sm='12' md='6' lg='3' style={{ marginBottom: '24px' }}>
-        <Link
-          to={`/posts/${post.postId._id}`}
-          style={{ textDecoration: 'none', color: 'black' }}>
-          <Card style={{ cursor: 'pointer' }}>
+        <Card>
+          <Link
+            to={`/posts/${post.postId._id}`}
+            style={{ textDecoration: 'none', color: 'black' }}>
             <CardImg
+              style={{ cursor: 'pointer' }}
               top
               width='100%'
               height='300px'
@@ -61,15 +63,27 @@ const FavoritePage = () => {
               }
               alt='post image'
             />
-            <CardBody>
-              <CardTitle>By {post.postWriterId.username}</CardTitle>
-              <CardTitle style={{ fontWeight: 'bold' }}>
-                {post.postId.title}
-              </CardTitle>
-              <CardText>{categoryName}</CardText>
-            </CardBody>
-          </Card>
-        </Link>
+          </Link>
+          <CardBody>
+            <CardTitle
+              style={{
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+              <ProfilePic
+                width={'48px'}
+                height={'48px'}
+                image={post.postWriterId.image}
+                userId={post.postWriterId._id}
+              />
+              {post.postWriterId && <h5>{post.postWriterId.username}</h5>}
+            </CardTitle>
+            <CardTitle>
+              <h4>{post.postId.title}</h4>
+            </CardTitle>
+            <CardText>{categoryName}</CardText>
+          </CardBody>
+        </Card>
       </Col>
     );
   });

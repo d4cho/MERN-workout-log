@@ -12,8 +12,10 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { categories } from '../../PostsPage/Sections/CategoryData';
+import ProfilePic from '../../utils/ProfilePic';
 
 const RenderPosts = (props) => {
+  console.log(props.post);
   const renderPosts = props.posts.map((post) => {
     let categoryName = '';
     for (const category of categories) {
@@ -29,11 +31,12 @@ const RenderPosts = (props) => {
         md='6'
         lg='3'
         style={{ marginBottom: '24px' }}>
-        <Link
-          to={`/posts/${post._id}`}
-          style={{ textDecoration: 'none', color: 'black' }}>
-          <Card style={{ cursor: 'pointer' }}>
+        <Card>
+          <Link
+            to={`/posts/${post._id}`}
+            style={{ textDecoration: 'none', color: 'black' }}>
             <CardImg
+              style={{ cursor: 'pointer' }}
               top
               width='100%'
               height='300px'
@@ -44,13 +47,27 @@ const RenderPosts = (props) => {
               }
               alt='post image'
             />
-            <CardBody>
-              <CardTitle>By {post.writer && post.writer.username}</CardTitle>
-              <CardTitle style={{ fontWeight: 'bold' }}>{post.title}</CardTitle>
-              <CardText>{categoryName}</CardText>
-            </CardBody>
-          </Card>
-        </Link>
+          </Link>
+          <CardBody>
+            <CardTitle
+              style={{
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+              <ProfilePic
+                width={'48px'}
+                height={'48px'}
+                image={post.writer.image}
+                userId={post.writer._id}
+              />
+              {post.writer && <h5>{post.writer.username}</h5>}
+            </CardTitle>
+            <CardTitle>
+              <h4>{post.title}</h4>
+            </CardTitle>
+            <CardText>{categoryName}</CardText>
+          </CardBody>
+        </Card>
       </Col>
     );
   });

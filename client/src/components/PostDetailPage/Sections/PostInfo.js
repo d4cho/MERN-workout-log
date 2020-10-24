@@ -93,6 +93,7 @@ const PostInfo = (props) => {
               image={props.postInfo.writer && props.postInfo.writer.image}
               width={'64px'}
               height={'64px'}
+              userId={props.postInfo.writer._id}
             />
           </div>
           <h2 style={{ paddingLeft: '12px' }}>

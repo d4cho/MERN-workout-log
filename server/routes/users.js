@@ -180,4 +180,43 @@ router.post('/uploadFile', (req, res) => {
   });
 });
 
+// @route   Post users/follow
+// @desc    follow a user
+// @access  private
+router.post('/follow', auth, (req, res) => {
+  // Update profile owners followers list
+  User.findOneAndUpdate(
+    { _id: req.body.profileOwnerUserId },
+    {
+      followers: req.body.followersList
+    },
+    { new: true },
+    (err, profileUser) => {
+      if (err) return res.json({ success: false, err });
+      // return res.status(200).json({ success: true, user });
+
+      // Update users following list
+      let newFollowingList = [];
+      let oldFollowingList = req.user.following;
+      if (oldFollowingList.includes(req.body.profileOwnerUserId)) {
+        newFollowingList = oldFollowingList.filter(
+          (userId) => userId !== req.body.profileOwnerUserId
+        );
+      } else {
+        newFollowingList = oldFollowingList.concat(req.body.profileOwnerUserId);
+      }
+      console.log(newFollowingList);
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        { following: newFollowingList },
+        { new: true },
+        (err, user) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true, profileUser });
+        }
+      );
+    }
+  );
+});
+
 module.exports = router;

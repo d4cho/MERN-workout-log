@@ -38,6 +38,16 @@ router.post('/createPost', auth, (req, res) => {
   });
 });
 
+// @route   POST posts/deletePost
+// @desc    delete a post from server
+// @access  private
+router.post('/deletePost', auth, (req, res) => {
+  Post.findByIdAndDelete({ _id: req.body.postId }).exec((err, doc) => {
+    if (err) return res.status(400).json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
+});
+
 // @route   POST posts/getPosts
 // @desc    get posts from server
 // @access  public
@@ -56,9 +66,9 @@ router.post('/getPosts', (req, res) => {
 
   // to find by most viewed
   let sortBy = [['createdAt', -1]];
-  if (req.body.popular) {
+  if (req.body.sortBy === 'popular') {
     sortBy = [['views', -1]];
-  } else if (req.body.oldest) {
+  } else if (req.body.sortBy === 'oldest') {
     sortBy = [['createdAt', 1]];
   }
 
@@ -75,7 +85,8 @@ router.post('/getPosts', (req, res) => {
       .sort(sortBy)
       .skip(skip)
       .limit(limit)
-      .populate('writer')
+      // -password, etc, is to leave out those field on populate
+      .populate('writer', '-password -token -tokenExp')
       .exec((err, posts) => {
         if (err) return res.status(400).json({ success: false, err });
         return res.status(200).json({ success: true, posts });
@@ -86,7 +97,7 @@ router.post('/getPosts', (req, res) => {
       .sort(sortBy)
       .skip(skip)
       .limit(limit)
-      .populate('writer')
+      .populate('writer', '-password -token -tokenExp')
       .exec((err, posts) => {
         if (err) return res.status(400).json({ success: false, err });
         return res.status(200).json({ success: true, posts });
@@ -101,7 +112,7 @@ router.get('/post_by_postId', (req, res) => {
   let postId = req.query.postId;
 
   Post.find({ _id: { $in: postId } })
-    .populate('writer')
+    .populate('writer', '-password -token -tokenExp')
     .exec((err, post) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, post });

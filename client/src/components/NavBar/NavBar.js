@@ -17,6 +17,7 @@ const NavBar = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
+  const userId = localStorage.getItem('userId');
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -49,15 +50,14 @@ const NavBar = (props) => {
           <Nav navbar>
             {user.userData && user.userData.isAuth ? (
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <NavItem>
-                  <NavLink
-                    href={`/myprofile/${user.userData._id}`}
-                    style={{ display: 'flex', alignItems: 'center' }}>
-                    <ProfilePic
-                      width={'48px'}
-                      height={'48px'}
-                      image={user.userData.image}
-                    />
+                <NavItem style={{ display: 'flex', alignItems: 'center' }}>
+                  <ProfilePic
+                    width={'48px'}
+                    height={'48px'}
+                    image={user.userData.image}
+                    userId={userId}
+                  />
+                  <NavLink href={`/myprofile/${user.userData._id}`}>
                     My Profile
                   </NavLink>
                 </NavItem>

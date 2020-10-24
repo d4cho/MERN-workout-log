@@ -48,6 +48,14 @@ const userSchema = new Schema(
     deadlift: {
       type: Number,
       default: 0
+    },
+    followers: {
+      type: Array,
+      default: []
+    },
+    following: {
+      type: Array,
+      default: []
     }
   },
   { timestamps: true }

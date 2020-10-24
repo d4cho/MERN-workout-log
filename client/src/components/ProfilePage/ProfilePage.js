@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import classnames from 'classnames';
 
 import PulseLoader from 'react-spinners/PulseLoader';
-import MyStats from './Sections/MyStats';
-import MyPosts from './Sections/MyPosts';
-import Notifications from './Sections/Notifications';
+import MyStatsPage from './Sections/MyStatsPage';
+import MyPostsPage from './Sections/MyPostsPage';
+import NotificationsPage from './Sections/NotificationsPage';
+import FollowersPage from './Sections/FollowersPage';
 
 const ProfilePage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followersList, setFollowersList] = useState([]);
+  const [numberOfFollowers, setNumberOfFollowers] = useState(0);
 
   const profilePageUserId = props.match.params.userId;
   const userId = localStorage.getItem('userId');
@@ -27,12 +31,57 @@ const ProfilePage = (props) => {
         if (response.data.success) {
           console.log(response.data.user);
           setUserData(response.data.user);
+          setFollowersList(response.data.user.followers);
+          setNumberOfFollowers(response.data.user.followers.length);
+          setIsFollowing(checkFollowers(response.data.user.followers, userId));
           setIsLoading(false);
         } else {
           alert(`failed to get user's stats`);
         }
       });
   }, []);
+
+  const checkFollowers = (followersList, userId) => {
+    return followersList.includes(userId);
+  };
+
+  const followClicked = () => {
+    let variables = {
+      profileOwnerUserId: userData._id,
+      followersList: followersList.concat(userId)
+    };
+
+    console.log(variables);
+
+    axios.post('/api/users/follow', variables).then((response) => {
+      if (response.data.success) {
+        setNumberOfFollowers(numberOfFollowers + 1);
+        setIsFollowing(true);
+        console.log(response.data.profileUser);
+      } else {
+        alert('Failed to follow user');
+      }
+    });
+  };
+
+  const unfollowClicked = () => {
+    let variables = {
+      profileOwnerUserId: userData._id,
+      followersList: followersList.filter((follower) => follower !== userId)
+    };
+
+    console.log(variables);
+
+    axios.post('/api/users/follow', variables).then((response) => {
+      if (response.data.success) {
+        setNumberOfFollowers(numberOfFollowers - 1);
+        setIsFollowing(false);
+        console.log(response.data.profileUser);
+      } else {
+        alert('Failed to unfollow user');
+      }
+    });
+  };
 
   return (
     <div
@@ -42,48 +91,80 @@ const ProfilePage = (props) => {
         width: '80%',
         margin: '3rem auto'
       }}>
-      <Nav tabs>
-        <NavItem>
-          <NavLink
-            style={{ cursor: 'pointer' }}
-            className={classnames({ active: activeTab === '1' })}
-            onClick={() => {
-              toggle('1');
-            }}>
-            Home
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            style={{ cursor: 'pointer' }}
-            className={classnames({ active: activeTab === '2' })}
-            onClick={() => {
-              toggle('2');
-            }}>
-            {profilePageUserId === userId
-              ? 'My Posts'
-              : `${userData.username}'s Posts`}
-          </NavLink>
-        </NavItem>
-        {profilePageUserId === userId && (
+      <Nav tabs style={{ justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex' }}>
           <NavItem>
             <NavLink
-              style={{ cursor: 'pointer' }}
-              className={classnames({ active: activeTab === '3' })}
+              style={{ cursor: 'pointer', fontSize: '24px' }}
+              className={classnames({ active: activeTab === '1' })}
               onClick={() => {
-                toggle('3');
+                toggle('1');
               }}>
-              Notifications
+              Home
             </NavLink>
           </NavItem>
-        )}
+          <NavItem>
+            <NavLink
+              style={{ cursor: 'pointer', fontSize: '24px' }}
+              className={classnames({ active: activeTab === '2' })}
+              onClick={() => {
+                toggle('2');
+              }}>
+              {profilePageUserId === userId
+                ? 'My Posts'
+                : `${userData.username}'s Posts`}
+            </NavLink>
+          </NavItem>
+          {profilePageUserId === userId && (
+            <>
+              <NavItem>
+                <NavLink
+                  style={{ cursor: 'pointer', fontSize: '24px' }}
+                  className={classnames({ active: activeTab === '3' })}
+                  onClick={() => {
+                    toggle('3');
+                  }}>
+                  Notifications
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  style={{ cursor: 'pointer', fontSize: '24px' }}
+                  className={classnames({ active: activeTab === '4' })}
+                  onClick={() => {
+                    toggle('4');
+                  }}>
+                  Followers(number of followers)
+                </NavLink>
+              </NavItem>
+            </>
+          )}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h4 style={{ paddingRight: '24px' }}>
+            {userData.followers ? numberOfFollowers : '0'} followers
+          </h4>
+          {profilePageUserId !== userId && (
+            <div>
+              {isFollowing ? (
+                <Button color='secondary' size='lg' onClick={unfollowClicked}>
+                  UNFOLLOW
+                </Button>
+              ) : (
+                <Button color='primary' size='lg' onClick={followClicked}>
+                  FOLLOW
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId='1'>
           {isLoading ? (
             <PulseLoader size={25} color={'#0000FF'} />
           ) : (
-            <MyStats
+            <MyStatsPage
               userData={userData}
               profilePageUserId={profilePageUserId}
             />
@@ -93,11 +174,14 @@ const ProfilePage = (props) => {
           {isLoading ? (
             <PulseLoader size={25} color={'#0000FF'} />
           ) : (
-            <MyPosts profilePageUserId={profilePageUserId} />
+            <MyPostsPage profilePageUserId={profilePageUserId} />
           )}
         </TabPane>
         <TabPane tabId='3'>
-          <Notifications />
+          <NotificationsPage />
+        </TabPane>
+        <TabPane tabId='4'>
+          <FollowersPage />
         </TabPane>
       </TabContent>
     </div>
