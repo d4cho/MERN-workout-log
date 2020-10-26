@@ -8,6 +8,7 @@ import MyStatsPage from './Sections/MyStatsPage';
 import MyPostsPage from './Sections/MyPostsPage';
 import NotificationsPage from './Sections/NotificationsPage';
 import FollowersPage from './Sections/FollowersPage';
+import FollowingPage from './Sections/FollowingPage';
 
 const ProfilePage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -15,7 +16,9 @@ const ProfilePage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followersList, setFollowersList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
   const [numberOfFollowers, setNumberOfFollowers] = useState(0);
+  const [numberOfFollowing, setNumberOfFollowing] = useState(0);
 
   const profilePageUserId = props.match.params.userId;
   const userId = localStorage.getItem('userId');
@@ -32,7 +35,9 @@ const ProfilePage = (props) => {
           console.log(response.data.user);
           setUserData(response.data.user);
           setFollowersList(response.data.user.followers);
+          setFollowingList(response.data.user.following);
           setNumberOfFollowers(response.data.user.followers.length);
+          setNumberOfFollowing(response.data.user.following.length);
           setIsFollowing(checkFollowers(response.data.user.followers, userId));
           setIsLoading(false);
         } else {
@@ -124,7 +129,7 @@ const ProfilePage = (props) => {
                   onClick={() => {
                     toggle('3');
                   }}>
-                  Notifications
+                  Followers ({numberOfFollowers})
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -134,18 +139,28 @@ const ProfilePage = (props) => {
                   onClick={() => {
                     toggle('4');
                   }}>
-                  Followers(number of followers)
+                  Following ({numberOfFollowing})
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  style={{ cursor: 'pointer', fontSize: '24px' }}
+                  className={classnames({ active: activeTab === '5' })}
+                  onClick={() => {
+                    toggle('5');
+                  }}>
+                  Notifications
                 </NavLink>
               </NavItem>
             </>
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h4 style={{ paddingRight: '24px' }}>
-            {userData.followers ? numberOfFollowers : '0'} followers
-          </h4>
           {profilePageUserId !== userId && (
-            <div>
+            <>
+              <h4 style={{ paddingRight: '24px' }}>
+                {userData.followers ? numberOfFollowers : '0'} followers
+              </h4>
               {isFollowing ? (
                 <Button color='secondary' size='lg' onClick={unfollowClicked}>
                   UNFOLLOW
@@ -155,34 +170,35 @@ const ProfilePage = (props) => {
                   FOLLOW
                 </Button>
               )}
-            </div>
+            </>
           )}
         </div>
       </Nav>
       <TabContent activeTab={activeTab}>
-        <TabPane tabId='1'>
-          {isLoading ? (
-            <PulseLoader size={25} color={'#0000FF'} />
-          ) : (
-            <MyStatsPage
-              userData={userData}
-              profilePageUserId={profilePageUserId}
-            />
-          )}
-        </TabPane>
-        <TabPane tabId='2'>
-          {isLoading ? (
-            <PulseLoader size={25} color={'#0000FF'} />
-          ) : (
-            <MyPostsPage profilePageUserId={profilePageUserId} />
-          )}
-        </TabPane>
-        <TabPane tabId='3'>
-          <NotificationsPage />
-        </TabPane>
-        <TabPane tabId='4'>
-          <FollowersPage />
-        </TabPane>
+        {isLoading ? (
+          <PulseLoader size={25} color={'#0000FF'} />
+        ) : (
+          <>
+            <TabPane tabId='1'>
+              <MyStatsPage
+                userData={userData}
+                profilePageUserId={profilePageUserId}
+              />
+            </TabPane>
+            <TabPane tabId='2'>
+              <MyPostsPage profilePageUserId={profilePageUserId} />
+            </TabPane>
+            <TabPane tabId='3'>
+              <FollowersPage followersList={followersList} />
+            </TabPane>
+            <TabPane tabId='4'>
+              <FollowingPage followingList={followingList} />
+            </TabPane>
+            <TabPane tabId='5'>
+              <NotificationsPage />
+            </TabPane>
+          </>
+        )}
       </TabContent>
     </div>
   );

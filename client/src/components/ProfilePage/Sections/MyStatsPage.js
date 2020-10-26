@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import ProfilePicUpload from '../../utils/ProfilePicUpload';
 import ProfilePic from '../../utils/ProfilePic';
+import axios from 'axios';
 
 const MyStatsPage = (props) => {
   const [showEdit, setShowEdit] = useState(false);
@@ -31,7 +32,7 @@ const MyStatsPage = (props) => {
   };
 
   const handleSubmit = () => {
-    const userInfo = {
+    const variables = {
       userId: userId,
       weight,
       squat,
@@ -39,6 +40,19 @@ const MyStatsPage = (props) => {
       deadlift,
       image
     };
+
+    axios.post('/api/users/setStats', variables).then((response) => {
+      if (response.data.success) {
+        setWeight(response.data.stats.weight);
+        setSquat(response.data.stats.squat);
+        setBench(response.data.stats.bench);
+        setDeadlift(response.data.stats.deadlift);
+        setImage(response.data.stats.image);
+        setShowEdit(false);
+      } else {
+        alert('Failed to update profile');
+      }
+    });
   };
 
   const editClickedHandler = () => {
@@ -54,7 +68,11 @@ const MyStatsPage = (props) => {
       <div className='container'>
         <h1 style={{ marginBottom: '48px' }}>My Profile</h1>
         <Form onSubmit={handleSubmit}>
-          <ProfilePicUpload refreshFunction={updateImage} image={image} />
+          <ProfilePicUpload
+            refreshFunction={updateImage}
+            image={image}
+            userId={userId}
+          />
           <div style={{ textAlign: 'center' }}>Click image to edit</div>
           <br />
           <br />
@@ -127,7 +145,12 @@ const MyStatsPage = (props) => {
             : `${props.userData.username}'s Profile`}
         </h1>
         <br />
-        <ProfilePic width='240px' height='240px' image={image} />
+        <ProfilePic
+          width='240px'
+          height='240px'
+          image={image}
+          userId={userId}
+        />
         <br />
         <h4>Current Body Weight:</h4>
         <h3>{weight}</h3>

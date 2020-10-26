@@ -219,4 +219,17 @@ router.post('/follow', auth, (req, res) => {
   );
 });
 
+// @route   POST users/getStats
+// @desc    Get user profile info from database
+// @access  Public
+router.post('/getUserProfileInfo', (req, res) => {
+  User.findOne({ _id: req.body.userId })
+    .select('-password -token -tokenExp') // to exclude from response
+    .exec((err, user) => {
+      console.log(user);
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, user });
+    });
+});
+
 module.exports = router;

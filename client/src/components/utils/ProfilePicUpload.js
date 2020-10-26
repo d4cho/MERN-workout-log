@@ -43,7 +43,11 @@ const ProfilePicUpload = (props) => {
             }}
             {...getRootProps()}>
             <input {...getInputProps()} />
-            <ProfilePic width='240px' height='240px' image={image} />
+            <img
+              width='240px'
+              height='240px'
+              src={`http://localhost:5000/${image}`}
+            />
           </div>
         )}
       </Dropzone>
