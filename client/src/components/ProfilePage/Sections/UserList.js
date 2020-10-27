@@ -5,17 +5,17 @@ import { Button } from 'reactstrap';
 import PulseLoader from 'react-spinners/PulseLoader';
 import ProfilePic from '../../utils/ProfilePic';
 
+const FOLLOW_BUTTON = 'FOLLOW_BUTTON';
+const UNFOLLOW_BUTTON = 'UNFOLLOW_BUTTON';
+const DISABLE_BUTTON = 'DISABLE_BUTTON';
+
 const UserList = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userProfileInfo, setUserProfileInfo] = useState({});
-  const [isfollowBack, setIsFollowBack] = useState(false);
   const [numberOfFollowers, setNumberOfFollowers] = useState(0);
+  const [buttonState, setButtonState] = useState(DISABLE_BUTTON);
 
   const userId = localStorage.getItem('userId');
-
-  if (userProfileInfo.followers && userProfileInfo.followers.includes(userId)) {
-    setIsFollowBack(true);
-  }
 
   useEffect(() => {
     if (props.userId) {
@@ -32,12 +32,21 @@ const UserList = (props) => {
             setNumberOfFollowers(response.data.user.followers.length);
             setIsLoading(false);
             console.log(response.data.user);
+            buttonStateCheck(response.data.user);
           } else {
             alert('Failed to get user profile info');
           }
         });
     }
   }, []);
+
+  const buttonStateCheck = (userProfile) => {
+    if (userProfile.followers && userProfile.followers.includes(userId)) {
+      setButtonState(UNFOLLOW_BUTTON);
+    } else {
+      setButtonState(FOLLOW_BUTTON);
+    }
+  };
 
   const onFollowClicked = () => {
     let variables = {
@@ -49,9 +58,9 @@ const UserList = (props) => {
 
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
-        setIsFollowBack(true);
         setNumberOfFollowers(numberOfFollowers + 1);
         console.log(response.data.profileUser);
+        setButtonState(UNFOLLOW_BUTTON);
       } else {
         alert('Failed to follow user');
       }
@@ -62,7 +71,7 @@ const UserList = (props) => {
 
   const onRemoveClicked = () => {};
 
-  console.log(userProfileInfo);
+  console.log(userProfileInfo, props, isLoading, numberOfFollowers);
 
   return (
     <div
@@ -89,6 +98,7 @@ const UserList = (props) => {
               width='120px'
               height='120px'
               image={userProfileInfo.image}
+              userId={userProfileInfo._id}
             />
             <div style={{ paddingLeft: '24px' }}>
               <h2>{userProfileInfo.username}</h2>
@@ -98,7 +108,7 @@ const UserList = (props) => {
             </div>
           </div>
           <div>
-            {isfollowBack ? (
+            {buttonState === UNFOLLOW_BUTTON ? (
               <Button color='secondary' size='lg'>
                 Unfollow
               </Button>
