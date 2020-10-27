@@ -73,6 +73,7 @@ router.post('/getPosts', (req, res) => {
   }
 
   // to find posts by userId
+  // for posts in my profile page
   let findById = {};
   if (req.body.profilePageUserId) {
     findById = { userId: req.body.profilePageUserId };
