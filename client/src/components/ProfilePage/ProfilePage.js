@@ -120,7 +120,7 @@ const ProfilePage = (props) => {
                 : `${userData.username}'s Posts`}
             </NavLink>
           </NavItem>
-          {profilePageUserId === userId && (
+          {profilePageUserId === userId && followersList && (
             <>
               <NavItem>
                 <NavLink
@@ -191,9 +191,9 @@ const ProfilePage = (props) => {
             <TabPane tabId='3'>
               <FollowersPage followersList={followersList} />
             </TabPane>
-            <TabPane tabId='4'>
+            {/* <TabPane tabId='4'>
               <FollowingPage followingList={followingList} />
-            </TabPane>
+            </TabPane> */}
             <TabPane tabId='5'>
               <NotificationsPage />
             </TabPane>

@@ -44,8 +44,7 @@ const ProfilePicUpload = (props) => {
             {...getRootProps()}>
             <input {...getInputProps()} />
             <img
-              width='240px'
-              height='240px'
+              style={{ width: '240px', height: '240px', borderRadius: '50%' }}
               src={`http://localhost:5000/${image}`}
             />
           </div>

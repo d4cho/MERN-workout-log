@@ -8,7 +8,7 @@ const FollowersPage = (props) => {
     <UserList key={follower} userId={follower} />
   ));
 
-  return renderFollowersList;
+  return <div>{renderFollowersList}</div>;
 };
 
 export default FollowersPage;

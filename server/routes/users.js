@@ -136,7 +136,6 @@ router.get('/getStats', (req, res) => {
   User.findOne({ _id: req.query.userId })
     .select('-password -token -tokenExp') // to exclude from response
     .exec((err, user) => {
-      console.log(user);
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, user });
     });
@@ -205,7 +204,6 @@ router.post('/follow', auth, (req, res) => {
       } else {
         newFollowingList = oldFollowingList.concat(req.body.profileOwnerUserId);
       }
-      console.log(newFollowingList);
       User.findOneAndUpdate(
         { _id: req.user._id },
         { following: newFollowingList },
