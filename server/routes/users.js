@@ -129,10 +129,10 @@ router.post('/setStats', (req, res) => {
   );
 });
 
-// @route   GET users/getStats
-// @desc    Get user stats from database
+// @route   GET users/getMyProfileInfo
+// @desc    Get user profile info from database
 // @access  Public
-router.get('/getStats', (req, res) => {
+router.get('/getMyProfileInfo', (req, res) => {
   User.findOne({ _id: req.query.userId })
     .select('-password -token -tokenExp') // to exclude from response
     .exec((err, user) => {

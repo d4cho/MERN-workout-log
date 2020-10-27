@@ -63,6 +63,7 @@ const UserList = (props) => {
         console.log(response.data.profileUser);
         setButtonState(UNFOLLOW_BUTTON);
         setIsLoading(false);
+        props.refreshFunction();
       } else {
         alert('Failed to follow user');
       }
@@ -84,6 +85,7 @@ const UserList = (props) => {
         setNumberOfFollowers(numberOfFollowers - 1);
         setButtonState(FOLLOW_BUTTON);
         setIsLoading(false);
+        props.refreshFunction();
       } else {
         alert('Failed to unfollow user');
       }
@@ -141,13 +143,15 @@ const UserList = (props) => {
               Follow
             </Button>
           ) : null}
-          <RemoveUserModal
-            myUserId={userId}
-            profileUsername={userProfileInfo.username}
-            profileUserId={userProfileInfo._id}
-            profileUserFollowingList={userProfileInfo.following}
-            refreshFunction={props.refreshFunction}
-          />
+          {props.followerPage && (
+            <RemoveUserModal
+              myUserId={userId}
+              profileUsername={userProfileInfo.username}
+              profileUserId={userProfileInfo._id}
+              profileUserFollowingList={userProfileInfo.following}
+              refreshFunction={props.refreshFunction}
+            />
+          )}
         </div>
       </>
     </div>

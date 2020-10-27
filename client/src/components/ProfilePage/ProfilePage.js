@@ -32,8 +32,12 @@ const ProfilePage = (props) => {
   };
 
   useEffect(() => {
+    getMyProfileInfo();
+  }, []);
+
+  const getMyProfileInfo = () => {
     axios
-      .get(`/api/users/getStats?userId=${profilePageUserId}`)
+      .get(`/api/users/getMyProfileInfo?userId=${profilePageUserId}`)
       .then((response) => {
         if (response.data.success) {
           console.log(response.data.user);
@@ -52,7 +56,7 @@ const ProfilePage = (props) => {
           alert(`failed to get user's stats`);
         }
       });
-  }, []);
+  };
 
   const checkFollowers = (followersList, userId) => {
     return followersList.includes(userId);
@@ -98,10 +102,6 @@ const ProfilePage = (props) => {
         alert('Failed to unfollow user');
       }
     });
-  };
-
-  const refreshPage = () => {
-    window.location.reload();
   };
 
   return (
@@ -212,12 +212,15 @@ const ProfilePage = (props) => {
             <TabPane tabId='3'>
               <FollowersPage
                 followersList={followersList}
-                refreshFunction={refreshPage}
+                refreshFunction={getMyProfileInfo}
               />
             </TabPane>
-            {/* <TabPane tabId='4'>
-              <FollowingPage followingList={followingList} />
-            </TabPane> */}
+            <TabPane tabId='4'>
+              <FollowingPage
+                followingList={followingList}
+                refreshFunction={getMyProfileInfo}
+              />
+            </TabPane>
             <TabPane tabId='5'>
               <NotificationsPage />
             </TabPane>

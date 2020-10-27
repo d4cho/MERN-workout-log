@@ -9,6 +9,7 @@ const FollowersPage = (props) => {
       key={follower}
       userId={follower}
       refreshFunction={props.refreshFunction}
+      followerPage
     />
   ));
 
