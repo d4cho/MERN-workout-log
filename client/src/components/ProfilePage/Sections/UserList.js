@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { Button } from 'reactstrap';
-import PulseLoader from 'react-spinners/PulseLoader';
 import ProfilePic from '../../utils/ProfilePic';
+import RemoveUserModal from './RemoveUserModal';
 
 const FOLLOW_BUTTON = 'FOLLOW_BUTTON';
 const UNFOLLOW_BUTTON = 'UNFOLLOW_BUTTON';
@@ -90,7 +90,9 @@ const UserList = (props) => {
     });
   };
 
-  const onRemoveClicked = () => {};
+  const onRemoveConfirm = () => {};
+
+  const onRemoveCancel = () => {};
 
   console.log(userProfileInfo, props, isLoading, numberOfFollowers);
 
@@ -125,7 +127,7 @@ const UserList = (props) => {
             </h4>
           </div>
         </div>
-        <div>
+        <div style={{ display: 'flex' }}>
           {isLoading ? (
             <Button color='secondary' size='lg' disabled>
               Loading...
@@ -139,10 +141,13 @@ const UserList = (props) => {
               Follow
             </Button>
           ) : null}
-
-          <Button color='danger' size='lg'>
-            Remove
-          </Button>
+          <RemoveUserModal
+            myUserId={userId}
+            profileUsername={userProfileInfo.username}
+            profileUserId={userProfileInfo._id}
+            profileUserFollowingList={userProfileInfo.following}
+            refreshFunction={props.refreshFunction}
+          />
         </div>
       </>
     </div>

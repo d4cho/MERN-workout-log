@@ -100,6 +100,10 @@ const ProfilePage = (props) => {
     });
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   return (
     <div
       style={{
@@ -206,7 +210,10 @@ const ProfilePage = (props) => {
               <MyPostsPage profilePageUserId={profilePageUserId} />
             </TabPane>
             <TabPane tabId='3'>
-              <FollowersPage followersList={followersList} />
+              <FollowersPage
+                followersList={followersList}
+                refreshFunction={refreshPage}
+              />
             </TabPane>
             {/* <TabPane tabId='4'>
               <FollowingPage followingList={followingList} />

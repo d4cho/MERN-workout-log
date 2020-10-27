@@ -230,4 +230,35 @@ router.post('/getUserProfileInfo', (req, res) => {
     });
 });
 
+// @route   POST users/removeFollower
+// @desc    remove someone from my followers
+// @access  private
+router.post('/removeFollower', auth, (req, res) => {
+  // filter out user from my followers list
+  let newFollowers = req.user.followers.filter(
+    (follower) => follower !== req.body.profileUserId
+  );
+
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { followers: newFollowers },
+    { new: true },
+    (err, user) => {
+      if (err) return res.status(400).json({ success: false, err });
+      // return res.status(200).json({ success: true, user });
+
+      // need to remove myself from user's following list
+      User.findOneAndUpdate(
+        { _id: req.body.profileUserId },
+        { following: req.body.newFollowingList },
+        { new: true },
+        (err, profileUser) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true });
+        }
+      );
+    }
+  );
+});
+
 module.exports = router;
