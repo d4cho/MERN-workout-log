@@ -189,7 +189,8 @@ const PostsPage = (props) => {
     let variables = {
       skip: 0,
       limit,
-      filter
+      filter,
+      sortBy: e.currentTarget.value
     };
 
     if (props.fromMyProfile) {
