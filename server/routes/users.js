@@ -129,10 +129,10 @@ router.post('/setStats', (req, res) => {
   );
 });
 
-// @route   GET users/getStats
-// @desc    Get user stats from database
+// @route   GET users/getMyProfileInfo
+// @desc    Get user profile info from database
 // @access  Public
-router.get('/getStats', (req, res) => {
+router.get('/getMyProfileInfo', (req, res) => {
   User.findOne({ _id: req.query.userId })
     .select('-password -token -tokenExp') // to exclude from response
     .exec((err, user) => {
@@ -183,7 +183,7 @@ router.post('/uploadFile', (req, res) => {
 // @desc    follow a user
 // @access  private
 router.post('/follow', auth, (req, res) => {
-  // Update profile owners followers list
+  // Update profile owner's followers list
   User.findOneAndUpdate(
     { _id: req.body.profileOwnerUserId },
     {
@@ -194,7 +194,7 @@ router.post('/follow', auth, (req, res) => {
       if (err) return res.json({ success: false, err });
       // return res.status(200).json({ success: true, user });
 
-      // Update users following list
+      // Update the users following list to add profile owner as following
       let newFollowingList = [];
       let oldFollowingList = req.user.following;
       if (oldFollowingList.includes(req.body.profileOwnerUserId)) {
@@ -228,6 +228,37 @@ router.post('/getUserProfileInfo', (req, res) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, user });
     });
+});
+
+// @route   POST users/removeFollower
+// @desc    remove someone from my followers
+// @access  private
+router.post('/removeFollower', auth, (req, res) => {
+  // filter out user from my followers list
+  let newFollowers = req.user.followers.filter(
+    (follower) => follower !== req.body.profileUserId
+  );
+
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { followers: newFollowers },
+    { new: true },
+    (err, user) => {
+      if (err) return res.status(400).json({ success: false, err });
+      // return res.status(200).json({ success: true, user });
+
+      // need to remove myself from user's following list
+      User.findOneAndUpdate(
+        { _id: req.body.profileUserId },
+        { following: req.body.newFollowingList },
+        { new: true },
+        (err, profileUser) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true });
+        }
+      );
+    }
+  );
 });
 
 module.exports = router;

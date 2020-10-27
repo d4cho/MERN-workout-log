@@ -10,15 +10,19 @@ import NotificationsPage from './Sections/NotificationsPage';
 import FollowersPage from './Sections/FollowersPage';
 import FollowingPage from './Sections/FollowingPage';
 
+const FOLLOW_BUTTON = 'FOLLOW_BUTTON';
+const UNFOLLOW_BUTTON = 'UNFOLLOW_BUTTON';
+const DISABLE_BUTTON = 'DISABLE_BUTTON';
+
 const ProfilePage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [isFollowing, setIsFollowing] = useState(false);
   const [followersList, setFollowersList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
   const [numberOfFollowers, setNumberOfFollowers] = useState(0);
   const [numberOfFollowing, setNumberOfFollowing] = useState(0);
+  const [buttonState, setButtonState] = useState(DISABLE_BUTTON);
 
   const profilePageUserId = props.match.params.userId;
   const userId = localStorage.getItem('userId');
@@ -28,8 +32,12 @@ const ProfilePage = (props) => {
   };
 
   useEffect(() => {
+    getMyProfileInfo();
+  }, []);
+
+  const getMyProfileInfo = () => {
     axios
-      .get(`/api/users/getStats?userId=${profilePageUserId}`)
+      .get(`/api/users/getMyProfileInfo?userId=${profilePageUserId}`)
       .then((response) => {
         if (response.data.success) {
           console.log(response.data.user);
@@ -38,19 +46,24 @@ const ProfilePage = (props) => {
           setFollowingList(response.data.user.following);
           setNumberOfFollowers(response.data.user.followers.length);
           setNumberOfFollowing(response.data.user.following.length);
-          setIsFollowing(checkFollowers(response.data.user.followers, userId));
+          if (checkFollowers(response.data.user.followers, userId)) {
+            setButtonState(UNFOLLOW_BUTTON);
+          } else {
+            setButtonState(FOLLOW_BUTTON);
+          }
           setIsLoading(false);
         } else {
           alert(`failed to get user's stats`);
         }
       });
-  }, []);
+  };
 
   const checkFollowers = (followersList, userId) => {
     return followersList.includes(userId);
   };
 
   const followClicked = () => {
+    setIsLoading(true);
     let variables = {
       profileOwnerUserId: userData._id,
       followersList: followersList.concat(userId)
@@ -61,7 +74,8 @@ const ProfilePage = (props) => {
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers + 1);
-        setIsFollowing(true);
+        setButtonState(UNFOLLOW_BUTTON);
+        setIsLoading(false);
         console.log(response.data.profileUser);
       } else {
         alert('Failed to follow user');
@@ -70,6 +84,7 @@ const ProfilePage = (props) => {
   };
 
   const unfollowClicked = () => {
+    setIsLoading(true);
     let variables = {
       profileOwnerUserId: userData._id,
       followersList: followersList.filter((follower) => follower !== userId)
@@ -80,7 +95,8 @@ const ProfilePage = (props) => {
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers - 1);
-        setIsFollowing(false);
+        setButtonState(FOLLOW_BUTTON);
+        setIsLoading(false);
         console.log(response.data.profileUser);
       } else {
         alert('Failed to unfollow user');
@@ -161,15 +177,20 @@ const ProfilePage = (props) => {
               <h4 style={{ paddingRight: '24px' }}>
                 {userData.followers ? numberOfFollowers : '0'} followers
               </h4>
-              {isFollowing ? (
+
+              {isLoading ? (
+                <Button color='secondary' size='lg' disabled>
+                  LOADING...
+                </Button>
+              ) : !isLoading && buttonState === UNFOLLOW_BUTTON ? (
                 <Button color='secondary' size='lg' onClick={unfollowClicked}>
                   UNFOLLOW
                 </Button>
-              ) : (
+              ) : !isLoading && buttonState === FOLLOW_BUTTON ? (
                 <Button color='primary' size='lg' onClick={followClicked}>
                   FOLLOW
                 </Button>
-              )}
+              ) : null}
             </>
           )}
         </div>
@@ -189,11 +210,17 @@ const ProfilePage = (props) => {
               <MyPostsPage profilePageUserId={profilePageUserId} />
             </TabPane>
             <TabPane tabId='3'>
-              <FollowersPage followersList={followersList} />
+              <FollowersPage
+                followersList={followersList}
+                refreshFunction={getMyProfileInfo}
+              />
             </TabPane>
-            {/* <TabPane tabId='4'>
-              <FollowingPage followingList={followingList} />
-            </TabPane> */}
+            <TabPane tabId='4'>
+              <FollowingPage
+                followingList={followingList}
+                refreshFunction={getMyProfileInfo}
+              />
+            </TabPane>
             <TabPane tabId='5'>
               <NotificationsPage />
             </TabPane>
