@@ -183,7 +183,7 @@ router.post('/uploadFile', (req, res) => {
 // @desc    follow a user
 // @access  private
 router.post('/follow', auth, (req, res) => {
-  // Update profile owners followers list
+  // Update profile owner's followers list
   User.findOneAndUpdate(
     { _id: req.body.profileOwnerUserId },
     {
@@ -194,7 +194,7 @@ router.post('/follow', auth, (req, res) => {
       if (err) return res.json({ success: false, err });
       // return res.status(200).json({ success: true, user });
 
-      // Update users following list
+      // Update the users following list to add profile owner as following
       let newFollowingList = [];
       let oldFollowingList = req.user.following;
       if (oldFollowingList.includes(req.body.profileOwnerUserId)) {
