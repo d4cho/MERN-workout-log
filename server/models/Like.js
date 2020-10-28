@@ -8,7 +8,8 @@ const likeSchema = mongoose.Schema(
       ref: 'User'
     },
     postId: {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: 'Post'
     },
     commentId: {
       type: Schema.Types.ObjectId,

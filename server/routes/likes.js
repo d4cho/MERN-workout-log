@@ -60,7 +60,15 @@ router.post('/uplike', (req, res) => {
     // in case dislike is already clicked by user, need to remove from dislike
     Dislike.findOneAndDelete(variables).exec((err, dislikeResult) => {
       if (err) return res.status(400).json({ success: false, err });
-      return res.status(200).json({ success: true });
+
+      Like.find({ _id: doc._id })
+        .populate('postId')
+        .exec((err, likeInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true, likeInfo });
+        });
+
+      // return res.status(200).json({ success: true, likeInfo });
     });
   });
 });

@@ -7,6 +7,7 @@ import {
   AiOutlineLike,
   AiOutlineDislike
 } from 'react-icons/ai';
+import notificationHandler from '../../utils/notificationHandler';
 
 const LikeDislike = (props) => {
   // state and functions for tooltip
@@ -79,8 +80,16 @@ const LikeDislike = (props) => {
       // like button was not clicked yet
       axios.post('/api/likes/uplike', variables).then((response) => {
         if (response.data.success) {
+          console.log('likeInfo', response.data.likeInfo);
           setLikes(likes + 1);
           setLikeAction('liked');
+
+          notificationHandler(
+            'like',
+            response.data.likeInfo[0].postId._id,
+            props.userId,
+            response.data.likeInfo[0].postId.writer
+          );
 
           // if dislike button was already clicked
           if (dislikeAction !== null) {

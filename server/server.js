@@ -27,6 +27,7 @@ app.use('/api/posts', require('./routes/posts'));
 app.use('/api/favorites', require('./routes/favorites'));
 app.use('/api/likes', require('./routes/likes'));
 app.use('/api/comments', require('./routes/comments'));
+app.use('/api/notifications', require('./routes/notifications'));
 
 //To show the image in node js server to client (react js)
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
