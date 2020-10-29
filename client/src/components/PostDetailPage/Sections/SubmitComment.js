@@ -79,7 +79,7 @@ const SubmitComment = (props) => {
             <ProfilePic
               width={'48px'}
               height={'48px'}
-              image={user.userData.image}
+              image={user.userData && user.userData.image}
             />
             <Input
               type='textarea'
