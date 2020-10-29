@@ -47,7 +47,7 @@ const ProfilePage = (props) => {
           setFollowingList(response.data.user.following);
           setNumberOfFollowers(response.data.user.followers.length);
           setNumberOfFollowing(response.data.user.following.length);
-          setNotifications(response.data.user.notifications);
+          setNotifications(response.data.user.notifications.reverse());
           if (checkFollowers(response.data.user.followers, userId)) {
             setButtonState(UNFOLLOW_BUTTON);
           } else {
