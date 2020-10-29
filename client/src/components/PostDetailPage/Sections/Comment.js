@@ -77,7 +77,11 @@ const Comment = (props) => {
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ paddingRight: '12px' }}>
-            <LikeDislike useId={userId} commentId={props.commentId} />
+            <LikeDislike
+              useId={userId}
+              commentId={props.commentId}
+              fromComment
+            />
           </div>
           <Button outline color='secondary' onClick={onReplyClicked}>
             REPLY
