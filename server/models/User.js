@@ -56,6 +56,10 @@ const userSchema = new Schema(
     following: {
       type: Array,
       default: []
+    },
+    notifications: {
+      type: Array,
+      default: []
     }
   },
   { timestamps: true }

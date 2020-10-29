@@ -22,6 +22,7 @@ const ProfilePage = (props) => {
   const [followingList, setFollowingList] = useState([]);
   const [numberOfFollowers, setNumberOfFollowers] = useState(0);
   const [numberOfFollowing, setNumberOfFollowing] = useState(0);
+  const [notifications, setNotifications] = useState([]);
   const [buttonState, setButtonState] = useState(DISABLE_BUTTON);
 
   const profilePageUserId = props.match.params.userId;
@@ -46,6 +47,7 @@ const ProfilePage = (props) => {
           setFollowingList(response.data.user.following);
           setNumberOfFollowers(response.data.user.followers.length);
           setNumberOfFollowing(response.data.user.following.length);
+          setNotifications(response.data.user.notifications);
           if (checkFollowers(response.data.user.followers, userId)) {
             setButtonState(UNFOLLOW_BUTTON);
           } else {
@@ -222,7 +224,7 @@ const ProfilePage = (props) => {
               />
             </TabPane>
             <TabPane tabId='5'>
-              <NotificationsPage />
+              <NotificationsPage notificationsList={notifications} />
             </TabPane>
           </>
         )}

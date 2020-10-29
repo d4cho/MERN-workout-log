@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Notification = require('../models/Notification');
+const User = require('../models/User');
 const auth = require('../middleware/auth');
 const { json } = require('body-parser');
 
@@ -9,7 +10,7 @@ const { json } = require('body-parser');
 //             Notification
 //=================================
 
-// @route   POST posts/createNotification
+// @route   POST notifications/createNotification
 // @desc    create a notification
 // @access  public
 router.post('/createNotification', (req, res) => {
@@ -32,11 +33,30 @@ router.post('/createNotification', (req, res) => {
 
   notification.save((err, notification) => {
     if (err) return res.json({ success: false, err });
-    return res.json({
-      success: true,
-      notification
-    });
+
+    // need to update User notifications array
+    User.findOneAndUpdate(
+      { _id: req.body.notificationToUserId },
+      { $push: { notifications: notification._id } },
+      { new: true },
+      (err, user) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.json({ success: true, notification });
+      }
+    );
   });
+});
+
+// @route   POST notifications/getNotifications
+// @desc    get a notification
+// @access  private
+router.post('/getNotifications', auth, (req, res) => {
+  Notification.findOne({ _id: req.body.notificationId })
+    .populate('notificationFromUserId', 'username')
+    .exec((err, notification) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, notification });
+    });
 });
 
 module.exports = router;
