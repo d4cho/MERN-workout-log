@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const commentSchema = mongoose.Schema(
   {
     postId: {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: 'Post'
     },
     replyToCommentId: {
       type: Schema.Types.ObjectId,

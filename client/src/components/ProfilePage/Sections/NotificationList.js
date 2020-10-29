@@ -103,12 +103,15 @@ const NotificationList = (props) => {
 
       case 'newComment':
         return (
-          <div style={notificationStyle}>
+          <a
+            href={`/posts/${notificationURL}`}
+            style={notificationStyle}
+            onClick={notificationClickedHandler}>
             <h2>
               {seenByUser ? null : <Badge color='primary'>New</Badge>}
               &nbsp;&nbsp;&nbsp;{notificationFrom} commented on your post!
             </h2>
-          </div>
+          </a>
         );
 
       case 'newFollower':

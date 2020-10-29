@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 import ProfilePic from '../../utils/ProfilePic';
 
+import notificationHandler from '../../utils/notificationHandler';
+
 const SubmitComment = (props) => {
   const user = useSelector((state) => state.user);
   const [showSubmit, setShowSubmit] = useState(false);
@@ -48,8 +50,20 @@ const SubmitComment = (props) => {
     axios.post('/api/comments/createComment', variables).then((response) => {
       if (response.data.success) {
         console.log(response.data.comment);
+        console.log(response.data.writerOfPost);
         setShowSubmit(false);
         setCommentToSubmit('');
+
+        if (!props.reply) {
+          // create a notification on server
+          notificationHandler(
+            'comment',
+            response.data.comment.postId,
+            userId,
+            response.data.writerOfPost[0].writer
+          );
+        }
+
         if (props.reply) {
           props.replySubmitted();
         }

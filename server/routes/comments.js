@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Comment = require('../models/Comment');
+const Post = require('../models/Post');
 const auth = require('../middleware/auth');
 
 //=================================
@@ -56,7 +57,13 @@ router.post('/createComment', auth, (req, res) => {
 
   comment.save((err, comment) => {
     if (err) return res.status(400).json({ success: false, err });
-    return res.status(200).json({ success: true, comment });
+
+    Post.find({ _id: req.body.postId })
+      .select('writer')
+      .exec((err, writerOfPost) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({ success: true, comment, writerOfPost });
+      });
   });
 });
 
