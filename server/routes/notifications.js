@@ -25,8 +25,8 @@ router.post('/createNotification', (req, res) => {
     dataToSubmit.commentId = req.body.commentId;
   } else if (req.body.likeId) {
     dataToSubmit.likeId = req.body.likeId;
-  } else if (req.body.dislikeId) {
-    dataToSubmit.dislikeId = req.body.dislikeId;
+  } else if (req.body.followedByUserId) {
+    dataToSubmit.followedByUserId = req.body.followedByUserId;
   }
 
   const notification = new Notification(dataToSubmit);

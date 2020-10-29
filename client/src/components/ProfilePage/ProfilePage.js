@@ -10,6 +10,8 @@ import NotificationsPage from './Sections/NotificationsPage';
 import FollowersPage from './Sections/FollowersPage';
 import FollowingPage from './Sections/FollowingPage';
 
+import notificationHandler from '../utils/notificationHandler';
+
 const FOLLOW_BUTTON = 'FOLLOW_BUTTON';
 const UNFOLLOW_BUTTON = 'UNFOLLOW_BUTTON';
 const DISABLE_BUTTON = 'DISABLE_BUTTON';
@@ -79,6 +81,9 @@ const ProfilePage = (props) => {
         setButtonState(UNFOLLOW_BUTTON);
         setIsLoading(false);
         console.log(response.data.profileUser);
+
+        // create a notification on server
+        notificationHandler('follow', userId, userId, profilePageUserId);
       } else {
         alert('Failed to follow user');
       }
