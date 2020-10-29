@@ -84,12 +84,15 @@ const LikeDislike = (props) => {
           setLikes(likes + 1);
           setLikeAction('liked');
 
-          notificationHandler(
-            'like',
-            response.data.likeInfo[0].postId._id,
-            props.userId,
-            response.data.likeInfo[0].postId.writer
-          );
+          if (!props.fromComment) {
+            // create a notification on server
+            notificationHandler(
+              'like',
+              response.data.likeInfo[0].postId._id,
+              props.userId,
+              response.data.likeInfo[0].postId.writer
+            );
+          }
 
           // if dislike button was already clicked
           if (dislikeAction !== null) {
