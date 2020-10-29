@@ -149,7 +149,11 @@ const MyStatsPage = (props) => {
           width='240px'
           height='240px'
           image={image}
-          userId={userId}
+          userId={
+            props.profilePageUserId === userId
+              ? userId
+              : props.profilePageUserId
+          }
         />
         <br />
         <h4>Current Body Weight:</h4>
