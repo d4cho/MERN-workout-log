@@ -17,15 +17,15 @@ const notificationSchema = mongoose.Schema(
     },
     commentId: {
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
+      ref: 'Post'
     },
     likeId: {
       type: Schema.Types.ObjectId,
-      ref: 'Like'
+      ref: 'Post'
     },
     dislikeId: {
       type: Schema.Types.ObjectId,
-      ref: 'Dislike'
+      ref: 'Post'
     },
     followedByUserId: {
       type: Schema.Types.ObjectId,
