@@ -128,11 +128,7 @@ const NotificationList = (props) => {
         );
 
       default:
-        return (
-          <div style={notificationStyle}>
-            <h2>No new notifications</h2>
-          </div>
-        );
+        return null;
     }
   };
 
