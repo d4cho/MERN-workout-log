@@ -6,6 +6,7 @@ import axios from 'axios';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import UploadMedia from './UploadMedia';
+import notificationHandler from '../../utils/notificationHandler';
 
 const CreatePostPage = (props) => {
   const [title, setTitle] = useState('');
@@ -50,6 +51,18 @@ const CreatePostPage = (props) => {
       if (response.data.success) {
         setIsloading(false);
         console.log(response.data.post);
+        console.log(response.data.followers);
+
+        // post creater may have multiple followers to notify
+        for (const follower of response.data.followers) {
+          notificationHandler(
+            'post',
+            response.data.post._id,
+            response.data.post.writer,
+            follower
+          );
+        }
+
         props.history.push('/posts');
       } else {
         alert('failed to upload post');

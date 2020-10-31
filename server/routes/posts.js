@@ -16,6 +16,8 @@ const { json } = require('body-parser');
 router.post('/createPost', auth, (req, res) => {
   const { title, description, category, images, videos } = req.body;
 
+  const followers = req.user.followers;
+
   let dataToSubmit = {
     writer: req.user._id,
     userId: req.user._id,
@@ -33,6 +35,7 @@ router.post('/createPost', auth, (req, res) => {
     return res.json({
       success: true,
       post,
+      followers,
       msg: 'Post successfully uploaded!'
     });
   });
