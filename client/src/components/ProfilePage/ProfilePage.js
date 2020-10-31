@@ -229,7 +229,22 @@ const ProfilePage = (props) => {
               />
             </TabPane>
             <TabPane tabId='5'>
-              <NotificationsPage notificationsList={notifications} />
+              {notifications.length > 0 ? (
+                <NotificationsPage notificationsList={notifications} />
+              ) : (
+                <div
+                  style={{
+                    padding: '24px',
+                    width: '70%',
+                    backgroundColor: '#F5F5F5',
+                    border: '1px solid blue',
+                    margin: 'auto',
+                    marginTop: '24px',
+                    textDecoration: 'none'
+                  }}>
+                  <h2>You have no new notifications</h2>
+                </div>
+              )}
             </TabPane>
           </>
         )}
