@@ -60,6 +60,8 @@ const ProfilePage = (props) => {
           setNumberOfFollowing(response.data.user.following.length);
           setNotifications(response.data.user.notifications.reverse());
 
+          checkNumberOfNewNotifications(response.data.user.notifications);
+
           // check for new(unread) notifications and store number in state
           // NEED TO FIND A WAY TO CHECK UNREAD NOTIFICATIONS!!!!!!!!!!!!
           // maybe
@@ -79,6 +81,18 @@ const ProfilePage = (props) => {
           alert(`failed to get user's stats`);
         }
       });
+  };
+
+  const checkNumberOfNewNotifications = (notificationsList) => {
+    let count = 0;
+
+    for (const notification of notificationsList) {
+      if (!notification.seenByUser) {
+        count++;
+      }
+    }
+
+    setNewNotifications(count);
   };
 
   const checkFollowers = (followersList, userId) => {
@@ -192,11 +206,11 @@ const ProfilePage = (props) => {
                     toggle('5');
                   }}>
                   Notifications
-                  {/* {newNotifications > 0 && (
+                  {newNotifications > 0 && (
                     <Badge color='primary' style={{ marginLeft: '12px' }}>
                       {newNotifications}
                     </Badge>
-                  )} */}
+                  )}
                 </NavLink>
               </NavItem>
             </>
