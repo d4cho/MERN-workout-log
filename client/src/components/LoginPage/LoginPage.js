@@ -11,12 +11,14 @@ import {
   FormFeedback
 } from 'reactstrap';
 import './LoginPage.css';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailChangeHandler = (e) => {
     setEmail(e.currentTarget.value);
@@ -29,6 +31,8 @@ const LoginPage = (props) => {
   const handleSubmit = () => {
     console.log('submitted!');
 
+    setIsLoading(true);
+
     const userInfo = {
       email,
       password
@@ -38,6 +42,7 @@ const LoginPage = (props) => {
       if (response.payload.success) {
         setEmail('');
         setPassword('');
+        setIsLoading(false);
         window.location.href = '/';
       }
     });
@@ -46,36 +51,40 @@ const LoginPage = (props) => {
   return (
     <div className='container'>
       <h1 style={{ marginBottom: '48px' }}>Log In</h1>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for='email'>Email</Label>
-          <Input
-            type='email'
-            name='email'
-            id='email'
-            bsSize='lg'
-            value={email}
-            onChange={emailChangeHandler}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='password'>Password</Label>
-          <Input
-            type='password'
-            name='password'
-            id='password'
-            bsSize='lg'
-            value={password}
-            onChange={passwordChangeHandler}
-          />
-        </FormGroup>
-        <Button
-          style={{ marginTop: '24px' }}
-          color='success'
-          onClick={handleSubmit}>
-          Log me in!
-        </Button>
-      </Form>
+      {isLoading ? (
+        <PulseLoader size={25} color={'#0000FF'} />
+      ) : (
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Label for='email'>Email</Label>
+            <Input
+              type='email'
+              name='email'
+              id='email'
+              bsSize='lg'
+              value={email}
+              onChange={emailChangeHandler}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for='password'>Password</Label>
+            <Input
+              type='password'
+              name='password'
+              id='password'
+              bsSize='lg'
+              value={password}
+              onChange={passwordChangeHandler}
+            />
+          </FormGroup>
+          <Button
+            style={{ marginTop: '24px' }}
+            color='success'
+            onClick={handleSubmit}>
+            Log me in!
+          </Button>
+        </Form>
+      )}
     </div>
   );
 };
