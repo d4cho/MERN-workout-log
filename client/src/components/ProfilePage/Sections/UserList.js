@@ -96,7 +96,7 @@ const UserList = (props) => {
 
   const onRemoveCancel = () => {};
 
-  console.log(userProfileInfo, props, isLoading, numberOfFollowers);
+  // console.log(userProfileInfo, props, isLoading, numberOfFollowers);
 
   return (
     <div

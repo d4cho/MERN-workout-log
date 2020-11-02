@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  Badge
+} from 'reactstrap';
 import classnames from 'classnames';
 
 import PulseLoader from 'react-spinners/PulseLoader';
@@ -26,6 +34,7 @@ const ProfilePage = (props) => {
   const [numberOfFollowing, setNumberOfFollowing] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [buttonState, setButtonState] = useState(DISABLE_BUTTON);
+  const [newNotifications, setNewNotifications] = useState(0);
 
   const profilePageUserId = props.match.params.userId;
   const userId = localStorage.getItem('userId');
@@ -50,11 +59,21 @@ const ProfilePage = (props) => {
           setNumberOfFollowers(response.data.user.followers.length);
           setNumberOfFollowing(response.data.user.following.length);
           setNotifications(response.data.user.notifications.reverse());
+
+          // check for new(unread) notifications and store number in state
+          // NEED TO FIND A WAY TO CHECK UNREAD NOTIFICATIONS!!!!!!!!!!!!
+          // maybe
+          // populate notifications with mongoose and check seenByUser
+          // then
+          // send populated notifications array to NotificationsPage
+          // https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
+
           if (checkFollowers(response.data.user.followers, userId)) {
             setButtonState(UNFOLLOW_BUTTON);
           } else {
             setButtonState(FOLLOW_BUTTON);
           }
+
           setIsLoading(false);
         } else {
           alert(`failed to get user's stats`);
@@ -173,6 +192,11 @@ const ProfilePage = (props) => {
                     toggle('5');
                   }}>
                   Notifications
+                  {/* {newNotifications > 0 && (
+                    <Badge color='primary' style={{ marginLeft: '12px' }}>
+                      {newNotifications}
+                    </Badge>
+                  )} */}
                 </NavLink>
               </NavItem>
             </>

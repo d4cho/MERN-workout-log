@@ -44,7 +44,7 @@ const NotificationList = (props) => {
       });
   }, []);
 
-  console.log(notificationFrom, notificationType, seenByUser);
+  // console.log(notificationFrom, notificationType, seenByUser);
 
   const checkNotificationType = (notificationInfo) => {
     if (Object.keys(notificationInfo).includes('likeId')) {
