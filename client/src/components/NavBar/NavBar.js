@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { logoutUser } from '../../redux/actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -18,6 +19,23 @@ const NavBar = (props) => {
   const user = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const userId = localStorage.getItem('userId');
+  const [isNewNotification, setIsNewNotification] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`/api/users/getMyProfileInfo?userId=${userId}`)
+      .then((response) => {
+        if (response.data.success) {
+          for (const notification of response.data.user.notifications) {
+            if (!notification.seenByUser) {
+              setIsNewNotification(true);
+            }
+          }
+        } else {
+          alert(`failed to get user's stats`);
+        }
+      });
+  }, []);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -56,6 +74,8 @@ const NavBar = (props) => {
                     height={'48px'}
                     image={user.userData.image}
                     userId={userId}
+                    fromNavbar={true}
+                    isNewNotification={isNewNotification}
                   />
                   <NavLink href={`/myprofile/${user.userData._id}`}>
                     My Profile

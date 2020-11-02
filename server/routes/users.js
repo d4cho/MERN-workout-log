@@ -135,6 +135,16 @@ router.post('/setStats', (req, res) => {
 router.get('/getMyProfileInfo', (req, res) => {
   User.findOne({ _id: req.query.userId })
     .select('-password -token -tokenExp') // to exclude from response
+    // .use this method of mongoose populate to populate nested objects
+    .populate({
+      path: 'notifications',
+      model: 'Notification',
+      populate: {
+        path: 'notificationFromUserId',
+        model: 'User',
+        select: 'username'
+      }
+    })
     .exec((err, user) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, user });

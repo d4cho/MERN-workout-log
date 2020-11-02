@@ -13,38 +13,23 @@ const notificationStyle = {
 };
 
 const NotificationList = (props) => {
+  console.log('notification info', props.notification);
+
   const [notificationURL, setNotificationURL] = useState('');
   const [notificationType, setNotificationType] = useState('');
   const [notificationFrom, setNotificationFrom] = useState('');
   const [seenByUser, setSeenByUser] = useState(false);
 
   const variables = {
-    notificationId: props.notificationId
+    notificationId: props.notification._id
   };
 
   useEffect(() => {
-    axios
-      .post('/api/notifications/getNotifications', variables)
-      .then((response) => {
-        if (response.data.success) {
-          console.log(response.data.notification);
-
-          setNotificationFrom(
-            response.data.notification.notificationFromUserId.username
-          );
-          setSeenByUser(response.data.notification.seenByUser);
-
-          // check what type of notification
-          setNotificationType(
-            checkNotificationType(response.data.notification)
-          );
-        } else {
-          alert('failed to get notification');
-        }
-      });
+    setNotificationURL(props.notification._id);
+    setNotificationType(checkNotificationType(props.notification));
+    setNotificationFrom(props.notification.notificationFromUserId.username);
+    setSeenByUser(props.notification.seenByUser);
   }, []);
-
-  // console.log(notificationFrom, notificationType, seenByUser);
 
   const checkNotificationType = (notificationInfo) => {
     if (Object.keys(notificationInfo).includes('likeId')) {

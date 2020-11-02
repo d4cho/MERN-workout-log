@@ -38,8 +38,7 @@ const LoginPage = (props) => {
       if (response.payload.success) {
         setEmail('');
         setPassword('');
-
-        props.history.push('/');
+        window.location.href = '/';
       }
     });
   };

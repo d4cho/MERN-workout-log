@@ -57,10 +57,12 @@ const userSchema = new Schema(
       type: Array,
       default: []
     },
-    notifications: {
-      type: Array,
-      default: []
-    }
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Notification'
+      }
+    ]
   },
   { timestamps: true }
 );
