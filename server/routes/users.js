@@ -62,16 +62,23 @@ router.post('/login', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     // If user with email is not found...
     if (!user)
-      return res
-        .status(400)
-        .json({ success: false, msg: 'User not found. Verify email' });
+      return (
+        res
+          // .status(400)
+          .json({
+            success: false,
+            emailErrorMsg: 'User not found. Verify email'
+          })
+      );
 
     // If user is found but password is incorrect...
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
-        return res
-          .status(400)
-          .json({ success: false, msg: 'Incorrect password' });
+        return (
+          res
+            // .status(400)
+            .json({ success: false, passwordErrorMsg: 'Incorrect password' })
+        );
 
       // user is found and password is correct, generate token
       user.generateToken((err, user) => {

@@ -31,9 +31,14 @@ export const loginUser = (userInfo) => {
   const request = axios
     .post(`${USER_SERVER}/login`, userInfo)
     .then((response) => {
-      console.log(response.data);
-      localStorage.setItem('userId', response.data.userId);
-      return response.data;
+      if (response.data.success) {
+        console.log(response.data);
+        localStorage.setItem('userId', response.data.userId);
+        return response.data;
+      } else {
+        console.log(response.data.msg);
+        return response.data;
+      }
     });
 
   return {
