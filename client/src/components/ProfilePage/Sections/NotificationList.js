@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Badge } from 'reactstrap';
+import { Badge, Button, Tooltip } from 'reactstrap';
+
+const notificationParentStyle = {
+  display: 'flex',
+  width: '100%',
+  justifyContent: 'center',
+  alignItems: 'center'
+};
 
 const notificationStyle = {
   padding: '24px',
@@ -19,6 +26,10 @@ const NotificationList = (props) => {
   const [notificationType, setNotificationType] = useState('');
   const [notificationFrom, setNotificationFrom] = useState('');
   const [seenByUser, setSeenByUser] = useState(false);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   const variables = {
     notificationId: props.notification._id
@@ -61,58 +72,131 @@ const NotificationList = (props) => {
       });
   };
 
+  const removeNotification = () => {
+    axios
+      .post('/api/notifications/removeNotification', variables)
+      .then((response) => {
+        if (response.data.success) {
+          console.log('notification removed');
+          props.refreshFunction();
+        } else {
+          alert('Failed to remove notification');
+        }
+      });
+  };
+
   const renderNotification = () => {
     switch (notificationType) {
       case 'newLike':
         return (
-          <a
-            href={`/posts/${notificationURL}`}
-            style={notificationStyle}
-            onClick={notificationClickedHandler}>
-            <h2>
-              {seenByUser ? null : <Badge color='primary'>New</Badge>}
-              &nbsp;&nbsp;&nbsp;{notificationFrom} liked your post!
-            </h2>
-          </a>
+          <div style={notificationParentStyle}>
+            <a
+              href={`/posts/${notificationURL}`}
+              style={notificationStyle}
+              onClick={notificationClickedHandler}>
+              <h2>
+                {seenByUser ? null : <Badge color='primary'>New</Badge>}
+                &nbsp;&nbsp;&nbsp;{notificationFrom} liked your post!
+              </h2>
+            </a>
+            <Button
+              color='danger'
+              id='removeTooltip'
+              onClick={removeNotification}>
+              <Tooltip
+                placement='right'
+                isOpen={tooltipOpen}
+                target='removeTooltip'
+                toggle={toggle}>
+                Remove notification
+              </Tooltip>
+              &#10005;
+            </Button>
+          </div>
         );
 
       case 'newPost':
         return (
-          <a
-            href={`/posts/${notificationURL}`}
-            style={notificationStyle}
-            onClick={notificationClickedHandler}>
-            <h2>
-              {seenByUser ? null : <Badge color='primary'>New</Badge>}
-              &nbsp;&nbsp;&nbsp;{notificationFrom} created a new post!
-            </h2>
-          </a>
+          <div style={notificationParentStyle}>
+            <a
+              href={`/posts/${notificationURL}`}
+              style={notificationStyle}
+              onClick={notificationClickedHandler}>
+              <h2>
+                {seenByUser ? null : <Badge color='primary'>New</Badge>}
+                &nbsp;&nbsp;&nbsp;{notificationFrom} created a new post!
+              </h2>
+            </a>
+            <Button
+              color='danger'
+              id='removeTooltip'
+              onClick={removeNotification}>
+              <Tooltip
+                placement='right'
+                isOpen={tooltipOpen}
+                target='removeTooltip'
+                toggle={toggle}>
+                Remove notification
+              </Tooltip>
+              &#10005;
+            </Button>
+          </div>
         );
 
       case 'newComment':
         return (
-          <a
-            href={`/posts/${notificationURL}`}
-            style={notificationStyle}
-            onClick={notificationClickedHandler}>
-            <h2>
-              {seenByUser ? null : <Badge color='primary'>New</Badge>}
-              &nbsp;&nbsp;&nbsp;{notificationFrom} commented on your post!
-            </h2>
-          </a>
+          <div style={notificationParentStyle}>
+            <a
+              href={`/posts/${notificationURL}`}
+              style={notificationStyle}
+              onClick={notificationClickedHandler}>
+              <h2>
+                {seenByUser ? null : <Badge color='primary'>New</Badge>}
+                &nbsp;&nbsp;&nbsp;{notificationFrom} commented on your post!
+              </h2>
+            </a>
+            <Button
+              color='danger'
+              id='removeTooltip'
+              onClick={removeNotification}>
+              <Tooltip
+                placement='right'
+                isOpen={tooltipOpen}
+                target='removeTooltip'
+                toggle={toggle}>
+                Remove notification
+              </Tooltip>
+              &#10005;
+            </Button>
+          </div>
         );
 
       case 'newFollower':
         return (
-          <a
-            href={`/myprofile/${notificationURL}`}
-            style={notificationStyle}
-            onClick={notificationClickedHandler}>
-            <h2>
-              {seenByUser ? null : <Badge color='primary'>New</Badge>}
-              &nbsp;&nbsp;&nbsp;{notificationFrom} started following you!
-            </h2>
-          </a>
+          <div style={notificationParentStyle}>
+            <a
+              href={`/myprofile/${notificationURL}`}
+              style={notificationStyle}
+              onClick={notificationClickedHandler}>
+              <h2>
+                {seenByUser ? null : <Badge color='primary'>New</Badge>}
+                &nbsp;&nbsp;&nbsp;{notificationFrom} started following you!
+              </h2>
+            </a>
+            <Button
+              color='danger'
+              id='removeTooltip'
+              onClick={removeNotification}>
+              <Tooltip
+                placement='right'
+                isOpen={tooltipOpen}
+                target='removeTooltip'
+                toggle={toggle}>
+                Remove notification
+              </Tooltip>
+              &#10005;
+            </Button>
+          </div>
         );
 
       default:

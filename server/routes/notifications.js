@@ -73,4 +73,31 @@ router.post('/updateNotificationSeen', auth, (req, res) => {
   );
 });
 
+// @route   POST notifications/removeNotification
+// @desc    remove a notification
+// @access  private
+router.post('/removeNotification', auth, (req, res) => {
+  // delete notification
+  Notification.findByIdAndDelete({ _id: req.body.notificationId }).exec(
+    (err, doc) => {
+      if (err) return res.status(400).json({ success: false, err });
+
+      // update notification list for user
+      let newNotifications = req.user.notifications.filter(
+        (notification) => notification !== req.body.notificationId
+      );
+
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        // $pull operator used to delete ObjectId from array (mongoose)
+        { $pull: { notifications: req.body.notificationId } },
+        (err, user) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true });
+        }
+      );
+    }
+  );
+});
+
 module.exports = router;

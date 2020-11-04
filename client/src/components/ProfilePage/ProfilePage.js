@@ -268,7 +268,10 @@ const ProfilePage = (props) => {
             </TabPane>
             <TabPane tabId='5'>
               {notifications.length > 0 ? (
-                <NotificationsPage notificationsList={notifications} />
+                <NotificationsPage
+                  notificationsList={notifications}
+                  refreshFunction={getMyProfileInfo}
+                />
               ) : (
                 <div
                   style={{
