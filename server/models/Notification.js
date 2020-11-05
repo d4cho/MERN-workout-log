@@ -19,6 +19,9 @@ const notificationSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Post'
     },
+    commentContent: {
+      type: String
+    },
     likeId: {
       type: Schema.Types.ObjectId,
       ref: 'Post'

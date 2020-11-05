@@ -174,7 +174,7 @@ const NotificationList = (props) => {
               <a
                 href={`/posts/${notificationURL}`}
                 onClick={notificationClickedHandler}>
-                {`${notificationFrom} commented on your post, <${props.notification.commentId.title}>.`}
+                {`${notificationFrom} commented: "${props.notification.commentContent}" on your post, <${props.notification.commentId.title}>.`}
               </a>
             </h2>
             <Button

@@ -23,6 +23,7 @@ router.post('/createNotification', (req, res) => {
     dataToSubmit.postId = req.body.postId;
   } else if (req.body.commentId) {
     dataToSubmit.commentId = req.body.commentId;
+    dataToSubmit.commentContent = req.body.commentContent;
   } else if (req.body.likeId) {
     dataToSubmit.likeId = req.body.likeId;
   } else if (req.body.followedByUserId) {
