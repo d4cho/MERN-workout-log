@@ -50,14 +50,14 @@ router.post('/createNotification', (req, res) => {
 // @route   POST notifications/getNotifications
 // @desc    get a notification
 // @access  private
-router.post('/getNotifications', auth, (req, res) => {
-  Notification.findOne({ _id: req.body.notificationId })
-    .populate('notificationFromUserId', 'username')
-    .exec((err, notification) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res.status(200).json({ success: true, notification });
-    });
-});
+// router.post('/getNotifications', auth, (req, res) => {
+//   Notification.findOne({ _id: req.body.notificationId })
+//     .populate('notificationFromUserId')
+//     .exec((err, notification) => {
+//       if (err) return res.status(400).json({ success: false, err });
+//       return res.status(200).json({ success: true, notification });
+//     });
+// });
 
 // @route   POST notifications/updateNotificationSeen
 // @desc    update notification seen
@@ -83,10 +83,6 @@ router.post('/removeNotification', auth, (req, res) => {
       if (err) return res.status(400).json({ success: false, err });
 
       // update notification list for user
-      let newNotifications = req.user.notifications.filter(
-        (notification) => notification !== req.body.notificationId
-      );
-
       User.findOneAndUpdate(
         { _id: req.user._id },
         // $pull operator used to delete ObjectId from array (mongoose)
