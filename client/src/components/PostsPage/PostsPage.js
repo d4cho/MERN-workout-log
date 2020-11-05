@@ -315,11 +315,12 @@ const PostsPage = (props) => {
       <br />
       <br />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button
+        <Button
+          color='primary'
           // ref={buttonRef}
           onClick={loadMoreClicked}>
           Load more posts
-        </button>
+        </Button>
       </div>
     </div>
   );
