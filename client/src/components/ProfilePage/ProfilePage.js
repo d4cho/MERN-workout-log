@@ -93,9 +93,15 @@ const ProfilePage = (props) => {
 
   const followClicked = () => {
     setIsLoading(true);
+    let newFollowersList = [];
+    if (followersList.includes(userId)) {
+      newFollowersList = followersList;
+    } else {
+      newFollowersList = followersList.concat(userId);
+    }
     let variables = {
       profileOwnerUserId: userData._id,
-      followersList: followersList.concat(userId)
+      followersList: newFollowersList
     };
 
     console.log(variables);
