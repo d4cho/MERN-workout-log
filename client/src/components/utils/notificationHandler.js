@@ -4,7 +4,8 @@ export default function (
   typeOfNotification,
   typeOfNotificationId,
   notificationFromUserId,
-  notificationToUserId
+  notificationToUserId,
+  commentContent
 ) {
   let variables = {};
 
@@ -21,7 +22,8 @@ export default function (
       variables = {
         notificationFromUserId,
         notificationToUserId,
-        commentId: typeOfNotificationId
+        commentId: typeOfNotificationId,
+        commentContent
       };
       break;
 

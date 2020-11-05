@@ -23,6 +23,7 @@ router.post('/createNotification', (req, res) => {
     dataToSubmit.postId = req.body.postId;
   } else if (req.body.commentId) {
     dataToSubmit.commentId = req.body.commentId;
+    dataToSubmit.commentContent = req.body.commentContent;
   } else if (req.body.likeId) {
     dataToSubmit.likeId = req.body.likeId;
   } else if (req.body.followedByUserId) {
@@ -50,14 +51,14 @@ router.post('/createNotification', (req, res) => {
 // @route   POST notifications/getNotifications
 // @desc    get a notification
 // @access  private
-router.post('/getNotifications', auth, (req, res) => {
-  Notification.findOne({ _id: req.body.notificationId })
-    .populate('notificationFromUserId', 'username')
-    .exec((err, notification) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res.status(200).json({ success: true, notification });
-    });
-});
+// router.post('/getNotifications', auth, (req, res) => {
+//   Notification.findOne({ _id: req.body.notificationId })
+//     .populate('notificationFromUserId')
+//     .exec((err, notification) => {
+//       if (err) return res.status(400).json({ success: false, err });
+//       return res.status(200).json({ success: true, notification });
+//     });
+// });
 
 // @route   POST notifications/updateNotificationSeen
 // @desc    update notification seen
@@ -69,6 +70,29 @@ router.post('/updateNotificationSeen', auth, (req, res) => {
     (err, doc) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true });
+    }
+  );
+});
+
+// @route   POST notifications/removeNotification
+// @desc    remove a notification
+// @access  private
+router.post('/removeNotification', auth, (req, res) => {
+  // delete notification
+  Notification.findByIdAndDelete({ _id: req.body.notificationId }).exec(
+    (err, doc) => {
+      if (err) return res.status(400).json({ success: false, err });
+
+      // update notification list for user
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        // $pull operator used to delete ObjectId from array (mongoose)
+        { $pull: { notifications: req.body.notificationId } },
+        (err, user) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true });
+        }
+      );
     }
   );
 });

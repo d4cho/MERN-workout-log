@@ -149,7 +149,27 @@ router.get('/getMyProfileInfo', (req, res) => {
       populate: {
         path: 'notificationFromUserId',
         model: 'User',
-        select: 'username'
+        select: 'username image'
+      }
+    })
+    // populate nested post title
+    .populate({
+      path: 'notifications',
+      model: 'Notification',
+      populate: {
+        path: 'postId',
+        model: 'Post',
+        select: 'title'
+      }
+    })
+    // populate nested post title for comment notifications
+    .populate({
+      path: 'notifications',
+      model: 'Notification',
+      populate: {
+        path: 'commentId',
+        model: 'Post',
+        select: 'title'
       }
     })
     .exec((err, user) => {

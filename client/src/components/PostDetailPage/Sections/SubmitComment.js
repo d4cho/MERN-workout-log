@@ -60,7 +60,8 @@ const SubmitComment = (props) => {
             'comment',
             response.data.comment.postId,
             userId,
-            response.data.writerOfPost[0].writer
+            response.data.writerOfPost[0].writer,
+            response.data.comment.content
           );
         }
 

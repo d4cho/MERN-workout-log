@@ -62,14 +62,6 @@ const ProfilePage = (props) => {
 
           checkNumberOfNewNotifications(response.data.user.notifications);
 
-          // check for new(unread) notifications and store number in state
-          // NEED TO FIND A WAY TO CHECK UNREAD NOTIFICATIONS!!!!!!!!!!!!
-          // maybe
-          // populate notifications with mongoose and check seenByUser
-          // then
-          // send populated notifications array to NotificationsPage
-          // https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
-
           if (checkFollowers(response.data.user.followers, userId)) {
             setButtonState(UNFOLLOW_BUTTON);
           } else {
@@ -268,7 +260,10 @@ const ProfilePage = (props) => {
             </TabPane>
             <TabPane tabId='5'>
               {notifications.length > 0 ? (
-                <NotificationsPage notificationsList={notifications} />
+                <NotificationsPage
+                  notificationsList={notifications}
+                  refreshFunction={getMyProfileInfo}
+                />
               ) : (
                 <div
                   style={{
