@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 
-const Totals = () => {
+const Totals = (props) => {
   return (
     <Table>
       <thead>
