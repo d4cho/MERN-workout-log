@@ -72,6 +72,7 @@ const StatisticsPage = () => {
       ) : (
         <>
           <Input
+            style={{ fontSize: '24px' }}
             type='select'
             name='exerciseName'
             id='exerciseName'
