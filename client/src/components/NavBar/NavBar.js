@@ -22,19 +22,21 @@ const NavBar = (props) => {
   const [isNewNotification, setIsNewNotification] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`/api/users/getMyProfileInfo?userId=${userId}`)
-      .then((response) => {
-        if (response.data.success) {
-          for (const notification of response.data.user.notifications) {
-            if (!notification.seenByUser) {
-              setIsNewNotification(true);
+    if (userId) {
+      axios
+        .get(`/api/users/getMyProfileInfo?userId=${userId}`)
+        .then((response) => {
+          if (response.data.success) {
+            for (const notification of response.data.user.notifications) {
+              if (!notification.seenByUser) {
+                setIsNewNotification(true);
+              }
             }
+          } else {
+            alert(`failed to get user's stats`);
           }
-        } else {
-          alert(`failed to get user's stats`);
-        }
-      });
+        });
+    }
   }, []);
 
   const toggle = () => setIsOpen(!isOpen);
