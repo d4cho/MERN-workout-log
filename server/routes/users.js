@@ -102,7 +102,10 @@ router.get('/logout', auth, (req, res) => {
     { token: '', tokenExp: '' },
     (err, user) => {
       if (err) return res.json({ success: false, err });
-      return res.status(200).json({ success: true });
+      // set auth cookies to empty strings
+      res.cookie('x_auth_exp', '');
+      res.cookie('x_auth', '').status(200).json({ success: true });
+      // return res.status(200).json({ success: true });
     }
   );
 });
