@@ -8,9 +8,9 @@
     "npm": "6.13.4"
   },
   "scripts": {
-    "server": "nodemon server/server.js",
+    "start": "nodemon server/server.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run start\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Daniel Cho",
