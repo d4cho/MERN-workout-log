@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/actions/userActions';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  FormFeedback
-} from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import './LoginPage.css';
 import PulseLoader from 'react-spinners/PulseLoader';
 
@@ -31,8 +23,6 @@ const LoginPage = (props) => {
   };
 
   const handleSubmit = () => {
-    console.log('submitted!');
-
     setIsLoading(true);
 
     const userInfo = {

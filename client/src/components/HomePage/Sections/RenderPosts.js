@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
-import {
-  Card,
-  Button,
-  CardImg,
-  CardTitle,
-  CardText,
-  CardBody,
-  Row,
-  Col,
-  Input
-} from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardTitle, CardText, CardBody, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { categories } from '../../PostsPage/Sections/CategoryData';
 import ProfilePic from '../../utils/ProfilePic';
 
 const RenderPosts = (props) => {
-  console.log(props.post);
   const renderPosts = props.posts.map((post) => {
     let categoryName = '';
     for (const category of categories) {

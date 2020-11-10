@@ -71,7 +71,6 @@ const userSchema = new Schema(
 userSchema.pre('save', function (next) {
   let user = this;
   if (user.isModified('password')) {
-    console.log('password changed');
     bcrypt.hash(user.password, saltRounds, function (err, hash) {
       if (err) return next(err);
       user.password = hash;

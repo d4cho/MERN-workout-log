@@ -30,7 +30,6 @@ const LogDetails = (props) => {
   };
 
   const yesClicked = () => {
-    console.log(props.id);
     let variables = {
       workoutId: props.id
     };

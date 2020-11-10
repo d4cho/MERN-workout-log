@@ -16,7 +16,6 @@ const PostDetailPage = (props) => {
   useEffect(() => {
     axios.get(`/api/posts/post_by_postId?postId=${postId}`).then((response) => {
       if (response.data.success) {
-        console.log(response.data.post[0]);
         setPostInfo(response.data.post[0]);
       } else {
         alert('failed to get post from server');

@@ -15,8 +15,6 @@ const PostMedia = (props) => {
     });
   }
 
-  // console.log(props.images);
-  // console.log(props.video);
   return (
     <div>
       {props.images.length > 0 && (

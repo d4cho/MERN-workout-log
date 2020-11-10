@@ -10,7 +10,6 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { FaDumbbell } from 'react-icons/fa';
 import ProfilePic from '../utils/ProfilePic';
 

@@ -13,8 +13,6 @@ const auth = require('../middleware/auth');
 // @desc    create a comment
 // @access  private
 router.post('/getComments', (req, res) => {
-  console.log(req.body.replyToCommentId);
-
   let findParameters = {
     postId: req.body.postId
   };

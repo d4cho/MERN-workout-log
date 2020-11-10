@@ -264,7 +264,6 @@ router.post('/getUserProfileInfo', (req, res) => {
   User.findOne({ _id: req.body.userId })
     .select('-password -token -tokenExp') // to exclude from response
     .exec((err, user) => {
-      console.log(user);
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, user });
     });

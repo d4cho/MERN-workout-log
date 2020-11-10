@@ -15,7 +15,6 @@ const ProfilePicUpload = (props) => {
 
     axios.post('/api/users/uploadFile', formData, config).then((response) => {
       if (response.data.success) {
-        console.log(response.data);
         setImage([response.data.file]);
         props.refreshFunction(response.data.file);
       } else {
@@ -23,8 +22,6 @@ const ProfilePicUpload = (props) => {
       }
     });
   };
-
-  console.log(image);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

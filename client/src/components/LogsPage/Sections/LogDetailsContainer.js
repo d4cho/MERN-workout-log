@@ -13,7 +13,6 @@ const LogDetailsContainer = (props) => {
   useEffect(() => {
     axios.get('/api/workouts/getLogs').then((response) => {
       if (response.data.success) {
-        console.log(response.data.workouts);
         setLogs(response.data.workouts);
         setIsLoading(false);
       } else {

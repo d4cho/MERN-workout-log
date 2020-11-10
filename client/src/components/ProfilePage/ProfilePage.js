@@ -52,7 +52,6 @@ const ProfilePage = (props) => {
       .get(`/api/users/getMyProfileInfo?userId=${profilePageUserId}`)
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data.user);
           setUserData(response.data.user);
           setFollowersList(response.data.user.followers);
           setFollowingList(response.data.user.following);
@@ -104,14 +103,11 @@ const ProfilePage = (props) => {
       followersList: newFollowersList
     };
 
-    console.log(variables);
-
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers + 1);
         setButtonState(UNFOLLOW_BUTTON);
         setIsLoading(false);
-        console.log(response.data.profileUser);
 
         // create a notification on server
         notificationHandler('follow', userId, userId, profilePageUserId);
@@ -128,14 +124,11 @@ const ProfilePage = (props) => {
       followersList: followersList.filter((follower) => follower !== userId)
     };
 
-    console.log(variables);
-
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers - 1);
         setButtonState(FOLLOW_BUTTON);
         setIsLoading(false);
-        console.log(response.data.profileUser);
       } else {
         alert('Failed to unfollow user');
       }

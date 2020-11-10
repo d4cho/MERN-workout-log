@@ -16,7 +16,6 @@ const SubmitComment = (props) => {
 
   const onTextareaClicked = () => {
     setShowSubmit(true);
-    console.log(props.commentId);
   };
 
   const onCancelClicked = () => {
@@ -33,7 +32,6 @@ const SubmitComment = (props) => {
   };
 
   const onSubmit = () => {
-    console.log('onSubmit Clicked', commentToSubmit);
     let variables = {
       postId: props.postId,
       writer: userId,
@@ -49,8 +47,6 @@ const SubmitComment = (props) => {
 
     axios.post('/api/comments/createComment', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.comment);
-        console.log(response.data.writerOfPost);
         setShowSubmit(false);
         setCommentToSubmit('');
 

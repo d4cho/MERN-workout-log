@@ -15,11 +15,8 @@ export const registerUser = (userInfo) => {
   const request = axios
     .post(`${USER_SERVER}/register`, userInfo)
     .then((response) => {
-      console.log(response.data.user);
       return response.data;
     });
-
-  console.log(request);
 
   return {
     type: REGISTER_USER,
@@ -32,11 +29,9 @@ export const loginUser = (userInfo) => {
     .post(`${USER_SERVER}/login`, userInfo)
     .then((response) => {
       if (response.data.success) {
-        console.log(response.data);
         localStorage.setItem('userId', response.data.userId);
         return response.data;
       } else {
-        console.log(response.data.msg);
         return response.data;
       }
     });

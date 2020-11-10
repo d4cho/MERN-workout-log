@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import UserList from './UserList';
 
 const FollowersPage = (props) => {
-  console.log(props.followersList);
   const renderFollowersList = props.followersList.map((follower) => (
     <UserList
       key={follower}

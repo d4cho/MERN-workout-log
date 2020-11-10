@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -18,7 +18,6 @@ import ProfilePic from '../utils/ProfilePic';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 const PostsPage = (props) => {
-  // const buttonRef = useRef(null);
   const userId = localStorage.getItem('userId');
   const [posts, setPosts] = useState([]);
   const [skip, setSkip] = useState(0);
@@ -45,43 +44,13 @@ const PostsPage = (props) => {
     getPosts(variables);
   }, []);
 
-  // to enable loading posts on scroll down
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  // }, []);
-
-  // const handleScroll = () => {
-  //   const windowHeight =
-  //     'innerHeight' in window
-  //       ? window.innerHeight
-  //       : document.documentElement.offsetHeight;
-  //   const body = document.body;
-  //   const html = document.documentElement;
-  //   const docHeight = Math.max(
-  //     body.scrollHeight,
-  //     body.offsetHeight,
-  //     html.clientHeight,
-  //     html.scrollHeight,
-  //     html.offsetHeight
-  //   );
-  //   const windowBottom = windowHeight + window.pageYOffset;
-  //   if (windowBottom >= docHeight - 1) {
-  //     // loadMoreItems()
-  //     console.log('clicked');
-  //     buttonRef.current.click();
-  //   }
-  // };
-
   const getPosts = (variables) => {
     axios.post('/api/posts/getPosts', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.posts);
         if (variables.loadMore) {
-          console.log(response.data.posts);
           setPosts([...posts].concat(response.data.posts));
           setIsLoading(false);
         } else {
-          // console.log(response.data.posts);
           setPosts(response.data.posts);
           setIsLoading(false);
         }
@@ -117,7 +86,6 @@ const PostsPage = (props) => {
   };
 
   const handleFilterChange = (e) => {
-    console.log(e.currentTarget.value);
     let variables = {
       skip: 0,
       limit
@@ -156,7 +124,6 @@ const PostsPage = (props) => {
 
   const handleSearchChange = (e) => {
     setSearch(e.currentTarget.value);
-    console.log(e.currentTarget.value);
 
     let variables = {
       skip: 0,
@@ -177,10 +144,6 @@ const PostsPage = (props) => {
 
     getPosts(variables);
     setSkip(0);
-  };
-
-  const onPostClicked = (post) => {
-    console.log(post);
   };
 
   const handleSortByChange = (e) => {
@@ -217,7 +180,7 @@ const PostsPage = (props) => {
 
     return (
       <Col key={index} sm='12' md='6' lg='3' style={{ marginBottom: '24px' }}>
-        <Card onClick={() => onPostClicked(post)}>
+        <Card>
           <Link
             to={`/posts/${post._id}`}
             style={{ textDecoration: 'none', color: 'black' }}>

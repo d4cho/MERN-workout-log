@@ -96,10 +96,8 @@ const InputLogs = (props) => {
   );
 
   const onDeleteClicked = (index) => {
-    console.log(index);
     dispatch(deleteSet(index));
     if (workout.currentExercise.info.length < 2) {
-      console.log(workout.currentExercise.info.length, 'im in');
       dispatch(clearExercise());
       setShowCurrentExerciseTable(false);
       setShowExerciseNameInput(true);

@@ -19,7 +19,6 @@ const UserList = (props) => {
 
   useEffect(() => {
     if (props.userId) {
-      console.log('in here');
       let variables = {
         userId: props.userId
       };
@@ -30,7 +29,7 @@ const UserList = (props) => {
           if (response.data.success) {
             setUserProfileInfo(response.data.user);
             setNumberOfFollowers(response.data.user.followers.length);
-            console.log(response.data.user);
+
             buttonStateCheck(response.data.user);
             setIsLoading(false);
           } else {
@@ -55,12 +54,10 @@ const UserList = (props) => {
       followersList: userProfileInfo.followers.concat(userId)
     };
 
-    console.log(variables);
-
     axios.post('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers + 1);
-        console.log(response.data.profileUser);
+
         setButtonState(UNFOLLOW_BUTTON);
         setIsLoading(false);
         props.refreshFunction();
@@ -95,8 +92,6 @@ const UserList = (props) => {
   const onRemoveConfirm = () => {};
 
   const onRemoveCancel = () => {};
-
-  // console.log(userProfileInfo, props, isLoading, numberOfFollowers);
 
   return (
     <div

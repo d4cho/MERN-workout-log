@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  Button,
-  Card,
-  CardImg,
-  CardTitle,
-  CardText,
-  CardBody,
-  Row,
-  Col,
-  Input
-} from 'reactstrap';
+import { Button } from 'reactstrap';
 
 import PulseLoader from 'react-spinners/PulseLoader';
 import { FaDumbbell } from 'react-icons/fa';
@@ -30,7 +20,6 @@ const HomePage = () => {
   useEffect(() => {
     axios.post('/api/posts/getPosts', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.posts);
         setRecentPosts(response.data.posts);
         setRecentIsLoading(false);
       } else {
@@ -41,7 +30,6 @@ const HomePage = () => {
     variables.sortBy = 'popular';
     axios.post('/api/posts/getPosts', variables).then((response) => {
       if (response.data.success) {
-        console.log('popular', response.data.posts);
         setPopularPosts(response.data.posts);
         setPopularIsLoading(false);
       } else {

@@ -84,13 +84,6 @@ const Chart = (props) => {
       });
     }
   }
-  console.log(data);
-
-  if (data.length > 0) {
-    console.log(data[0].date);
-    console.log(props.exerciseStats[0].date);
-    console.log(moment(data[0].date).format('DD-MMM-YYYY'));
-  }
 
   return (
     <ResponsiveContainer width='100%' height='100%'>

@@ -37,11 +37,8 @@ const LikeDislike = (props) => {
   }
 
   useEffect(() => {
-    console.log(props);
-
     axios.post('/api/likes/getLikes', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.likes);
         // set the number of likes the post already has
         setLikes(response.data.likes.length);
 
@@ -58,7 +55,6 @@ const LikeDislike = (props) => {
 
     axios.post('/api/likes/getDislikes', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.dislikes);
         // set the number of dislikes the post already has
         setDislikes(response.data.dislikes.length);
 
@@ -75,12 +71,10 @@ const LikeDislike = (props) => {
   }, []);
 
   const likeClicked = () => {
-    console.log('like clicked');
     if (likeAction === null) {
       // like button was not clicked yet
       axios.post('/api/likes/uplike', variables).then((response) => {
         if (response.data.success) {
-          console.log('likeInfo', response.data.likeInfo);
           setLikes(likes + 1);
           setLikeAction('liked');
 
@@ -100,7 +94,7 @@ const LikeDislike = (props) => {
             setDislikes(dislikes - 1);
           }
         } else {
-          console.log('Failed to like post');
+          alert('Failed to like post');
         }
       });
     } else {
@@ -110,14 +104,13 @@ const LikeDislike = (props) => {
           setLikes(likes - 1);
           setLikeAction(null);
         } else {
-          console.log('Failed to unlike post');
+          alert('Failed to unlike post');
         }
       });
     }
   };
 
   const dislikeClicked = () => {
-    console.log('dislike clicked');
     if (dislikeAction === null) {
       axios.post('/api/likes/updislike', variables).then((response) => {
         if (response.data.success) {

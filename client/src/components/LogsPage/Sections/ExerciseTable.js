@@ -2,8 +2,6 @@ import React from 'react';
 import { Table, Button } from 'reactstrap';
 
 const ExerciseTable = (props) => {
-  console.log(props);
-
   const tableBody = props.exercise.info.map((data, index) => {
     return (
       <tr key={index}>

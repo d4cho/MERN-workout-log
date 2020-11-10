@@ -29,11 +29,10 @@ const FavoritePage = () => {
 
     axios.post('api/favorites/getFavorites', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.favorites);
         setPosts(response.data.favorites);
         setIsLoading(false);
       } else {
-        console.log('failed to get favorites info');
+        alert('failed to get favorites info');
       }
     });
   }, []);

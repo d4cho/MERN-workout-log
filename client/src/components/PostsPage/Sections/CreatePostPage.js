@@ -50,8 +50,6 @@ const CreatePostPage = (props) => {
     axios.post('/api/posts/createPost', dataToSubmit).then((response) => {
       if (response.data.success) {
         setIsloading(false);
-        console.log(response.data.post);
-        console.log(response.data.followers);
 
         // post creater may have multiple followers to notify
         for (const follower of response.data.followers) {

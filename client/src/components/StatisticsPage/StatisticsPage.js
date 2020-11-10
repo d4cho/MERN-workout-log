@@ -16,7 +16,6 @@ const StatisticsPage = () => {
   useEffect(() => {
     axios.get('/api/workouts/getLogs').then((response) => {
       if (response.data.success) {
-        console.log('data from server', response.data.workouts);
         setWorkout(response.data.workouts.reverse());
         setIsLoading(false);
       } else {
@@ -50,11 +49,8 @@ const StatisticsPage = () => {
     }
   });
 
-  console.log('exercise stats', exerciseStats);
-
   const targetExerciseChangeHandler = (e) => {
     setTargetExercise(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   return (

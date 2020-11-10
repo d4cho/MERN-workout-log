@@ -43,7 +43,6 @@ const Comment = (props) => {
   const getReplies = () => {
     axios.post('/api/comments/getComments', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.comments);
         setReplies(response.data.comments);
       } else {
         alert('failed to get replies');

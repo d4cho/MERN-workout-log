@@ -24,8 +24,6 @@ const notificationStyle = {
 };
 
 const NotificationList = (props) => {
-  console.log('notification info', props.notification);
-
   const [notificationURL, setNotificationURL] = useState('');
   const [notificationType, setNotificationType] = useState('');
   const [notificationFrom, setNotificationFrom] = useState('');
@@ -63,8 +61,6 @@ const NotificationList = (props) => {
   };
 
   const notificationClickedHandler = () => {
-    console.log('notification clicked');
-
     axios
       .post('/api/notifications/updateNotificationSeen', variables)
       .then((response) => {
@@ -81,7 +77,6 @@ const NotificationList = (props) => {
       .post('/api/notifications/removeNotification', variables)
       .then((response) => {
         if (response.data.success) {
-          console.log('notification removed');
           props.refreshFunction();
         } else {
           alert('Failed to remove notification');

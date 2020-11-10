@@ -37,8 +37,6 @@ const RegisterPage = (props) => {
   };
 
   const handleSubmit = () => {
-    console.log('submitted!');
-
     const userInfo = {
       username,
       email,

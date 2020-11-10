@@ -55,13 +55,11 @@ export default function (
       variables = {};
   }
 
-  console.log(variables);
-
   axios
     .post('/api/notifications/createNotification', variables)
     .then((response) => {
       if (response.data.success) {
-        console.log(response.data.notification);
+        alert('Notification saved');
       } else {
         alert('Failed to save notification');
       }

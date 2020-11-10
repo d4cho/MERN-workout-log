@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import ProfilePicUpload from '../../utils/ProfilePicUpload';
 import ProfilePic from '../../utils/ProfilePic';
@@ -168,7 +167,7 @@ const MyStatsPage = (props) => {
         <h4>Deadlift 1RM:</h4>
         <h3>{deadlift}</h3>
         <br />
-        {props.profilePageUserId == userId && (
+        {props.profilePageUserId === userId && (
           <Button color='primary' onClick={editClickedHandler}>
             Edit My Profile
           </Button>

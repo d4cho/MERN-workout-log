@@ -11,7 +11,6 @@ import Comment from './Comment';
 
 const PostInfo = (props) => {
   const [views, setViews] = useState(0);
-  const [postId, setPostId] = useState('');
   const [userBy, setUserBy] = useState('');
   const [comments, setComments] = useState([]);
 
@@ -22,8 +21,6 @@ const PostInfo = (props) => {
   };
 
   useEffect(() => {
-    console.log(props);
-    setPostId(props.postId);
     setUserBy(props.postInfo.userId);
     if (props.postId) {
       variables = {
@@ -32,7 +29,6 @@ const PostInfo = (props) => {
       };
       axios.post('/api/posts/increaseView', variables).then((response) => {
         if (response.data.success) {
-          // console.log(response.data.post);
           setViews(response.data.post.views);
         } else {
           alert('failed to increase view count');
@@ -46,7 +42,6 @@ const PostInfo = (props) => {
   const getComments = () => {
     axios.post('/api/comments/getComments', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.comments);
         setComments(response.data.comments);
       } else {
         alert('Failed to get comments');

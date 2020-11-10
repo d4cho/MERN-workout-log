@@ -15,7 +15,6 @@ const ProfilePicUpload = (props) => {
 
     axios.post('/api/users/uploadFile', formData, config).then((response) => {
       if (response.data.success) {
-        console.log(response.data);
         setFiles([...Files, response.data.file]);
         props.refreshFunction([...Files, response.data.file]);
       } else {
@@ -36,8 +35,6 @@ const ProfilePicUpload = (props) => {
   const onDeleteVideo = () => {
     setFiles([]);
   };
-
-  console.log(Files);
 
   return (
     <div
