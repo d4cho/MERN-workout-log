@@ -62,23 +62,18 @@ router.post('/login', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     // If user with email is not found...
     if (!user)
-      return (
-        res
-          // .status(400)
-          .json({
-            success: false,
-            emailErrorMsg: 'User not found. Verify email'
-          })
-      );
+      return res.json({
+        success: false,
+        emailErrorMsg: 'User not found. Verify email'
+      });
 
     // If user is found but password is incorrect...
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
-        return (
-          res
-            // .status(400)
-            .json({ success: false, passwordErrorMsg: 'Incorrect password' })
-        );
+        return res.json({
+          success: false,
+          passwordErrorMsg: 'Incorrect password'
+        });
 
       // user is found and password is correct, generate token
       user.generateToken((err, user) => {
@@ -232,7 +227,6 @@ router.post('/follow', auth, (req, res) => {
     { new: true },
     (err, profileUser) => {
       if (err) return res.json({ success: false, err });
-      // return res.status(200).json({ success: true, user });
 
       // Update the users following list to add profile owner as following
       let newFollowingList = [];
@@ -284,7 +278,6 @@ router.post('/removeFollower', auth, (req, res) => {
     { new: true },
     (err, user) => {
       if (err) return res.status(400).json({ success: false, err });
-      // return res.status(200).json({ success: true, user });
 
       // need to remove myself from user's following list
       User.findOneAndUpdate(

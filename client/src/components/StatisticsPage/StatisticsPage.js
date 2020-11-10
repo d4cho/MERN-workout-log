@@ -26,7 +26,7 @@ const StatisticsPage = () => {
 
   // create an array of just exercise names (no duplicates)
   const exerciseList = [
-    // new Set constructor stores unique values
+    // new Set constructor stores only unique values
     ...new Set(
       workouts
         .map((session) => session.exercises)

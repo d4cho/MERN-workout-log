@@ -29,39 +29,6 @@ const REP_MAX_MULTIPLIER = [
   { rep: '15', multiplier: 1.54 }
 ];
 
-// const data = [
-//   {
-//     name: 'Page A',
-//     Estimated1RM: 590,
-//     PerformedWeight: 800
-//   },
-//   {
-//     name: 'Page B',
-//     Estimated1RM: 868,
-//     PerformedWeight: 967
-//   },
-//   {
-//     name: 'Page C',
-//     Estimated1RM: 1397,
-//     PerformedWeight: 1098
-//   },
-//   {
-//     name: 'Page D',
-//     Estimated1RM: 1480,
-//     PerformedWeight: 1200
-//   },
-//   {
-//     name: 'Page E',
-//     Estimated1RM: 1520,
-//     PerformedWeight: 1108
-//   },
-//   {
-//     name: 'Page F',
-//     Estimated1RM: 1400,
-//     PerformedWeight: 680
-//   }
-// ];
-
 const Chart = (props) => {
   let data = [];
 
@@ -88,8 +55,6 @@ const Chart = (props) => {
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <ComposedChart
-        // width={1000}
-        // height={700}
         data={data}
         margin={{
           top: 80,

@@ -46,7 +46,6 @@ export const saveWorkout = (exercises) => {
   const request = axios
     .post(`${WORKOUT_SERVER}/postWorkout`, exercises)
     .then((response) => {
-      // clearExercise();
       return response.data;
     });
 

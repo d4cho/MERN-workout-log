@@ -48,21 +48,6 @@ router.post('/createNotification', (req, res) => {
   });
 });
 
-// @route   POST notifications/getNotifications
-// @desc    get a notification
-// @access  private
-// router.post('/getNotifications', auth, (req, res) => {
-//   Notification.findOne({ _id: req.body.notificationId })
-//     .populate('notificationFromUserId')
-//     .exec((err, notification) => {
-//       if (err) return res.status(400).json({ success: false, err });
-//       return res.status(200).json({ success: true, notification });
-//     });
-// });
-
-// @route   POST notifications/updateNotificationSeen
-// @desc    update notification seen
-// @access  private
 router.post('/updateNotificationSeen', auth, (req, res) => {
   Notification.findOneAndUpdate(
     { _id: req.body.notificationId },
