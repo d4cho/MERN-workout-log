@@ -5,7 +5,7 @@ import { Badge } from 'reactstrap';
 const ProfilePic = (props) => {
   const [error, setError] = useState(false);
 
-  const defaultImage = 'uploads/default_profile.jpg';
+  const defaultImage = require('../../assets/images/default_profile.jpg');
 
   useEffect(() => {
     setError(false);
@@ -15,8 +15,8 @@ const ProfilePic = (props) => {
     setError(true);
   };
 
+  // change host for production mode
   let host = 'http://localhost:5000/';
-
   if (process.env.NODE_ENV === 'production') {
     host = '/';
   }

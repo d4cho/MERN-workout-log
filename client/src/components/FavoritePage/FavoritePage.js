@@ -37,6 +37,12 @@ const FavoritePage = () => {
     });
   }, []);
 
+  // change host for production mode
+  let host = 'http://localhost:5000/';
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   const renderPosts = posts.map((post, index) => {
     let categoryName = '';
     for (const category of categories) {
@@ -57,7 +63,7 @@ const FavoritePage = () => {
               height='300px'
               src={
                 post.postId.images[0]
-                  ? `http://localhost:5000/${post.postId.images[0]}`
+                  ? `${host}${post.postId.images[0]}`
                   : require('../../assets/images/default_post_pic.jpg')
               }
               alt='post image'

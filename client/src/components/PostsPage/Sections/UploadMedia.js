@@ -36,6 +36,12 @@ const ProfilePicUpload = (props) => {
     setFiles([]);
   };
 
+  // change host for production mode
+  let host = 'http://localhost:5000/';
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   return (
     <div
       style={{
@@ -75,7 +81,7 @@ const ProfilePicUpload = (props) => {
             <div onClick={() => onDelete(file)}>
               <img
                 style={{ minWidth: '300px', width: '300px', height: '240px' }}
-                src={`http://localhost:5000/${file}`}
+                src={`${host}${file}`}
                 alt={`productImg-${index}`}
               />
             </div>
@@ -90,7 +96,7 @@ const ProfilePicUpload = (props) => {
           </div>
           <video
             style={{ width: '100%' }}
-            src={`http://localhost:5000/${Files[0]}`}
+            src={`${host}${Files[0]}`}
             controls></video>
         </div>
       )}

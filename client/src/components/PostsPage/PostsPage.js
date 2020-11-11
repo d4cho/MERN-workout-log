@@ -170,6 +170,12 @@ const PostsPage = (props) => {
     setSkip(0);
   };
 
+  // change host for production mode
+  let host = 'http://localhost:5000/';
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   const renderPosts = posts.map((post, index) => {
     let categoryName = '';
     for (const category of categories) {
@@ -191,7 +197,7 @@ const PostsPage = (props) => {
               height='300px'
               src={
                 post.images[0]
-                  ? `http://localhost:5000/${post.images[0]}`
+                  ? `${host}${post.images[0]}`
                   : require('../../assets/images/default_post_pic.jpg')
               }
               alt='post image'

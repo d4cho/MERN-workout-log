@@ -2,11 +2,17 @@ import React from 'react';
 import { UncontrolledCarousel } from 'reactstrap';
 
 const PostMedia = (props) => {
+  // change host for production mode
+  let host = 'http://localhost:5000/';
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   let items = [];
   if (props.images) {
     items = props.images.map((image, i) => {
       return {
-        src: `http://localhost:5000/${image}`,
+        src: `${host}${image}`,
         altText: '',
         caption: '',
         header: '',
@@ -27,7 +33,7 @@ const PostMedia = (props) => {
         <div>
           <video
             style={{ width: '100%' }}
-            src={`http://localhost:5000/${props.video}`}
+            src={`${host}${props.video}`}
             controls
           />
         </div>

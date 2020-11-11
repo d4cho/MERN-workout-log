@@ -23,6 +23,12 @@ const ProfilePicUpload = (props) => {
     });
   };
 
+  // change host for production mode
+  let host = 'http://localhost:5000/';
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Dropzone onDrop={onDrop} multiple={false} maxsize={100}>
@@ -42,7 +48,7 @@ const ProfilePicUpload = (props) => {
             <input {...getInputProps()} />
             <img
               style={{ width: '240px', height: '240px', borderRadius: '50%' }}
-              src={`http://localhost:5000/${image}`}
+              src={`${host}${image}`}
             />
           </div>
         )}
