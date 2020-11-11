@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/actions/userActions';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, NavLink } from 'reactstrap';
 import './LoginPage.css';
 import PulseLoader from 'react-spinners/PulseLoader';
 
@@ -89,9 +89,16 @@ const LoginPage = (props) => {
           </FormGroup>
           <Button
             style={{ marginTop: '24px' }}
-            color='success'
+            color='primary'
+            size='lg'
             onClick={handleSubmit}>
             Log me in!
+          </Button>
+          <br />
+          <Button style={{ marginTop: '24px' }} color='warning'>
+            <NavLink href='/register' style={{ color: 'black' }}>
+              Create an account
+            </NavLink>
           </Button>
         </Form>
       )}
