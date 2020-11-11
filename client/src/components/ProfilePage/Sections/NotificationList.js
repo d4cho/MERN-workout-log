@@ -49,10 +49,10 @@ const NotificationList = (props) => {
       setNotificationURL(notificationInfo.likeId);
       return 'newLike';
     } else if (Object.keys(notificationInfo).includes('postId')) {
-      setNotificationURL(notificationInfo.postId);
+      setNotificationURL(notificationInfo.postId._id);
       return 'newPost';
     } else if (Object.keys(notificationInfo).includes('commentId')) {
-      setNotificationURL(notificationInfo.commentId);
+      setNotificationURL(notificationInfo.commentId._id);
       return 'newComment';
     } else if (Object.keys(notificationInfo).includes('followedByUserId')) {
       setNotificationURL(notificationInfo.followedByUserId);

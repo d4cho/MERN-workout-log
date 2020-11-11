@@ -15,6 +15,12 @@ const ProfilePic = (props) => {
     setError(true);
   };
 
+  let host = 'http://localhost:5000/';
+
+  if (process.env.NODE_ENV === 'production') {
+    host = '/';
+  }
+
   return (
     <div style={{ paddingRight: '12px' }}>
       <a href={`/myprofile/${props.userId}`}>
@@ -31,7 +37,7 @@ const ProfilePic = (props) => {
             height: props.height,
             borderRadius: '50%'
           }}
-          src={`http://localhost:5000/${
+          src={`${host}${
             error ? defaultImage : props.image ? props.image : defaultImage
           }`}
           alt={`productImg=${error ? defaultImage : props.image}`}

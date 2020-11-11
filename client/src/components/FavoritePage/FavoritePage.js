@@ -58,7 +58,7 @@ const FavoritePage = () => {
               src={
                 post.postId.images[0]
                   ? `http://localhost:5000/${post.postId.images[0]}`
-                  : `http://localhost:5000/uploads/default_post_pic.png`
+                  : require('../../assets/images/default_post_pic.jpg')
               }
               alt='post image'
             />
