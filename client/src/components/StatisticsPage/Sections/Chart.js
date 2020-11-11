@@ -34,8 +34,12 @@ const Chart = (props) => {
 
   const repMaxCalculator = (rep, weight) => {
     let oneRepMax = 0;
-    const multiplier = REP_MAX_MULTIPLIER.find((element) => element.rep === rep)
-      .multiplier;
+    let multiplier = 1;
+    for (const element of REP_MAX_MULTIPLIER) {
+      if (element.rep === rep) {
+        multiplier = element.multiplier;
+      }
+    }
 
     oneRepMax = (parseInt(weight) * multiplier).toFixed(2);
     return oneRepMax;
