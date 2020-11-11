@@ -34,6 +34,7 @@ app.use('/api/notifications', require('./routes/notifications'));
 app.use('/uploads', express.static('uploads'));
 
 // for deployment
+const path = require('path');
 // server static assets if in production mode
 if (process.env.NODE_ENV === 'production') {
   // set static folder
