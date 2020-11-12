@@ -119,9 +119,15 @@ const ProfilePage = (props) => {
 
   const unfollowClicked = () => {
     setIsLoading(true);
+    let newFollowersList = followersList;
+    if (followersList.includes(userId)) {
+      newFollowersList = followersList.filter(
+        (follower) => follower !== userId
+      );
+    }
     let variables = {
       profileOwnerUserId: userData._id,
-      followersList: followersList.filter((follower) => follower !== userId)
+      followersList: newFollowersList
     };
 
     axios.post('/api/users/follow', variables).then((response) => {

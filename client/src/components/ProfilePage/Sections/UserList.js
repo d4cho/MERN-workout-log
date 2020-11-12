@@ -83,6 +83,7 @@ const UserList = (props) => {
         setButtonState(FOLLOW_BUTTON);
         setIsLoading(false);
         props.refreshFunction();
+        window.location.reload();
       } else {
         alert('Failed to unfollow user');
       }
