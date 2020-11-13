@@ -57,30 +57,32 @@ const Chart = (props) => {
   }
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <ComposedChart
-        data={data}
-        margin={{
-          top: 80,
-          right: 80,
-          bottom: 20,
-          left: 20
-        }}>
-        <CartesianGrid stroke='#f5f5f5' />
-        <XAxis
-          dataKey='date'
-          label={{ value: '', position: 'insideBottom', offset: 0 }}
-        />
-        <YAxis
-          label={{ value: 'Weight', angle: -90, position: 'insideLeft' }}
-        />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey='Reps' barSize={20} fill='#413ea0' />
-        <Line type='linear' dataKey='PerformedWeight' stroke='#413ea0' />
-        <Line type='monotone' dataKey='Estimated1RM' stroke='#ff7300' />
-      </ComposedChart>
-    </ResponsiveContainer>
+    <div style={{ width: '100%', height: '100%' }}>
+      <ResponsiveContainer>
+        <ComposedChart
+          data={data}
+          margin={{
+            top: 80,
+            right: 0,
+            bottom: 20,
+            left: 0
+          }}>
+          <CartesianGrid stroke='#f5f5f5' />
+          <XAxis
+            dataKey='date'
+            label={{ value: '', position: 'insideBottom', offset: 0 }}
+          />
+          <YAxis
+            label={{ value: 'Weight', angle: -90, position: 'insideLeft' }}
+          />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey='Reps' barSize={20} fill='#413ea0' />
+          <Line type='linear' dataKey='PerformedWeight' stroke='#413ea0' />
+          <Line type='monotone' dataKey='Estimated1RM' stroke='#ff7300' />
+        </ComposedChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

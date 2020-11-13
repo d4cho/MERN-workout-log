@@ -150,7 +150,7 @@ const ProfilePage = (props) => {
         margin: '3rem auto'
       }}>
       <Nav tabs style={{ justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           <NavItem>
             <NavLink
               style={{ cursor: 'pointer', fontSize: '24px' }}

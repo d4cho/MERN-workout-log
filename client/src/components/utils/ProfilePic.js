@@ -22,7 +22,7 @@ const ProfilePic = (props) => {
   }
 
   return (
-    <div style={{ paddingRight: '12px' }}>
+    <div>
       <a href={`/myprofile/${props.userId}`}>
         {props.fromNavbar && props.isNewNotification && (
           <Badge

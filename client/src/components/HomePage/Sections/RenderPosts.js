@@ -25,7 +25,7 @@ const RenderPosts = (props) => {
         sm='12'
         md='6'
         lg='3'
-        style={{ marginBottom: '24px' }}>
+        style={{ marginBottom: '24px', width: '100%' }}>
         <Card>
           <Link
             to={`/posts/${post._id}`}
@@ -55,7 +55,9 @@ const RenderPosts = (props) => {
                 image={post.writer.image}
                 userId={post.writer._id}
               />
-              {post.writer && <h5>{post.writer.username}</h5>}
+              {post.writer && (
+                <h5 style={{ paddingLeft: '12px' }}>{post.writer.username}</h5>
+              )}
             </CardTitle>
             <CardTitle>
               <h4>{post.title}</h4>
@@ -67,7 +69,11 @@ const RenderPosts = (props) => {
     );
   });
 
-  return <div style={{ display: 'flex' }}>{renderPosts}</div>;
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+      {renderPosts}
+    </div>
+  );
 };
 
 export default RenderPosts;

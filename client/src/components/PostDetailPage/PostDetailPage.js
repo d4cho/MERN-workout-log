@@ -49,8 +49,8 @@ const PostDetailPage = (props) => {
     return (
       <div
         style={{
-          marginLeft: '15%',
-          marginRight: '15%',
+          marginLeft: '5%',
+          marginRight: '5%',
           marginTop: '48px',
           marginBottom: '48px'
         }}>

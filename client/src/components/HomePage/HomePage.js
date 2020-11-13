@@ -83,9 +83,6 @@ const HomePage = () => {
         ) : (
           <RenderPosts posts={popularPosts} />
         )}
-        <br />
-        <br />
-        <hr />
       </div>
     </div>
   );

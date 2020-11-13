@@ -76,7 +76,11 @@ const SubmitComment = (props) => {
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         {props.reply ? null : (
           <>
-            <h3>{props.numberOfComments} Comments</h3>
+            <h3>
+              {props.numberOfComments === 1
+                ? `${props.numberOfComments} Comment`
+                : `${props.numberOfComments} Comments`}
+            </h3>
             <br />
           </>
         )}
@@ -88,6 +92,7 @@ const SubmitComment = (props) => {
               alignItems: 'center'
             }}>
             <ProfilePic
+              style={{ paddingRight: '12px' }}
               width={'48px'}
               height={'48px'}
               image={user.userData.image ? user.userData.image : ''}

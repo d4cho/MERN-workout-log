@@ -14,9 +14,10 @@ const notificationParentStyle = {
 
 const notificationStyle = {
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'center',
   padding: '24px',
-  width: '70%',
+  width: '100%',
   backgroundColor: '#F5F5F5',
   border: '1px solid blue',
   margin: '12px',
@@ -89,7 +90,7 @@ const NotificationList = (props) => {
       case 'newLike':
         return (
           <div style={notificationParentStyle}>
-            <h2 style={notificationStyle}>
+            <h3 style={notificationStyle}>
               {seenByUser ? null : <Badge color='primary'>New</Badge>}
               &nbsp;&nbsp;&nbsp;
               <ProfilePic
@@ -98,12 +99,13 @@ const NotificationList = (props) => {
                 image={props.notification.notificationFromUserId.image}
                 userId={props.notification.notificationFromUserId._id}
               />
+              &nbsp;&nbsp;&nbsp;
               <a
                 href={`/posts/${notificationURL}`}
                 onClick={notificationClickedHandler}>
                 {`${notificationFrom} liked your post!`}
               </a>
-            </h2>
+            </h3>
             <Button
               color='danger'
               id='removeTooltip'
@@ -123,7 +125,7 @@ const NotificationList = (props) => {
       case 'newPost':
         return (
           <div style={notificationParentStyle}>
-            <h2 style={notificationStyle}>
+            <h3 style={notificationStyle}>
               {seenByUser ? null : <Badge color='primary'>New</Badge>}
               &nbsp;&nbsp;&nbsp;
               <ProfilePic
@@ -132,12 +134,13 @@ const NotificationList = (props) => {
                 image={props.notification.notificationFromUserId.image}
                 userId={props.notification.notificationFromUserId._id}
               />
+              &nbsp;&nbsp;&nbsp;
               <a
                 href={`/posts/${notificationURL}`}
                 onClick={notificationClickedHandler}>
                 {`${notificationFrom} created a new post, <${props.notification.postId.title}>.`}
               </a>
-            </h2>
+            </h3>
             <Button
               color='danger'
               id='removeTooltip'
@@ -157,7 +160,7 @@ const NotificationList = (props) => {
       case 'newComment':
         return (
           <div style={notificationParentStyle}>
-            <h2 style={notificationStyle}>
+            <h3 style={notificationStyle}>
               {seenByUser ? null : <Badge color='primary'>New</Badge>}
               &nbsp;&nbsp;&nbsp;
               <ProfilePic
@@ -166,12 +169,13 @@ const NotificationList = (props) => {
                 image={props.notification.notificationFromUserId.image}
                 userId={props.notification.notificationFromUserId._id}
               />
+              &nbsp;&nbsp;&nbsp;
               <a
                 href={`/posts/${notificationURL}`}
                 onClick={notificationClickedHandler}>
                 {`${notificationFrom} commented: "${props.notification.commentContent}" on your post, <${props.notification.commentId.title}>.`}
               </a>
-            </h2>
+            </h3>
             <Button
               color='danger'
               id='removeTooltip'
@@ -191,7 +195,7 @@ const NotificationList = (props) => {
       case 'newFollower':
         return (
           <div style={notificationParentStyle}>
-            <h2 style={notificationStyle}>
+            <h3 style={notificationStyle}>
               {seenByUser ? null : <Badge color='primary'>New</Badge>}
               &nbsp;&nbsp;&nbsp;
               <ProfilePic
@@ -200,12 +204,13 @@ const NotificationList = (props) => {
                 image={props.notification.notificationFromUserId.image}
                 userId={props.notification.notificationFromUserId._id}
               />
+              &nbsp;&nbsp;&nbsp;
               <a
                 href={`/myprofile/${notificationURL}`}
                 onClick={notificationClickedHandler}>
                 {`${notificationFrom} started following you!`}
               </a>
-            </h2>
+            </h3>
             <Button
               color='danger'
               id='removeTooltip'

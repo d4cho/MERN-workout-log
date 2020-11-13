@@ -81,7 +81,11 @@ const FavoritePage = () => {
                 image={post.postWriterId.image}
                 userId={post.postWriterId._id}
               />
-              {post.postWriterId && <h5>{post.postWriterId.username}</h5>}
+              {post.postWriterId && (
+                <h5 style={{ paddingLeft: '12px' }}>
+                  {post.postWriterId.username}
+                </h5>
+              )}
             </CardTitle>
             <CardTitle>
               <h4>{post.postId.title}</h4>

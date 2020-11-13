@@ -215,7 +215,9 @@ const PostsPage = (props) => {
                 image={post.writer.image}
                 userId={post.writer._id}
               />
-              {post.writer && <h5>{post.writer.username}</h5>}
+              {post.writer && (
+                <h5 style={{ paddingLeft: '12px' }}>{post.writer.username}</h5>
+              )}
             </CardTitle>
             <CardTitle>
               <h4>{post.title}</h4>
@@ -249,10 +251,15 @@ const PostsPage = (props) => {
       <div
         style={{
           display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'space-evenly'
         }}>
-        <div style={{ width: '26%' }}>
-          <span>Filter by Category</span>
+        <div style={{ width: '100%', paddingBottom: '12px' }}>
+          <span>Search posts</span>
+          <Input type='text' value={search} onChange={handleSearchChange} />
+        </div>
+        <div style={{ width: '100%', paddingBottom: '12px' }}>
+          <span>Filter by category</span>
           <Input type='select' value={filter} onChange={handleFilterChange}>
             <option value={0}>All</option>
             {categories.map((category, i) => (
@@ -262,11 +269,7 @@ const PostsPage = (props) => {
             ))}
           </Input>
         </div>
-        <div style={{ width: '26%' }}>
-          <span>Search posts</span>
-          <Input type='text' value={search} onChange={handleSearchChange} />
-        </div>
-        <div style={{ width: '26%' }}>
+        <div style={{ width: '100%', paddingBottom: '12px' }}>
           <span>View by</span>
           <Input type='select' value={sortBy} onChange={handleSortByChange}>
             <option value={'recent'}>Date Added (recent)</option>

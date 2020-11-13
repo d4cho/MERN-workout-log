@@ -66,12 +66,12 @@ const Comment = (props) => {
       <ProfilePic image={props.userImage} width={'48px'} height={'48px'} />
       <div style={{ width: '100%' }}>
         <div style={{ display: 'flex' }}>
-          <div style={{ fontWeight: 'bold', paddingRight: '12px' }}>
+          <div style={{ fontWeight: 'bold', paddingLeft: '12px' }}>
             {props.username}
           </div>
           <Moment fromNow>{props.createdAt}</Moment>
         </div>
-        <div style={{ padding: '12px 0', fontSize: '1.3em' }}>
+        <div style={{ padding: '12px 12px', fontSize: '1.3em' }}>
           {props.content}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>

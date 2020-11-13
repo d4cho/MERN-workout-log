@@ -90,26 +90,23 @@ const UserList = (props) => {
     });
   };
 
-  const onRemoveConfirm = () => {};
-
-  const onRemoveCancel = () => {};
-
   return (
     <div
       style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
-        padding: '48px',
-        width: '70%',
+        padding: '20px',
         backgroundColor: '#F5F5F5',
         margin: 'auto',
-        marginTop: '48px'
+        marginTop: '48px',
+        width: '100%'
       }}>
       <>
         <div
           style={{
             display: 'flex',
+            flexWrap: 'wrap',
             alignItems: 'center'
           }}>
           <ProfilePic
@@ -125,7 +122,7 @@ const UserList = (props) => {
             </h4>
           </div>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           {isLoading ? (
             <Button color='secondary' size='lg' disabled>
               Loading...

@@ -24,7 +24,7 @@ const PostMedia = (props) => {
   return (
     <div>
       {props.images.length > 0 && (
-        <div style={{ height: '500px', width: '500px' }}>
+        <div style={{ width: 'auto' }}>
           <UncontrolledCarousel items={items} />
         </div>
       )}

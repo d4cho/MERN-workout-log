@@ -64,7 +64,7 @@ const PostInfo = (props) => {
   return (
     <div>
       <Jumbotron>
-        <h1 className='display-3'>{props.postInfo.title}</h1>
+        <h1>{props.postInfo.title}</h1>
         <br />
         <div className='lead'>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>

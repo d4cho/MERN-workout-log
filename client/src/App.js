@@ -55,6 +55,9 @@ function App() {
           component={Auth(CreatePostPage, true)}
         />
       </Switch>
+      <hr />
+      <br />
+      <br />
     </BrowserRouter>
   );
 }

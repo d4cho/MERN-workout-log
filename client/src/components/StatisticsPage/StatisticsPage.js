@@ -61,7 +61,8 @@ const StatisticsPage = () => {
         justifyContent: 'center',
         margin: 'auto',
         marginTop: '48px',
-        width: '50%'
+        marginBottom: '48px',
+        width: '80%'
       }}>
       {isLoading ? (
         <PulseLoader size={25} color={'#0000FF'} />
@@ -81,9 +82,8 @@ const StatisticsPage = () => {
           </Input>
           <div
             style={{
-              width: '900px',
-              height: '700px',
-              marginLeft: '-100px'
+              width: '100%',
+              height: '700px'
             }}>
             <Chart exerciseStats={exerciseStats} />
           </div>
