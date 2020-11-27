@@ -24,15 +24,15 @@ const PostMedia = (props) => {
   return (
     <div>
       {props.images.length > 0 && (
-        <div style={{ width: 'auto' }}>
+        <div style={{ width: '100%', margin: 'auto' }}>
           <UncontrolledCarousel items={items} />
         </div>
       )}
       <br />
       {props.video && (
-        <div>
+        <div style={{ width: '70%', margin: 'auto' }}>
           <video
-            style={{ width: '100%' }}
+            style={{ width: '100%', margin: 'auto' }}
             src={`${host}${props.video}`}
             controls
           />
