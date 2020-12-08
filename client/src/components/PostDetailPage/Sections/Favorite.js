@@ -19,7 +19,7 @@ const Favorite = (props) => {
           if (response.data.success) {
             setIsFavorite(response.data.favorited);
           } else {
-            alert('Failed to get favorited info');
+            // alert('Failed to get favorited info');
           }
         });
     }
