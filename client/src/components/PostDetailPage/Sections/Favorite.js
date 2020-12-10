@@ -13,13 +13,24 @@ const Favorite = (props) => {
 
   useEffect(() => {
     if (variables.userId && variables.postId && variables.userBy) {
+      // axios
+      //   .post('/api/favorites/checkIfFavorite', variables)
+      //   .then((response) => {
+      //     if (response.data.success) {
+      //       setIsFavorite(response.data.favorited);
+      //     } else {
+      //       // alert('Failed to get favorited info');
+      //     }
+      //   });
       axios
-        .post('/api/favorites/checkIfFavorite', variables)
+        .get(
+          `/api/favorites/favorites/check?postId=${props.postId}&userId=${props.userId}`
+        )
         .then((response) => {
           if (response.data.success) {
             setIsFavorite(response.data.favorited);
           } else {
-            // alert('Failed to get favorited info');
+            alert('Failed to get favorited info');
           }
         });
     }
@@ -27,25 +38,34 @@ const Favorite = (props) => {
 
   const toggleIsFavorite = () => {
     if (isFavorite) {
+      // axios
+      //   .post('/api/favorites/removeFromFavorites', variables)
+      //   .then((response) => {
+      //     if (response.data.success) {
+      //       setIsFavorite(false);
+      //     } else {
+      //       alert('failed to remove from favorites');
+      //     }
+      //   });
       axios
-        .post('/api/favorites/removeFromFavorites', variables)
+        .delete(
+          `/api/favorites/favorites?postId=${props.postId}&userId=${props.userId}`
+        )
         .then((response) => {
           if (response.data.success) {
             setIsFavorite(false);
           } else {
-            alert('failed to remove from favorites');
+            alert('Failed to remove from favorites');
           }
         });
     } else {
-      axios
-        .post('/api/favorites/addToFavorites', variables)
-        .then((response) => {
-          if (response.data.success) {
-            setIsFavorite(true);
-          } else {
-            alert('failed to add to favorites');
-          }
-        });
+      axios.post('/api/favorites/favorites', variables).then((response) => {
+        if (response.data.success) {
+          setIsFavorite(true);
+        } else {
+          alert('failed to add to favorites');
+        }
+      });
     }
   };
 

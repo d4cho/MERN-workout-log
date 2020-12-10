@@ -23,11 +23,7 @@ const FavoritePage = () => {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    const variables = {
-      userId: userId
-    };
-
-    axios.post('api/favorites/getFavorites', variables).then((response) => {
+    axios.get(`api/favorites/favorites?userId=${userId}`).then((response) => {
       if (response.data.success) {
         setPosts(response.data.favorites);
         setIsLoading(false);
