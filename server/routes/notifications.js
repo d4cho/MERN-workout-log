@@ -10,10 +10,10 @@ const { json } = require('body-parser');
 //             Notification
 //=================================
 
-// @route   POST notifications/createNotification
+// @route   POST notifications/notification
 // @desc    create a notification
 // @access  public
-router.post('/createNotification', (req, res) => {
+router.post('/notification', (req, res) => {
   let dataToSubmit = {
     notificationFromUserId: req.body.notificationFromUserId,
     notificationToUserId: req.body.notificationToUserId
@@ -48,7 +48,7 @@ router.post('/createNotification', (req, res) => {
   });
 });
 
-router.post('/updateNotificationSeen', auth, (req, res) => {
+router.put('/notification', auth, (req, res) => {
   Notification.findOneAndUpdate(
     { _id: req.body.notificationId },
     { seenByUser: true },
@@ -62,9 +62,9 @@ router.post('/updateNotificationSeen', auth, (req, res) => {
 // @route   POST notifications/removeNotification
 // @desc    remove a notification
 // @access  private
-router.post('/removeNotification', auth, (req, res) => {
+router.delete('/notification/:notificationId', auth, (req, res) => {
   // delete notification
-  Notification.findByIdAndDelete({ _id: req.body.notificationId }).exec(
+  Notification.findByIdAndDelete({ _id: req.params.notificationId }).exec(
     (err, doc) => {
       if (err) return res.status(400).json({ success: false, err });
 

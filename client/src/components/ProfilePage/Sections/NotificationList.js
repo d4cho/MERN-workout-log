@@ -62,20 +62,21 @@ const NotificationList = (props) => {
   };
 
   const notificationClickedHandler = () => {
-    axios
-      .post('/api/notifications/updateNotificationSeen', variables)
-      .then((response) => {
-        if (response.data.success) {
-          setSeenByUser(true);
-        } else {
-          alert('Failed to check notification');
-        }
-      });
+    axios.put('/api/notifications/notification', variables).then((response) => {
+      if (response.data.success) {
+        setSeenByUser(true);
+      } else {
+        alert('Failed to check notification');
+      }
+    });
   };
 
   const removeNotification = () => {
     axios
-      .post('/api/notifications/removeNotification', variables)
+      .delete(
+        `/api/notifications/notification/${props.notification._id}`,
+        variables
+      )
       .then((response) => {
         if (response.data.success) {
           props.refreshFunction();
