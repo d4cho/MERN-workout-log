@@ -40,13 +40,15 @@ const PostInfo = (props) => {
   }, [props.postId]);
 
   const getComments = () => {
-    axios.post('/api/comments/getComments', variables).then((response) => {
-      if (response.data.success) {
-        setComments(response.data.comments);
-      } else {
-        alert('Failed to get comments');
-      }
-    });
+    axios
+      .get(`/api/comments/comments?postId=${props.postId}`)
+      .then((response) => {
+        if (response.data.success) {
+          setComments(response.data.comments);
+        } else {
+          alert('Failed to get comments');
+        }
+      });
   };
 
   const renderComments = () =>

@@ -9,20 +9,19 @@ const auth = require('../middleware/auth');
 //             Comments
 //=================================
 
-// @route   POST comments/getComments
-// @desc    create a comment
+// @route   GET comments/comment
+// @desc    get comments
 // @access  private
-router.post('/getComments', (req, res) => {
+router.get('/comments', (req, res) => {
   let findParameters = {
-    postId: req.body.postId
+    postId: req.query.postId
   };
 
-  if (req.body.replyToCommentId) {
+  if (req.query.replyToCommentId) {
     findParameters = {
-      replyToCommentId: req.body.replyToCommentId
+      replyToCommentId: req.query.replyToCommentId
     };
   }
-
   Comment.find(findParameters)
     .sort([['createdAt', -1]])
     .populate('writer')
@@ -33,10 +32,10 @@ router.post('/getComments', (req, res) => {
     });
 });
 
-// @route   POST comments/createComment
+// @route   POST comments/comments
 // @desc    create a comment
 // @access  private
-router.post('/createComment', auth, (req, res) => {
+router.post('/comments', auth, (req, res) => {
   let dataToSubmit = {
     postId: req.body.postId,
     writer: req.user._id,

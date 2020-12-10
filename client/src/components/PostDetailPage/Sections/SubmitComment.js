@@ -45,7 +45,7 @@ const SubmitComment = (props) => {
       };
     }
 
-    axios.post('/api/comments/createComment', variables).then((response) => {
+    axios.post('/api/comments/comments', variables).then((response) => {
       if (response.data.success) {
         setShowSubmit(false);
         setCommentToSubmit('');

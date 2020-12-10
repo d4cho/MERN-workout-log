@@ -41,13 +41,15 @@ const Comment = (props) => {
   };
 
   const getReplies = () => {
-    axios.post('/api/comments/getComments', variables).then((response) => {
-      if (response.data.success) {
-        setReplies(response.data.comments);
-      } else {
-        alert('failed to get replies');
-      }
-    });
+    axios
+      .get(`/api/comments/comments?replyToCommentId=${props.commentId}`)
+      .then((response) => {
+        if (response.data.success) {
+          setReplies(response.data.comments);
+        } else {
+          alert('failed to get replies');
+        }
+      });
   };
 
   const renderReplies = replies.map((reply) => (
