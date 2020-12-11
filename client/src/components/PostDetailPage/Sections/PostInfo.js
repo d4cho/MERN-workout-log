@@ -27,7 +27,7 @@ const PostInfo = (props) => {
         postId: props.postId,
         incViewByOne: 1
       };
-      axios.post('/api/posts/increaseView', variables).then((response) => {
+      axios.put('/api/posts/post', variables).then((response) => {
         if (response.data.success) {
           setViews(response.data.post.views);
         } else {

@@ -14,7 +14,7 @@ const PostDetailPage = (props) => {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    axios.get(`/api/posts/post_by_postId?postId=${postId}`).then((response) => {
+    axios.get(`/api/posts/post/${postId}`).then((response) => {
       if (response.data.success) {
         setPostInfo(response.data.post[0]);
       } else {
@@ -35,7 +35,7 @@ const PostDetailPage = (props) => {
     let variables = {
       postId
     };
-    axios.post('/api/posts/deletePost', variables).then((response) => {
+    axios.delete(`/api/posts/post/${postId}`).then((response) => {
       if (response.data.success) {
         alert('Post deleted');
         props.history.push('/posts');

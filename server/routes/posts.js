@@ -10,10 +10,10 @@ const { json } = require('body-parser');
 //             Posts
 //=================================
 
-// @route   POST posts/createPost
+// @route   POST posts/post
 // @desc    create a post
 // @access  private
-router.post('/createPost', auth, (req, res) => {
+router.post('/post', auth, (req, res) => {
   const { title, description, category, images, videos } = req.body;
 
   const followers = req.user.followers;
@@ -41,11 +41,11 @@ router.post('/createPost', auth, (req, res) => {
   });
 });
 
-// @route   POST posts/deletePost
+// @route   DELETE posts/post/:postId
 // @desc    delete a post from server
 // @access  private
-router.post('/deletePost', auth, (req, res) => {
-  Post.findByIdAndDelete({ _id: req.body.postId }).exec((err, doc) => {
+router.delete('/post/:postId', auth, (req, res) => {
+  Post.findByIdAndDelete({ _id: req.params.postId }).exec((err, doc) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });
   });
@@ -109,11 +109,11 @@ router.post('/getPosts', (req, res) => {
   }
 });
 
-// @route   GET posts/post_by_id
+// @route   GET posts/post/:postId
 // @desc    get a post from server
 // @access  public
-router.get('/post_by_postId', (req, res) => {
-  let postId = req.query.postId;
+router.get('/post/:postId', (req, res) => {
+  let postId = req.params.postId;
 
   Post.find({ _id: { $in: postId } })
     .populate('writer', '-password -token -tokenExp')
@@ -123,10 +123,10 @@ router.get('/post_by_postId', (req, res) => {
     });
 });
 
-// @route   POST posts/increaseView
-// @desc    get a post from server
+// @route   PUT posts/increaseView
+// @desc    increase post view by 1
 // @access  public
-router.post('/increaseView', (req, res) => {
+router.put('/post', (req, res) => {
   Post.findOneAndUpdate(
     { _id: req.body.postId },
     { $inc: { views: req.body.incViewByOne } },

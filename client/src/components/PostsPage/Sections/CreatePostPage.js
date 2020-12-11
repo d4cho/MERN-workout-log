@@ -47,7 +47,7 @@ const CreatePostPage = (props) => {
       videos
     };
 
-    axios.post('/api/posts/createPost', dataToSubmit).then((response) => {
+    axios.post('/api/posts/post', dataToSubmit).then((response) => {
       if (response.data.success) {
         setIsloading(false);
 
