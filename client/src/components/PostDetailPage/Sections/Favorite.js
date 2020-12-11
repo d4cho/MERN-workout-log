@@ -13,15 +13,6 @@ const Favorite = (props) => {
 
   useEffect(() => {
     if (variables.userId && variables.postId && variables.userBy) {
-      // axios
-      //   .post('/api/favorites/checkIfFavorite', variables)
-      //   .then((response) => {
-      //     if (response.data.success) {
-      //       setIsFavorite(response.data.favorited);
-      //     } else {
-      //       // alert('Failed to get favorited info');
-      //     }
-      //   });
       axios
         .get(
           `/api/favorites/favorites/check?postId=${props.postId}&userId=${props.userId}`
@@ -38,15 +29,6 @@ const Favorite = (props) => {
 
   const toggleIsFavorite = () => {
     if (isFavorite) {
-      // axios
-      //   .post('/api/favorites/removeFromFavorites', variables)
-      //   .then((response) => {
-      //     if (response.data.success) {
-      //       setIsFavorite(false);
-      //     } else {
-      //       alert('failed to remove from favorites');
-      //     }
-      //   });
       axios
         .delete(
           `/api/favorites/favorites?postId=${props.postId}&userId=${props.userId}`

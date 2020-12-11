@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-  Alert,
-  UncontrolledAlert
-} from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {

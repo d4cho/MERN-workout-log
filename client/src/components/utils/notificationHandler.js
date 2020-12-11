@@ -57,7 +57,7 @@ export default function (
 
   axios.post('/api/notifications/notification', variables).then((response) => {
     if (response.data.success) {
-      alert('Notification saved');
+      // alert('Notification saved');
     } else {
       alert('Failed to save notification');
     }
