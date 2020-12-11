@@ -48,7 +48,7 @@ const UserList = (props) => {
       followersList: userProfileInfo.followers.concat(userId)
     };
 
-    axios.post('/api/users/follow', variables).then((response) => {
+    axios.put('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers + 1);
 
@@ -71,7 +71,7 @@ const UserList = (props) => {
       )
     };
 
-    axios.post('/api/users/follow', variables).then((response) => {
+    axios.put('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers - 1);
         setButtonState(FOLLOW_BUTTON);

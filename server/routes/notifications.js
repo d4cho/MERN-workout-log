@@ -4,7 +4,6 @@ const router = express.Router();
 const Notification = require('../models/Notification');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
-const { json } = require('body-parser');
 
 //=================================
 //             Notification

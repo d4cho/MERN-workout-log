@@ -3,7 +3,6 @@ const router = express.Router();
 
 const Favorite = require('../models/Favorite');
 const auth = require('../middleware/auth');
-const { json } = require('body-parser');
 
 //=================================
 //             Favorites

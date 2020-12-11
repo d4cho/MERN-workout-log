@@ -103,7 +103,7 @@ const ProfilePage = (props) => {
       followersList: newFollowersList
     };
 
-    axios.post('/api/users/follow', variables).then((response) => {
+    axios.put('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers + 1);
         setButtonState(UNFOLLOW_BUTTON);
@@ -130,7 +130,7 @@ const ProfilePage = (props) => {
       followersList: newFollowersList
     };
 
-    axios.post('/api/users/follow', variables).then((response) => {
+    axios.put('/api/users/follow', variables).then((response) => {
       if (response.data.success) {
         setNumberOfFollowers(numberOfFollowers - 1);
         setButtonState(FOLLOW_BUTTON);

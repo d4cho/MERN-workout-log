@@ -214,10 +214,10 @@ router.post('/uploadFile', (req, res) => {
   });
 });
 
-// @route   Post users/follow
-// @desc    follow a user
+// @route   PUT users/follow
+// @desc    update followers/following list
 // @access  private
-router.post('/follow', auth, (req, res) => {
+router.put('/follow', auth, (req, res) => {
   // Update profile owner's followers list
   User.findOneAndUpdate(
     { _id: req.body.profileOwnerUserId },

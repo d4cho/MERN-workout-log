@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Workout = require('../models/Workout');
-const User = require('../models/User');
 const auth = require('../middleware/auth');
 
 //=================================
@@ -9,7 +8,7 @@ const auth = require('../middleware/auth');
 //=================================
 
 // @route   POST workouts/postWorkout
-// @desc    post a workout
+// @desc    create a workout
 // @access  private
 router.post('/postWorkout', auth, (req, res) => {
   let exercisesData = {};

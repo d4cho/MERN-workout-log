@@ -45,7 +45,7 @@ const PostsPage = (props) => {
   }, []);
 
   const getPosts = (variables) => {
-    axios.post('/api/posts/getPosts', variables).then((response) => {
+    axios.post(`/api/posts/getPosts`, variables).then((response) => {
       if (response.data.success) {
         if (variables.loadMore) {
           setPosts([...posts].concat(response.data.posts));
