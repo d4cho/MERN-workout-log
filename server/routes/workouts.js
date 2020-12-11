@@ -53,9 +53,9 @@ router.get('/getLogs', auth, (req, res) => {
 // @route   DELETE workouts/deleteWorkout
 // @desc    delete a workout
 // @access  private
-router.post('/deleteWorkout', auth, (req, res) => {
+router.delete('/deleteWorkout/:workoutId', auth, (req, res) => {
   Workout.findOneAndDelete({
-    _id: req.body.workoutId
+    _id: req.params.workoutId
   }).exec((err, doc) => {
     if (err) return res.status(400).json({ success: false });
     res.status(200).json({ success: true, doc, msg: 'Workout deleted!' });

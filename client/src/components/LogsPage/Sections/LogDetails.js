@@ -30,10 +30,7 @@ const LogDetails = (props) => {
   };
 
   const yesClicked = () => {
-    let variables = {
-      workoutId: props.id
-    };
-    axios.post('/api/workouts/deleteWorkout', variables).then((response) => {
+    axios.delete(`/api/workouts/deleteWorkout/${props.id}`).then((response) => {
       if (response.data.success) {
         alert(`${response.data.msg}`);
         window.location.reload(true);
