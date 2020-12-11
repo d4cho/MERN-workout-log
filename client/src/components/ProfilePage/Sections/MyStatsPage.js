@@ -40,7 +40,7 @@ const MyStatsPage = (props) => {
       image
     };
 
-    axios.post('/api/users/setStats', variables).then((response) => {
+    axios.put('/api/users/setStats', variables).then((response) => {
       if (response.data.success) {
         setWeight(response.data.stats.weight);
         setSquat(response.data.stats.squat);

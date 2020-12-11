@@ -91,7 +91,7 @@ router.post('/login', (req, res) => {
 // @route   GET users/logout
 // @desc    Logout existing user
 // @access  Private
-router.get('/logout', auth, (req, res) => {
+router.put('/logout', auth, (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
     { token: '', tokenExp: '' },
@@ -105,10 +105,10 @@ router.get('/logout', auth, (req, res) => {
   );
 });
 
-// @route   POST users/setStats
+// @route   PUT users/setStats
 // @desc    set user stats
 // @access  private
-router.post('/setStats', (req, res) => {
+router.put('/setStats', (req, res) => {
   User.findOneAndUpdate(
     { _id: req.body.userId },
     {
@@ -254,8 +254,8 @@ router.post('/follow', auth, (req, res) => {
 // @route   POST users/getStats
 // @desc    Get user profile info from database
 // @access  Public
-router.post('/getUserProfileInfo', (req, res) => {
-  User.findOne({ _id: req.body.userId })
+router.get('/profileInfo/:userId', (req, res) => {
+  User.findOne({ _id: req.params.userId })
     .select('-password -token -tokenExp') // to exclude from response
     .exec((err, user) => {
       if (err) return res.status(400).json({ success: false, err });
@@ -263,10 +263,10 @@ router.post('/getUserProfileInfo', (req, res) => {
     });
 });
 
-// @route   POST users/removeFollower
-// @desc    remove someone from my followers
+// @route   PUT users/removeFollower
+// @desc    update followers and following list
 // @access  private
-router.post('/removeFollower', auth, (req, res) => {
+router.put('/removeFollower', auth, (req, res) => {
   // filter out user from my followers list
   let newFollowers = req.user.followers.filter(
     (follower) => follower !== req.body.profileUserId

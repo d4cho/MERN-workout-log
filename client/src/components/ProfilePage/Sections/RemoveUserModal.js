@@ -24,7 +24,7 @@ const RemoveUserModal = (props) => {
       )
     };
 
-    axios.post('/api/users/removeFollower', variables).then((response) => {
+    axios.put('/api/users/removeFollower', variables).then((response) => {
       if (response.data.success) {
         setIsLoading(false);
         toggle();

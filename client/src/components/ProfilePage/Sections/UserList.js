@@ -19,23 +19,17 @@ const UserList = (props) => {
 
   useEffect(() => {
     if (props.userId) {
-      let variables = {
-        userId: props.userId
-      };
+      axios.get(`/api/users/profileInfo/${props.userId}`).then((response) => {
+        if (response.data.success) {
+          setUserProfileInfo(response.data.user);
+          setNumberOfFollowers(response.data.user.followers.length);
 
-      axios
-        .post('/api/users/getUserProfileInfo', variables)
-        .then((response) => {
-          if (response.data.success) {
-            setUserProfileInfo(response.data.user);
-            setNumberOfFollowers(response.data.user.followers.length);
-
-            buttonStateCheck(response.data.user);
-            setIsLoading(false);
-          } else {
-            alert('Failed to get user profile info');
-          }
-        });
+          buttonStateCheck(response.data.user);
+          setIsLoading(false);
+        } else {
+          alert('Failed to get user profile info');
+        }
+      });
     }
   }, []);
 
