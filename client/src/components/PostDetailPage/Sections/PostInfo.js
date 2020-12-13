@@ -75,7 +75,11 @@ const PostInfo = (props) => {
               <Moment format='MMM DD, YYYY'>{props.postInfo.createdAt}</Moment>
             </div>
             <div>
-              <LikeDislike userId={userId} postId={props.postId} />
+              {userId ? (
+                <LikeDislike userId={userId} postId={props.postId} />
+              ) : (
+                <div>Login to view likes</div>
+              )}
             </div>
             <div>
               <Favorite userId={userId} postId={props.postId} userBy={userBy} />
@@ -103,14 +107,38 @@ const PostInfo = (props) => {
         <hr className='my-2' />
         <br />
         <div>
-          <SubmitComment
-            postId={props.postId}
-            refreshFunction={getComments}
-            numberOfComments={comments.length}
-          />
+          {userId ? (
+            <SubmitComment
+              postId={props.postId}
+              refreshFunction={getComments}
+              numberOfComments={comments.length}
+            />
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                fontSize: '24px'
+              }}>
+              Login to comment on this post
+            </div>
+          )}
         </div>
         <hr className='my-2' />
-        <div>{renderComments()}</div>
+        <div>
+          {userId ? (
+            renderComments()
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                fontSize: '24px'
+              }}>
+              Login to view comments
+            </div>
+          )}
+        </div>
       </Jumbotron>
     </div>
   );

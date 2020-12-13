@@ -55,8 +55,15 @@ const Favorite = (props) => {
     <div>
       <Button
         onClick={toggleIsFavorite}
-        color={isFavorite ? 'warning' : 'primary'}>
-        {isFavorite ? 'Favorited' : 'Add to Favorites'}
+        disabled={props.userId ? false : true}
+        color={
+          !props.userId ? 'secondary' : isFavorite ? 'warning' : 'primary'
+        }>
+        {!props.userId
+          ? 'Login to add to Favorites'
+          : isFavorite
+          ? 'Favorited'
+          : 'Add to Favorites'}
       </Button>
     </div>
   );

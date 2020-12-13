@@ -47,7 +47,7 @@ function App() {
         <Route
           exact
           path='/posts/:postId'
-          component={Auth(PostDetailPage, true)}
+          component={Auth(PostDetailPage, null)}
         />
         <Route
           exact
